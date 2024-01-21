@@ -1,0 +1,1 @@
+Frontend aplikacji w języku Angular
