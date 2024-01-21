@@ -1,0 +1,1 @@
+Platforma do organizacji wydarzeń
