@@ -1,0 +1,1 @@
+Pliki xml diagramów 
