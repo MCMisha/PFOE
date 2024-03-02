@@ -1,0 +1,25 @@
+<div class="mt-2 bg-secondary d-flex">
+  <div class="d-flex px-5" style="border-right: 1px solid aqua; align-items: center;"
+       *ngFor="let menuItem of menuItems"
+  >
+    <a class="text-light text-decoration-none" [routerLink]="menuItem.path">
+      {{menuItem.name}}
+    </a>
+  </div>
+
+  <div class="ms-auto d-flex align-items-center px-2">
+    <input placeholder="Wyszukaj" [formControl]="search" (keydown)="onKeyDown($event)" [value]="search">
+    <button class="py-auto" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon style="margin-bottom: 4px; padding-bottom: 0;" [ngStyle]="{'color': '#82B1FF'}" aria-hidden="false">account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button routerLink="login" mat-menu-item>
+        <span>Zaloguj się</span>
+      </button>
+      <button routerLink="registration" mat-menu-item>
+        <span>Zarejestruj się</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
+<router-outlet/>
