@@ -2,7 +2,7 @@
 
 namespace WebApi.Services;
 
-public class UserService
+public class UserService : IUserService
 {
     private readonly UserRepository _userRepository;
 

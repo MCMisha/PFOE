@@ -16,9 +16,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginRequest request)
+    public IActionResult Login(string username, string password)
     {
-        if (_userService.Login(request.UserName, request.Password))
+        if (_userService.Login(username, password))
         {
             return Ok("Login successful.");
         }
