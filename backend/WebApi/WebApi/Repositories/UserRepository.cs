@@ -3,7 +3,7 @@ using WebApi.Models;
 
 namespace WebApi.Repositories;
 
-public class UserRepository
+public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _context;
 

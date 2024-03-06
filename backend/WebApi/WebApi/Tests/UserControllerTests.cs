@@ -7,7 +7,7 @@ namespace WebApi.Tests;
 [TestFixture]
 public class UserControllerTests
 {
-    public class MockUserService : IUserService
+    private class MockUserService : IUserService
     {
         private List<User> _users;
 
