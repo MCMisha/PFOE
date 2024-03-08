@@ -1,8 +1,8 @@
-﻿using WebApi.Models;
+﻿using WebApi.Repositories;
 
 namespace WebApi.Services;
 
-public class UserService : IUserService
+public class UserService
 {
     private readonly UserRepository _userRepository;
 

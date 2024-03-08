@@ -1,38 +1,18 @@
 using WebApi.Services;
 using WebApi.Models;
 using NUnit.Framework;
+using Moq;
+using WebApi.Repositories;
 
 namespace WebApi.Tests;
 
+[TestFixture]
 public class UserServiceTests
 {
-    private class MockRepository : IUserRepository
-    {
-        private List<User> _users;
-
-        public MockUserService()
-        {
-            _users = new List<User>
-            {
-                new User
-                {
-                    Id = 1,
-                    Login = "good",
-                    Password = "good"
-                }
-            };
-        }
-
-        public User GetUserByUserName(string userName)
-        {
-            return _users.FirstOrDefault(u => u.Login == userName);
-        }
-    }
-
     private UserService MakeService()
     {
-        var mockRepository = new MockRepository();
-        return new UserService(mockRepository);
+        var mockRepository = new Mock<UserRepository>();
+        return new UserService(mockRepository.Object);
     }
 
     [Test]
@@ -42,7 +22,7 @@ public class UserServiceTests
 
         var result = service.Login("good", "good");
 
-        Assert.IsTrue(result);
+        Assert.That(result, Is.True);
     }
 
     [TestCase("bad", "bad")]
@@ -54,6 +34,6 @@ public class UserServiceTests
 
         var result = service.Login(username, password);
 
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
     }
 }
