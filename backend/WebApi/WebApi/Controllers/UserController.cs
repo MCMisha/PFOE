@@ -1,27 +1,40 @@
-﻿using WebApi.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebApi.Models;
 using WebApi.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController : ControllerBase
+public class UserController : Controller
 {
+    private readonly ILogger<UserController> _logger;
     private readonly UserService _userService;
+    // private readonly HashService _hashService;
 
-    public UserController(UserService userService)
+    public UserController(ILogger<UserController> logger, IConfiguration configuration)
     {
-        _userService = userService;
+        _logger = logger;
+        _userService = new UserService(configuration);
+        // _hashService = new HashService();
     }
 
-    [HttpPost("login")]
-    public IActionResult Login(string username, string password)
+    [HttpGet("checkEmail")]
+    public IActionResult CheckEmail(string email)
     {
-        if (_userService.Login(username, password))
+        return Ok(_userService.CheckEmail(email));
+    }
+
+    [HttpPost("register")]
+    public IActionResult AddNewUser(User user)
+    {
+        // user.Password = _hashService.GetHash(user.Password);
+        User? newUser = _userService.AddNewUser(user);
+        if (newUser != null)
         {
-            return Ok("Login successful.");
+            return Ok(newUser);
         }
-        return Unauthorized("Invalid username or password.");
+
+        return BadRequest();
     }
 }

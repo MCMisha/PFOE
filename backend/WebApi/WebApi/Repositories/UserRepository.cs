@@ -5,20 +5,33 @@ namespace WebApi.Repositories;
 
 public class UserRepository
 {
-    private readonly AppDbContext _context;
+    private readonly AppDbContext _appDbContext;
 
-    public UserRepository(AppDbContext context)
+    public UserRepository(IConfiguration configuration)
     {
-        _context = context;
+        _appDbContext = new AppDbContext(configuration);
     }
 
-    public User GetUserByUserName(string userName)
+    public User? AddNewUser(User user)
     {
-        return _context.Users.FirstOrDefault(u => u.Login == userName);
+        var result = _appDbContext.Users.Add(user);
+        _appDbContext.SaveChanges();
+        return result.Entity;
     }
 
-    public User GetUserById(int id)
+    public IEnumerable<User> GetAllUsers()
     {
-        return _context.Users.FirstOrDefault(u => u.Id == id);
+        return _appDbContext.Users;
     }
+
+    public User? GetByLogin(string login)
+    {
+        return _appDbContext.Users.FirstOrDefault(user => user.Login == login);
+    }
+
+    public bool CheckEmail(string email)
+    {
+        return _appDbContext.Users.FirstOrDefault(user => user.Email == email) != null;
+    }
+
 }
