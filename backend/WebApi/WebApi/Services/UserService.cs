@@ -3,7 +3,7 @@ using WebApi.Repositories;
 
 namespace WebApi.Services;
 
-public class UserService
+public class UserService : IUserService
 {
     private readonly UserRepository _userRepository;
 
@@ -12,18 +12,20 @@ public class UserService
         _userRepository = new UserRepository(configuration);
     }
 
-    public bool CheckEmail(string email)
+    public User? Login(string login, string password)
     {
-        return _userRepository.CheckEmail(email);
-    }
+        var user = _userRepository.GetByLogin(login);
 
-    public User? AddNewUser(User user)
-    {
-        var existingUser = _userRepository.GetByLogin(user.Login);
-        if (existingUser != null || _userRepository.CheckEmail(user.Email))
+        if (user == null)
         {
             return null;
         }
-        return _userRepository.AddNewUser(user);
+
+        if (user.Password == password)
+        {
+            return user;
+        }
+
+        return null;
     }
 }

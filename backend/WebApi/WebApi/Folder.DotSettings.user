@@ -1,0 +1,9 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f6b9cd24_002Dde0a_002D4676_002D8532_002D6718af91a850/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestParticipantModel" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9B0127B2-729A-E2E4-B6D0-AAF42D61303B::net6.0::WebApi.Tests.ModelsTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9B0127B2-729A-E2E4-B6D0-AAF42D61303B::net6.0::WebApi.Tests.EmailServiceTest.TestSending&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9B0127B2-729A-E2E4-B6D0-AAF42D61303B::net6.0::WebApi.Tests.EmailServiceTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9B0127B2-729A-E2E4-B6D0-AAF42D61303B::net6.0::WebApi.Tests.UserControllerTests.Login_ValidCredentials_ReturnsOk&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

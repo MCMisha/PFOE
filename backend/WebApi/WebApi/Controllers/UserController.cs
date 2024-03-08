@@ -8,33 +8,31 @@ namespace WebApi.Controllers;
 [Route("[controller]")]
 public class UserController : Controller
 {
-    private readonly ILogger<UserController> _logger;
-    private readonly UserService _userService;
-    // private readonly HashService _hashService;
+    private readonly IUserService _userService;
+    private readonly HashService _hashService;
 
-    public UserController(ILogger<UserController> logger, IConfiguration configuration)
+    public UserController(IConfiguration configuration)
     {
-        _logger = logger;
         _userService = new UserService(configuration);
-        // _hashService = new HashService();
+        _hashService = new HashService();
     }
 
-    [HttpGet("checkEmail")]
-    public IActionResult CheckEmail(string email)
+    public UserController(IUserService userService)
     {
-        return Ok(_userService.CheckEmail(email));
+        _userService = userService;
+        _hashService = new HashService();
     }
 
-    [HttpPost("register")]
-    public IActionResult AddNewUser(User user)
+    [HttpPost("login")]
+    public IActionResult Login(string login, string password)
     {
-        // user.Password = _hashService.GetHash(user.Password);
-        User? newUser = _userService.AddNewUser(user);
-        if (newUser != null)
+        User? loggedUser = _userService.Login(login, _hashService.GetHash(password));
+
+        if (loggedUser != null)
         {
-            return Ok(newUser);
+            return Ok(loggedUser);
         }
 
-        return BadRequest();
+        return Unauthorized(loggedUser);
     }
 }
