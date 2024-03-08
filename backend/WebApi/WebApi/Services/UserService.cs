@@ -5,11 +5,11 @@ namespace WebApi.Services;
 
 public class UserService : IUserService
 {
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
 
-    public UserService(IConfiguration configuration)
+    public UserService(IUserRepository userRepository)
     {
-        _userRepository = new UserRepository(configuration);
+        _userRepository = userRepository;
     }
 
     public User? Login(string login, string password)

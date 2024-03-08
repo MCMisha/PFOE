@@ -11,22 +11,16 @@ public class UserController : Controller
     private readonly IUserService _userService;
     private readonly HashService _hashService;
 
-    public UserController(IConfiguration configuration)
-    {
-        _userService = new UserService(configuration);
-        _hashService = new HashService();
-    }
-
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, HashService hashService)
     {
         _userService = userService;
-        _hashService = new HashService();
+        _hashService = hashService;
     }
 
     [HttpPost("login")]
     public IActionResult Login(string login, string password)
     {
-        User? loggedUser = _userService.Login(login, _hashService.GetHash(password));
+        User? loggedUser = _userService.Login(login, _hashService.GetSha256Hash(password));
 
         if (loggedUser != null)
         {

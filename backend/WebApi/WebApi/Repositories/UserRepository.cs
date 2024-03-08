@@ -3,20 +3,13 @@ using WebApi.Models;
 
 namespace WebApi.Repositories;
 
-public class UserRepository
+public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _appDbContext;
 
-    public UserRepository(IConfiguration configuration)
+    public UserRepository(AppDbContext appDbContext)
     {
-        _appDbContext = new AppDbContext(configuration);
-    }
-
-    public User? AddNewUser(User user)
-    {
-        var result = _appDbContext.Users.Add(user);
-        _appDbContext.SaveChanges();
-        return result.Entity;
+        _appDbContext = appDbContext;
     }
 
     public IEnumerable<User> GetAllUsers()
@@ -28,10 +21,4 @@ public class UserRepository
     {
         return _appDbContext.Users.FirstOrDefault(user => user.Login == login);
     }
-
-    public bool CheckEmail(string email)
-    {
-        return _appDbContext.Users.FirstOrDefault(user => user.Email == email) != null;
-    }
-
 }

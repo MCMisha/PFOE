@@ -16,8 +16,8 @@ public class UserControllerTests
     [SetUp]
     public void Setup()
     {
-        _userServiceMock = new Mock<IUserService>();
-        _controller = new UserController(_userServiceMock.Object);
+        _userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+        _controller = new UserController(_userServiceMock.Object, new HashService());
     }
 
     [Test]
