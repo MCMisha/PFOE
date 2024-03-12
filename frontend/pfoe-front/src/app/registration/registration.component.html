@@ -1,1 +1,48 @@
-<p>registration works!</p>
+<div class="d-flex justify-content-center mt-2">
+  <mat-card style="background-color: #D9D9D9; max-width: 400px;">
+    <mat-card-header class="d-flex justify-content-center h6">Rejestracja</mat-card-header>
+    <mat-card-content>
+      <span class="d-flex justify-content-center">
+        Masz już konto?
+        <a routerLink="../login" style="margin-left: 3px;"> Zaloguj się</a>
+      </span>
+      <div class="mt-2" [formGroup]="registrationForm">
+        <mat-form-field class="shape-container" appearance="outline">
+          <mat-label>Imię</mat-label>
+          <input matInput formControlName="firstName"/>
+        </mat-form-field>
+        <mat-error class="ms-2" *ngIf="registrationForm.get('firstName')?.hasError('maxlength') && registrationForm.get('firstName')?.touched">Maksymalna długość jest 30.</mat-error>
+        <mat-error class="ms-2" *ngIf="registrationForm.get('firstName')?.hasError('required') && registrationForm.get('firstName')?.touched">Imię jest wymagane.</mat-error>
+        <mat-form-field class="shape-container mt-3" appearance="outline">
+          <mat-label>Nazwisko</mat-label>
+          <input matInput formControlName="lastName"/>
+        </mat-form-field>
+        <mat-error class="ms-2" *ngIf="registrationForm.get('lastName')?.hasError('maxlength') && registrationForm.get('lastName')?.touched">Maksymalna długość jest 40.</mat-error>
+        <mat-error class="ms-2" *ngIf="registrationForm.get('lastName')?.hasError('required') && registrationForm.get('lastName')?.touched">Nazwisko jest wymagane.</mat-error>
+        <mat-form-field class="shape-container mt-3" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email"/>
+        </mat-form-field>
+        <mat-error class="ms-2" *ngIf="registrationForm.get('email')?.hasError('maxlength') || registrationForm.get('email')?.hasError('pattern') && registrationForm.get('email')?.touched">Email jest nieprawidłowy.</mat-error>
+        <mat-error class="ms-2" *ngIf="registrationForm.get('email')?.hasError('required') && registrationForm.get('email')?.touched">Email jest wymagany.</mat-error>
+        <mat-form-field class="shape-container mt-3" appearance="outline">
+          <mat-label>Login</mat-label>
+          <input matInput formControlName="login"/>
+        </mat-form-field>
+        <mat-error class="ms-2" *ngIf="registrationForm.get('login')?.hasError('maxlength') && registrationForm.get('login')?.touched">Maksymalna długość jest 40.</mat-error>
+        <mat-error class="ms-2" *ngIf="registrationForm.get('login')?.hasError('required') && registrationForm.get('login')?.touched">Login jest wymagany.</mat-error>
+        <mat-form-field class="shape-container mt-3" appearance="outline">
+          <mat-label>Hasło</mat-label>
+          <input matInput type="password" formControlName="password"/>
+        </mat-form-field>
+        <mat-form-field class="shape-container mt-3" appearance="outline">
+          <mat-label>Powtórz hasło</mat-label>
+          <input matInput type="password" formControlName="repeatPassword"/>
+        </mat-form-field>
+        <div class="d-flex justify-content-center mt-3">
+          <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" (click)="onRegisterClick()">Zarejestruj się</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
