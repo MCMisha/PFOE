@@ -36,6 +36,7 @@ namespace WebApi.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("pfoe");
             modelBuilder.Entity<Event>(entity =>
             {
                 entity.ToTable("event");
