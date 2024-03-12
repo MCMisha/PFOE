@@ -8,6 +8,7 @@ import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @NgModule({
