@@ -25,6 +25,10 @@ export class UserService {
     return this.http.post(`${environment.baseApiUri}/User/register`, user, httpOptions).pipe(catchError(this.handleError('register', user)));
   }
 
+  login(login: string, password: string) {
+    return this.http.post(`${environment.baseApiUri}/User/login`, {login: login, password: password}, httpOptions).pipe(catchError(this.handleError('login', login)));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
