@@ -1,5 +1,6 @@
 using Moq;
 using NUnit.Framework;
+using WebApi.Contexts;
 using WebApi.Models;
 using WebApi.Repositories;
 using WebApi.Services;
@@ -9,14 +10,13 @@ namespace  WebApi.Tests;
 [TestFixture]
 public class UserServiceTests
 {
-    private UserService _service;
-    private Mock<IUserRepository> _userRepositoryMock;
-
-    [SetUp]
-    public void Setup()
+    private static IConfiguration InitConfiguration()
     {
-        _userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
-        _service = new UserService(_userRepositoryMock.Object);
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build();
+        return config;
     }
 
     [Test]
@@ -24,9 +24,11 @@ public class UserServiceTests
     {
         string login = "good";
         string password = "good";
-        _userRepositoryMock.Setup(x => x.GetByLogin(It.IsAny<string>())).Returns(new User { Login = login, Password = password });
+        Func<User?> getByLoginFunc = () => { return new User { Login = login, Password = password }; };
+        var service = new UserService(new UserRepository(new AppDbContext(InitConfiguration())));
+        service.GetByLoginFunc = getByLoginFunc;
 
-        var result = _service.Login(login, password);
+        var result = service.Login(login, password);
 
         Assert.That(result, Is.Not.Null);
     }
@@ -36,9 +38,11 @@ public class UserServiceTests
     {
         string login = "bad";
         string password = "bad";
-        _userRepositoryMock.Setup(x => x.GetByLogin(It.IsAny<string>())).Returns(null as User);
+        Func<User?> getByLoginFunc = () => { return null; };
+        var service = new UserService(new UserRepository(new AppDbContext(InitConfiguration())));
+        service.GetByLoginFunc = getByLoginFunc;
 
-        var result = _service.Login(login, password);
+        var result = service.Login(login, password);
 
         Assert.That(result, Is.Null);
     }
@@ -48,9 +52,11 @@ public class UserServiceTests
     {
         string login = "good";
         string password = "bad";
-        _userRepositoryMock.Setup(x => x.GetByLogin(It.IsAny<string>())).Returns(new User { Login = login, Password = "good" });
+        Func<User?> getByLoginFunc = () => { return new User { Login = login, Password = "good" }; };
+        var service = new UserService(new UserRepository(new AppDbContext(InitConfiguration())));
+        service.GetByLoginFunc = getByLoginFunc;
 
-        var result = _service.Login(login, password);
+        var result = service.Login(login, password);
 
         Assert.That(result, Is.Null);
     }

@@ -3,18 +3,19 @@ using WebApi.Repositories;
 
 namespace WebApi.Services;
 
-public class UserService : IUserService
+public class UserService
 {
-    private readonly IUserRepository _userRepository;
+    private readonly UserRepository _userRepository;
+    public Func<User?>? GetByLoginFunc {get; set;} //właściwośc dodana na potrzeby testów jednostkowych
 
-    public UserService(IUserRepository userRepository)
+    public UserService(UserRepository userRepository)
     {
         _userRepository = userRepository;
     }
 
     public User? Login(string login, string password)
     {
-        var user = _userRepository.GetByLogin(login);
+        var user = GetByLogin(login);
 
         if (user == null)
         {
@@ -27,5 +28,15 @@ public class UserService : IUserService
         }
 
         return null;
+    }
+
+    private User? GetByLogin(string login)
+    {
+        if (GetByLoginFunc != null)
+        {
+            return GetByLoginFunc();
+        }
+
+        return _userRepository.GetByLogin(login);
     }
 }

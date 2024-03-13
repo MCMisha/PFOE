@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using WebApi.Controllers;
-using Moq;
+using WebApi.Contexts;
 using WebApi.Models;
+using WebApi.Repositories;
 using WebApi.Services;
 
 namespace WebApi.Tests;
@@ -10,14 +11,13 @@ namespace WebApi.Tests;
 [TestFixture]
 public class UserControllerTests
 {
-    private UserController _controller;
-    private Mock<IUserService> _userServiceMock;
-
-    [SetUp]
-    public void Setup()
+    private static IConfiguration InitConfiguration()
     {
-        _userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
-        _controller = new UserController(_userServiceMock.Object, new HashService());
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build();
+        return config;
     }
 
     [Test]
@@ -25,9 +25,11 @@ public class UserControllerTests
     {
         string login = "user";
         string password = "password";
-        _userServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>()) ).Returns(new User());
+        Func<User?> loginChecker = () => { return new User(); };
+        var controller = new UserController(new UserService(new UserRepository(new AppDbContext(InitConfiguration()))), new HashService());
+        controller.LoginChecker = loginChecker;
 
-        var result = _controller.Login(login, password);
+        var result = controller.Login(login, password);
 
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
     }
@@ -37,9 +39,11 @@ public class UserControllerTests
     {
         string login = "baduser";
         string password = "badpassword";
-        _userServiceMock.Setup(x => x.Login(It.IsAny<string>(), It.IsAny<string>()) ).Returns(null as User);
+        Func<User?> loginChecker = () => { return null; };
+        var controller = new UserController(new UserService(new UserRepository(new AppDbContext(InitConfiguration()))), new HashService());
+        controller.LoginChecker = loginChecker;
 
-        var result = _controller.Login(login, password);
+        var result = controller.Login(login, password);
 
         Assert.That(result, Is.InstanceOf<UnauthorizedObjectResult>());
     }
