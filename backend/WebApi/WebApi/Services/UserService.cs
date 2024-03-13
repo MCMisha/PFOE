@@ -8,9 +8,9 @@ public class UserService
     private readonly UserRepository _userRepository;
     public Func<User?>? GetByLoginFunc {get; set;} //właściwośc dodana na potrzeby testów jednostkowych
 
-    public UserService(UserRepository userRepository)
+    public UserService(IConfiguration configuration)
     {
-        _userRepository = userRepository;
+        _userRepository = new UserRepository(configuration);
     }
 
     public User? Login(string login, string password)

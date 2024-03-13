@@ -5,12 +5,14 @@ using WebApi.Contexts;
 using WebApi.Models;
 using WebApi.Repositories;
 using WebApi.Services;
+using Moq;
 
 namespace WebApi.Tests;
 
 [TestFixture]
 public class UserControllerTests
 {
+    private ILogger<UserController> _logger = new Mock<ILogger<UserController>>().Object;
     private static IConfiguration InitConfiguration()
     {
         var config = new ConfigurationBuilder()
@@ -26,7 +28,7 @@ public class UserControllerTests
         string login = "user";
         string password = "password";
         Func<User?> loginChecker = () => { return new User(); };
-        var controller = new UserController(new UserService(new UserRepository(new AppDbContext(InitConfiguration()))), new HashService());
+        var controller = new UserController(_logger, InitConfiguration());
         controller.LoginChecker = loginChecker;
 
         var result = controller.Login(login, password);
@@ -40,7 +42,7 @@ public class UserControllerTests
         string login = "baduser";
         string password = "badpassword";
         Func<User?> loginChecker = () => { return null; };
-        var controller = new UserController(new UserService(new UserRepository(new AppDbContext(InitConfiguration()))), new HashService());
+        var controller = new UserController(_logger, InitConfiguration());
         controller.LoginChecker = loginChecker;
 
         var result = controller.Login(login, password);

@@ -8,14 +8,16 @@ namespace WebApi.Controllers;
 [Route("[controller]")]
 public class UserController : Controller
 {
+    private readonly ILogger<UserController> _logger;
     private readonly UserService _userService;
     private readonly HashService _hashService;
     public Func<User?>? LoginChecker { get; set; } //właściwośc dodana na potrzeby testów jednostkowych
 
-    public UserController(UserService userService, HashService hashService)
+    public UserController(ILogger<UserController> logger, IConfiguration configuration)
     {
-        _userService = userService;
-        _hashService = hashService;
+        _logger = logger;
+        _userService = new UserService(configuration);
+        _hashService = new HashService();
     }
 
     [HttpPost("login")]

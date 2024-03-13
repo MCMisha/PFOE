@@ -25,7 +25,7 @@ public class UserServiceTests
         string login = "good";
         string password = "good";
         Func<User?> getByLoginFunc = () => { return new User { Login = login, Password = password }; };
-        var service = new UserService(new UserRepository(new AppDbContext(InitConfiguration())));
+        var service = new UserService(InitConfiguration());
         service.GetByLoginFunc = getByLoginFunc;
 
         var result = service.Login(login, password);
@@ -39,7 +39,7 @@ public class UserServiceTests
         string login = "bad";
         string password = "bad";
         Func<User?> getByLoginFunc = () => { return null; };
-        var service = new UserService(new UserRepository(new AppDbContext(InitConfiguration())));
+        var service = new UserService(InitConfiguration());
         service.GetByLoginFunc = getByLoginFunc;
 
         var result = service.Login(login, password);
@@ -53,7 +53,7 @@ public class UserServiceTests
         string login = "good";
         string password = "bad";
         Func<User?> getByLoginFunc = () => { return new User { Login = login, Password = "good" }; };
-        var service = new UserService(new UserRepository(new AppDbContext(InitConfiguration())));
+        var service = new UserService(InitConfiguration());
         service.GetByLoginFunc = getByLoginFunc;
 
         var result = service.Login(login, password);

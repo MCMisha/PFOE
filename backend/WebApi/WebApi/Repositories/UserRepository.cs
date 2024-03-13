@@ -7,9 +7,9 @@ public class UserRepository
 {
     private readonly AppDbContext _appDbContext;
 
-    public UserRepository(AppDbContext appDbContext)
+    public UserRepository(IConfiguration configuration)
     {
-        _appDbContext = appDbContext;
+        _appDbContext = new AppDbContext(configuration);
     }
 
     public IEnumerable<User> GetAllUsers()
