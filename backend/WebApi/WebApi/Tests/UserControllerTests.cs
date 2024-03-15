@@ -24,14 +24,14 @@ public class UserControllerTests
     {
         const string login = "good_user";
         const string password = "good_password";
-        bool LoginChecker()
+        bool UserChecker()
         {
             return true;
         }
 
         var controller = new UserController(_logger, InitConfiguration())
         {
-            LoginChecker = LoginChecker
+            UserChecker = UserChecker
         };
 
         var result = controller.Login(login, password);
@@ -44,17 +44,39 @@ public class UserControllerTests
     {
         const string login = "bad_user";
         const string password = "bad_password";
-        bool LoginChecker()
+        bool UserChecker()
         {
             return false;
         }
         var controller = new UserController(_logger, InitConfiguration())
         {
-            LoginChecker = LoginChecker
+            UserChecker = UserChecker
         };
 
         var result = controller.Login(login, password);
 
         Assert.That(result, Is.InstanceOf<NotFoundResult>());
+    }
+
+    [Test]
+    public void CheckLogin_LoginExists_ReturnsOk()
+    {
+        const string login = "good_user";
+        var controller = new UserController(_logger, InitConfiguration());
+
+        var result = controller.CheckLogin(login);
+
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
+    }
+
+    [Test]
+    public void CheckLogin_LoginDoesntExist_ReturnsOk()
+    {
+        const string login = "bad_user";
+        var controller = new UserController(_logger, InitConfiguration());
+
+        var result = controller.CheckLogin(login);
+
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
     }
 }

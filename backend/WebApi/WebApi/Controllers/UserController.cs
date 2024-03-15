@@ -11,7 +11,8 @@ public class UserController : Controller
     private readonly ILogger<UserController> _logger;
     private readonly UserService _userService;
     private readonly HashService _hashService;
-    public Func<bool>? LoginChecker { get; init; } //właściwośc dodana na potrzeby testów jednostkowych
+    public Func<bool>? UserChecker { get; init; } //właściwośc dodana na potrzeby testów jednostkowych
+
 
     public UserController(ILogger<UserController> logger, IConfiguration configuration)
     {
@@ -23,7 +24,7 @@ public class UserController : Controller
     [HttpPost("login")]
     public IActionResult Login(string login, string password)
     {
-        if (CheckLoginFunc(login, password))
+        if (CheckUserFunc(login, password))
         {
             return Ok();
         }
@@ -37,11 +38,17 @@ public class UserController : Controller
         return Ok(_userService.CheckEmail(email));
     }
 
-    private bool CheckLoginFunc(string login, string password)
+    [HttpGet("checkLogin")]
+    public IActionResult CheckLogin(string login)
     {
-        if(LoginChecker != null)
+        return Ok(_userService.CheckLogin(login));
+    }
+
+    private bool CheckUserFunc(string login, string password)
+    {
+        if(UserChecker != null)
         {
-            return LoginChecker();
+            return UserChecker();
         }
 
         return _userService.Login(login, _hashService.GetSha256Hash(password));

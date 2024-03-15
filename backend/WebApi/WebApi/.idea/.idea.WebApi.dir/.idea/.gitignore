@@ -1,6 +1,7 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+/appsettings.json
 # Rider ignored files
 /contentModel.xml
 /.idea.WebApi.iml

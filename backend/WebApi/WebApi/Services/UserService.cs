@@ -25,6 +25,11 @@ public class UserService
         return true;
     }
 
+    public bool CheckLogin(string login)
+    {
+        return _userRepository.GetByLogin(login) != null;
+    }
+
     public bool CheckEmail(string email)
     {
         return _userRepository.CheckEmail(email);
