@@ -24,7 +24,11 @@ public class UserControllerTests
     {
         const string login = "good_user";
         const string password = "good_password";
-        User? LoginChecker() => new User();
+        bool LoginChecker()
+        {
+            return true;
+        }
+
         var controller = new UserController(_logger, InitConfiguration())
         {
             LoginChecker = LoginChecker
@@ -32,15 +36,18 @@ public class UserControllerTests
 
         var result = controller.Login(login, password);
 
-        Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        Assert.That(result, Is.InstanceOf<OkResult>());
     }
 
     [Test]
-    public void Login_InvalidUser_ReturnsBadRequest()
+    public void Login_InvalidUser_ReturnsNotFound()
     {
         const string login = "bad_user";
         const string password = "bad_password";
-        User? LoginChecker() => null;
+        bool LoginChecker()
+        {
+            return false;
+        }
         var controller = new UserController(_logger, InitConfiguration())
         {
             LoginChecker = LoginChecker
@@ -48,6 +55,6 @@ public class UserControllerTests
 
         var result = controller.Login(login, password);
 
-        Assert.That(result, Is.InstanceOf<BadRequestResult>());
+        Assert.That(result, Is.InstanceOf<NotFoundResult>());
     }
 }

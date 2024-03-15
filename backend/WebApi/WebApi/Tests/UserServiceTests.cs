@@ -17,7 +17,7 @@ public class UserServiceTests
     }
 
     [Test]
-    public void Login_ValidUser_ReturnsUser()
+    public void Login_ValidUser_ReturnsTrue()
     {
         const string login = "good";
         const string password = "good";
@@ -29,11 +29,11 @@ public class UserServiceTests
 
         var result = service.Login(login, password);
 
-        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.True);
     }
 
     [Test]
-    public void Login_InvalidLogin_ReturnsNull()
+    public void Login_InvalidLogin_ReturnsFalse()
     {
         const string login = "bad";
         const string password = "bad";
@@ -45,11 +45,11 @@ public class UserServiceTests
 
         var result = service.Login(login, password);
 
-        Assert.That(result, Is.Null);
+        Assert.That(result, Is.False);
     }
 
     [Test]
-    public void Login_InvalidPassword_ReturnsNull()
+    public void Login_InvalidPassword_ReturnsFalse()
     {
         const string login = "good";
         const string password = "bad";
@@ -61,7 +61,7 @@ public class UserServiceTests
 
         var result = service.Login(login, password);
 
-        Assert.That(result, Is.Null);
+        Assert.That(result, Is.False);
     }
 }
 

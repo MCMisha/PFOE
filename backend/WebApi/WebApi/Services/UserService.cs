@@ -13,16 +13,16 @@ public class UserService
         _userRepository = new UserRepository(configuration);
     }
 
-    public User? Login(string login, string password)
+    public bool Login(string login, string password)
     {
         var user = GetByLogin(login);
 
         if (user == null || user.Password != password)
         {
-            return null;
+            return false;
         }
 
-        return user;
+        return true;
     }
 
     public bool CheckEmail(string email)
