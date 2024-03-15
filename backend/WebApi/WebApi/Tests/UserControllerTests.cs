@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using WebApi.Controllers;
-using WebApi.Models;
 using Moq;
 
 namespace WebApi.Tests;

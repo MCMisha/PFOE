@@ -24,11 +24,7 @@ public class UserRepositoryTest
     {
         var result = _userRepository.GetAllUsers();
 
-        var enumerable = result as User[] ?? result.ToArray();
-
-        var user = enumerable.FirstOrDefault();
-
-
+        //var enumerable = result as User[] ?? result.ToArray();
 
         Assert.That(result, Is.InstanceOf<IEnumerable<User>>());
     }
