@@ -33,5 +33,4 @@ public class UserRepository
     {
         return _appDbContext.Users.FirstOrDefault(user => user.Email == email) != null;
     }
-
 }

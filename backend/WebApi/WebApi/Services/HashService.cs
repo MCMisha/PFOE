@@ -5,11 +5,18 @@ namespace WebApi.Services;
 
 public class HashService
 {
-    private static SHA256 sHA256 = SHA256.Create();
+    private readonly SHA256 _sha256Hash = SHA256.Create();
 
-    public string GetHash(string input)
+    public string GetSha256Hash(string? input)
     {
-        byte[] inputBytes = sHA256.ComputeHash(Encoding.UTF8.GetBytes(input));
-        return BitConverter.ToString(inputBytes).Replace("-", string.Empty).ToLower();
+        byte[] data = _sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input ?? throw new ArgumentNullException(nameof(input))));
+
+        var sBuilder = new StringBuilder();
+        for (int i = 0; i < data.Length; ++i)
+        {
+            sBuilder.Append(data[i].ToString("x2"));
+        }
+
+        return sBuilder.ToString();
     }
 }
