@@ -15,9 +15,7 @@ public class UserRepositoryTest
             .Build();
         return config;
     }
-
     private readonly UserRepository _userRepository = new(InitConfiguration());
-
 
     [Test]
     public void GetAllUsers_Always_ReturnsUsers()
@@ -65,6 +63,24 @@ public class UserRepositoryTest
         var result = _userRepository.CheckEmail("invalid_email");
 
         Assert.That(result, Is.False);
+    }
+    
+    [Test]
+    public void AddNewUser_ValidUser_ReturnsUser()
+    {
+        var newUser = new User
+        {
+            Login = "newuser",
+            FirstName = "newuserfirstname",
+            LastName = "newuserlastname",
+            Password = "newuserpassword",
+            Email = "newuser@example.com",
+        };
+        
+        var result = _userRepository.AddNewUser(newUser);
+        
+        Assert.That(result, Is.Not.Null);
+        Assert.That(newUser.Id.Equals(result.Id));
     }
 
 }
