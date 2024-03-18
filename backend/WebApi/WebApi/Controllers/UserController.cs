@@ -1,4 +1,6 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Enums;
 using WebApi.Models;
 using WebApi.Services;
 
@@ -63,7 +65,8 @@ public class UserController : Controller
         User? newUser = _userService.AddNewUser(user);
         if (newUser != null)
         {
-            _emailService.SendEmailByType(user.Email, user.FirstName+" "+user.LastName, "REGISTRATION", user.Login);
+            TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
+            _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName), textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("", ""), user.Login);
             return Ok(newUser);
         }
 
