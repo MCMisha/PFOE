@@ -66,7 +66,7 @@ public class UserController : Controller
         if (newUser != null)
         {
             TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
-            _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName), textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("", ""), user.Login);
+            _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName), textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), user.Login);
             return Ok(newUser);
         }
 
