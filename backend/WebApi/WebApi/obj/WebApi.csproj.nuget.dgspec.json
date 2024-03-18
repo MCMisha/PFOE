@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Program Files\\JetBrains\\WebstormProjects\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj": {}
+    "E:\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "D:\\Program Files\\JetBrains\\WebstormProjects\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj": {
+    "E:\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Program Files\\JetBrains\\WebstormProjects\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj",
+        "projectUniqueName": "E:\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "D:\\Program Files\\JetBrains\\WebstormProjects\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj",
-        "packagesPath": "C:\\Users\\XXX\\.nuget\\packages\\",
-        "outputPath": "D:\\Program Files\\JetBrains\\WebstormProjects\\PFOE\\backend\\WebApi\\WebApi\\obj\\",
+        "projectPath": "E:\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj",
+        "packagesPath": "C:\\Users\\misha\\.nuget\\packages\\",
+        "outputPath": "E:\\PFOE\\backend\\WebApi\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\XXX\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\misha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -100,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.419\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.415\\RuntimeIdentifierGraph.json"
         }
       }
     }
