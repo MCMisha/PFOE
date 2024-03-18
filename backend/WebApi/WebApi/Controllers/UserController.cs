@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
+using WebApi.Enums;
 using WebApi.Models;
 using WebApi.Services;
 
@@ -11,6 +13,7 @@ public class UserController : Controller
     private readonly ILogger<UserController> _logger;
     private readonly UserService _userService;
     private readonly HashService _hashService;
+    private readonly EmailService _emailService;
     public Func<bool>? UserChecker { get; init; } //właściwośc dodana na potrzeby testów jednostkowych
 
 
@@ -19,6 +22,7 @@ public class UserController : Controller
         _logger = logger;
         _userService = new UserService(configuration);
         _hashService = new HashService();
+        _emailService = new EmailService(configuration);
     }
 
     [HttpPost("login")]
@@ -46,11 +50,26 @@ public class UserController : Controller
 
     private bool CheckUserFunc(string login, string password)
     {
-        if(UserChecker != null)
+        if (UserChecker != null)
         {
             return UserChecker();
         }
 
         return _userService.Login(login, _hashService.GetSha256Hash(password));
+    }
+
+    [HttpPost("register")]
+    public IActionResult AddNewUser(User user)
+    {
+        user.Password = _hashService.GetSha256Hash(user.Password);
+        User? newUser = _userService.AddNewUser(user);
+        if (newUser != null)
+        {
+            TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
+            _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName), textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), user.Login);
+            return Ok(newUser);
+        }
+
+        return BadRequest();
     }
 }

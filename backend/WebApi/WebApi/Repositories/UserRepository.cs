@@ -1,5 +1,6 @@
-﻿using WebApi.Contexts;
+using WebApi.Contexts;
 using WebApi.Models;
+using WebApi.Services;
 
 namespace WebApi.Repositories;
 
@@ -10,6 +11,13 @@ public class UserRepository
     public UserRepository(IConfiguration configuration)
     {
         _appDbContext = new AppDbContext(configuration);
+    }
+
+    public User? AddNewUser(User user)
+    {
+        var result = _appDbContext.Users.Add(user);
+        _appDbContext.SaveChanges();
+        return result.Entity;
     }
 
     public IEnumerable<User> GetAllUsers()
