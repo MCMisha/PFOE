@@ -11,6 +11,7 @@ public class UserController : Controller
     private readonly ILogger<UserController> _logger;
     private readonly UserService _userService;
     private readonly HashService _hashService;
+    private readonly EmailService _emailService;
     public Func<bool>? UserChecker { get; init; } //właściwośc dodana na potrzeby testów jednostkowych
 
 
@@ -19,6 +20,7 @@ public class UserController : Controller
         _logger = logger;
         _userService = new UserService(configuration);
         _hashService = new HashService();
+        _emailService = new EmailService(configuration);
     }
 
     [HttpPost("login")]
@@ -61,6 +63,7 @@ public class UserController : Controller
         User? newUser = _userService.AddNewUser(user);
         if (newUser != null)
         {
+            _emailService.SendEmailByType(user.Email, user.FirstName+" "+user.LastName, "REGISTRATION", user.Login);
             return Ok(newUser);
         }
 
