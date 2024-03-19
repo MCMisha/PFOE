@@ -1,3 +1,4 @@
+using System.Web;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Enums;
@@ -28,7 +29,9 @@ public class UserController : Controller
     [HttpPost("login")]
     public IActionResult Login(string login, string password)
     {
-        if (CheckUserFunc(login, password))
+        string decodedLogin = HttpUtility.UrlDecode(login);
+        string decodedPassword = HttpUtility.UrlDecode(password);
+        if (CheckUserFunc(decodedLogin, decodedPassword))
         {
             return Ok();
         }
