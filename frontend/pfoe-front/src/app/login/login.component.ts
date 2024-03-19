@@ -38,8 +38,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLoginClick() {
-    const _login = encodeURIComponent(this.loginForm.value.login!);
-    const _password = encodeURIComponent(this.loginForm.value.password!);
+    const _login = this.loginForm.value.login!;
+    const _password = this.loginForm.value.password!;
 
     this.userService.login(_login, _password).pipe(
       map(_ => _login),
@@ -57,7 +57,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   private openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action);
