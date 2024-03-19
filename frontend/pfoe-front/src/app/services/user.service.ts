@@ -26,7 +26,10 @@ export class UserService {
   }
 
   login(login: string, password: string) {
-    return this.http.post(`${environment.baseApiUri}/User/login?login=${login}&password=${password}`, httpOptions).pipe(catchError(this.handleError('login', login)));
+    const encodedLogin = encodeURIComponent(login);
+    const encodedPassword = encodeURIComponent(password);
+
+    return this.http.post(`${environment.baseApiUri}/User/login?login=${encodedLogin}&password=${encodedPassword}`, httpOptions).pipe();
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
