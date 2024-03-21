@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 ﻿using Microsoft.AspNetCore.Mvc;
+=======
+using System.Web;
+using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
+using WebApi.Enums;
+using WebApi.Models;
+>>>>>>> baa7201fa1fc4a7ab9a207e53e9831a7a7436027
 using WebApi.Services;
 
 namespace WebApi.Controllers;
@@ -10,6 +18,7 @@ public class UserController : Controller
     private readonly ILogger<UserController> _logger;
     private readonly UserService _userService;
     private readonly HashService _hashService;
+    private readonly EmailService _emailService;
     public Func<bool>? UserChecker { get; init; } //właściwośc dodana na potrzeby testów jednostkowych
 
 
@@ -18,12 +27,15 @@ public class UserController : Controller
         _logger = logger;
         _userService = new UserService(configuration);
         _hashService = new HashService();
+        _emailService = new EmailService(configuration);
     }
 
     [HttpPost("login")]
     public IActionResult Login(string login, string password)
     {
-        if (CheckUserFunc(login, password))
+        string decodedLogin = HttpUtility.UrlDecode(login);
+        string decodedPassword = HttpUtility.UrlDecode(password);
+        if (CheckUserFunc(decodedLogin, decodedPassword))
         {
             return Ok();
         }
@@ -45,11 +57,26 @@ public class UserController : Controller
 
     private bool CheckUserFunc(string login, string password)
     {
-        if(UserChecker != null)
+        if (UserChecker != null)
         {
             return UserChecker();
         }
 
         return _userService.Login(login, _hashService.GetSha256Hash(password));
+    }
+
+    [HttpPost("register")]
+    public IActionResult AddNewUser(User user)
+    {
+        user.Password = _hashService.GetSha256Hash(user.Password);
+        User? newUser = _userService.AddNewUser(user);
+        if (newUser != null)
+        {
+            TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
+            _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName), textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), user.Login);
+            return Ok(newUser);
+        }
+
+        return BadRequest();
     }
 }

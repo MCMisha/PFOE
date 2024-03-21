@@ -1,4 +1,4 @@
-﻿using WebApi.Models;
+using WebApi.Models;
 using WebApi.Repositories;
 
 namespace WebApi.Services;
@@ -43,5 +43,15 @@ public class UserService
         }
 
         return _userRepository.GetByLogin(login);
+    }
+
+    public User? AddNewUser(User user)
+    {
+        var existingUser = _userRepository.GetByLogin(user.Login);
+        if (existingUser != null || _userRepository.CheckEmail(user.Email))
+        {
+            return null;
+        }
+        return _userRepository.AddNewUser(user);
     }
 }
