@@ -20,6 +20,9 @@ export class EventService {
     return this.http.get(`${environment.baseApiUri}/Event/${id}`, httpOptions).pipe(catchError(this.handleError('getEvent', id)));
   }
 
+  getEvents() {
+    return this.http.get(`${environment.baseApiUri}/Event`, httpOptions).pipe(catchError(this.handleError('getEvents', [])));
+  }
   updateEvent(event: EventModel) {
     return this.http.put(`${environment.baseApiUri}/Event/edit`, event, httpOptions).pipe(catchError(this.handleError('updateEvent', event)));
   }
@@ -27,8 +30,6 @@ export class EventService {
   deleteEvent(id: number) {
     return this.http.delete(`${environment.baseApiUri}/Event/delete/${id}`, httpOptions).pipe(catchError(this.handleError('deleteEvent', id)));
   }
-
-
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
