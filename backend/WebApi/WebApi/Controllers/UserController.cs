@@ -1,12 +1,10 @@
-<<<<<<< HEAD
-﻿using Microsoft.AspNetCore.Mvc;
-=======
+using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Enums;
 using WebApi.Models;
->>>>>>> baa7201fa1fc4a7ab9a207e53e9831a7a7436027
+
 using WebApi.Services;
 
 namespace WebApi.Controllers;

@@ -24,7 +24,7 @@ public class EventController : Controller
     }
 
     [HttpGet("{id:int}")]
-    public ActionResult<Event?> Get(int id)
+    public IActionResult Get(int id)
     {
         var @event = _eventService.Get(id);
 
@@ -33,7 +33,7 @@ public class EventController : Controller
             return NotFound();
         }
 
-        return @event;
+        return Ok(@event);
     }
 
     [HttpPost]
@@ -43,15 +43,10 @@ public class EventController : Controller
         return CreatedAtAction(nameof(Get), new { id = @event.Id }, @event);
     }
 
-    [HttpPut("{id:int}")]
-    public IActionResult Update(int id, Event @event)
+    [HttpPut]
+    public IActionResult Update(Event @event)
     {
-        if(id != @event.Id)
-        {
-            return BadRequest();
-        }
-
-        var existingEvent = _eventService.Get(id);
+        var existingEvent = _eventService.Get(@event.Id);
 
         if (existingEvent is null)
         {

@@ -12,9 +12,9 @@ public class EventRepository
         _appDbContext = new AppDbContext(configuration);
     }
 
-    public IEnumerable<Event> GetAll()
+    public List<Event> GetAll()
     {
-        return _appDbContext.Events;
+        return _appDbContext.Events.ToList();
     }
 
     public Event? GetById(int id)
