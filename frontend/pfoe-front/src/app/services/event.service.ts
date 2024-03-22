@@ -43,6 +43,6 @@ export class EventService {
   }
 
   private log(message: string) {
-    console.log(`UserService: ${message}`);
+    console.log(`EventService: ${message}`);
   }
 }
