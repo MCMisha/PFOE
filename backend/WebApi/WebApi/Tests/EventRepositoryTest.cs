@@ -2,7 +2,6 @@ using NUnit.Framework;
 using WebApi.Models;
 using WebApi.Repositories;
 
-
 namespace WebApi.Tests;
 
 [TestFixture]
@@ -34,7 +33,7 @@ public class EventRepositoryTest
         var eventRepository = new EventRepository(InitConfiguration());
         var newEvent = new Event
         {
-            Id = -1,
+            Id = -12,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -68,7 +67,7 @@ public class EventRepositoryTest
         var eventRepository = new EventRepository(InitConfiguration());
         var newEvent = new Event
         {
-            Id = -2,
+            Id = -13,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -93,7 +92,7 @@ public class EventRepositoryTest
         var eventRepository = new EventRepository(InitConfiguration());
         var newEvent = new Event
         {
-            Id = -3,
+            Id = -14,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -121,7 +120,7 @@ public class EventRepositoryTest
         var eventRepository = new EventRepository(InitConfiguration());
         var newEvent = new Event
         {
-            Id = -4,
+            Id = -15,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",

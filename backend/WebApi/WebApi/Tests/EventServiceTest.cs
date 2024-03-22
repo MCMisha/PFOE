@@ -33,7 +33,7 @@ public class EventServiceTest
         var eventService = new EventService(InitConfiguration());
         var newEvent = new Event
         {
-            Id = 1,
+            Id = -6,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -68,7 +68,7 @@ public class EventServiceTest
         var eventService = new EventService(InitConfiguration());
         var newEvent = new Event
         {
-            Id = 1,
+            Id = -7,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -94,7 +94,7 @@ public class EventServiceTest
         var eventService = new EventService(InitConfiguration());
         var newEvent = new Event
         {
-            Id = 1,
+            Id = -8,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -122,7 +122,7 @@ public class EventServiceTest
         var eventService = new EventService(InitConfiguration());
         var newEvent = new Event
         {
-            Id = -1,
+            Id = -9,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -145,7 +145,7 @@ public class EventServiceTest
         var eventService = new EventService(InitConfiguration());
         var newEvent = new Event
         {
-            Id = 1,
+            Id = -10,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -169,7 +169,7 @@ public class EventServiceTest
         var eventService = new EventService(InitConfiguration());
         var newEvent = new Event
         {
-            Id = -1,
+            Id = -11,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",

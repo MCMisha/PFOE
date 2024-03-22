@@ -38,7 +38,7 @@ public class EventControllerTest
         var controller = new EventController(_logger, InitConfiguration());
         var newEvent = new Event
         {
-            Id = 1,
+            Id = -1,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -55,7 +55,7 @@ public class EventControllerTest
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
 
-        controller.Delete(newEvent.Id);
+        controller.Delete(controller.GetAll().Value.Last().Id);
     }
 
     [Test]
@@ -76,7 +76,7 @@ public class EventControllerTest
         var controller = new EventController(_logger, InitConfiguration());
         var newEvent = new Event
         {
-            Id = 100,
+            Id = -2,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -89,10 +89,11 @@ public class EventControllerTest
 
         var result = controller.Create(newEvent);
 
+
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.InstanceOf<CreatedAtActionResult>());
 
-        controller.Delete(newEvent.Id);
+        controller.Delete(controller.GetAll().Value.Last().Id);
     }
 
     [Test]
@@ -101,7 +102,7 @@ public class EventControllerTest
         var controller = new EventController(_logger, InitConfiguration());
         var newEvent = new Event
         {
-            Id = 100,
+            Id = -3,
             Name = "New Event2",
             Location = "New Location",
             Category = "New Category",
@@ -120,7 +121,7 @@ public class EventControllerTest
         Assert.That(result, Is.InstanceOf<NoContentResult>());
         Assert.That(newEvent.Name, Is.EqualTo("Updated Event"));
 
-        controller.Delete(newEvent.Id);
+        controller.Delete(controller.GetAll().Value.Last().Id);
     }
 
     [Test]
@@ -129,7 +130,7 @@ public class EventControllerTest
         var controller = new EventController(_logger, InitConfiguration());
         var newEvent = new Event
         {
-            Id = -1,
+            Id = -4,
             Name = "New Event2",
             Location = "New Location",
             Category = "New Category",
@@ -152,7 +153,7 @@ public class EventControllerTest
         var controller = new EventController(_logger, InitConfiguration());
         var newEvent = new Event
         {
-            Id = 100,
+            Id = -5,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -168,6 +169,7 @@ public class EventControllerTest
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.InstanceOf<NoContentResult>());
+        
     }
 
     [Test]

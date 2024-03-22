@@ -6,12 +6,10 @@ namespace WebApi.Services;
 public class EventService
 {
     private readonly EventRepository _eventRepository;
-    private static int _nextId;
 
     public EventService(IConfiguration configuration)
     {
         _eventRepository = new EventRepository(configuration);
-        _nextId = _eventRepository.MaxId() + 1;
     }
 
     public List<Event> GetAll()
@@ -26,7 +24,6 @@ public class EventService
 
     public void Add(Event @event)
     {
-        @event.Id = _nextId++;
         _eventRepository.Add(@event);
     }
 

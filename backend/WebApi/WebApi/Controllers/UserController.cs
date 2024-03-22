@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using System.Globalization;
-using Microsoft.AspNetCore.Mvc;
 using WebApi.Enums;
 using WebApi.Models;
-
 using WebApi.Services;
 
 namespace WebApi.Controllers;
