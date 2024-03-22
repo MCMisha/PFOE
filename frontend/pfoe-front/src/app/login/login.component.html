@@ -1,1 +1,28 @@
-<p>login works!</p>
+<div class="d-flex justify-content-center mt-2">
+  <mat-card style="background-color: #D9D9D9; max-width: 400px;">
+    <mat-card-header class="d-flex justify-content-center h6">Logowanie</mat-card-header>
+    <mat-card-content>
+      <span class="d-flex justify-content-center">
+        Nie masz konta?
+        <a routerLink="../registration" style="margin-left: 3px;"> Zarejestruj się</a>
+      </span>
+      <div class="mt-2" [formGroup]="loginForm">
+        <mat-form-field class="shape-container mt-3" appearance="outline">
+          <mat-label>Login</mat-label>
+          <input matInput formControlName="login"/>
+        </mat-form-field>
+        <mat-error class="ms-2" *ngIf="loginForm.get('login')?.hasError('maxlength') && loginForm.get('login')?.touched">Maksymalna długość jest 50.</mat-error>
+        <mat-error class="ms-2" *ngIf="loginForm.get('login')?.hasError('required') && loginForm.get('login')?.touched">Login jest wymagany.</mat-error>
+        <mat-form-field class="shape-container mt-3" appearance="outline">
+          <mat-label>Hasło</mat-label>
+          <input matInput type="password" formControlName="password"/>
+        </mat-form-field>
+        <mat-error class="ms-2" *ngIf="loginForm.get('password')?.hasError('maxlength') && loginForm.get('password')?.touched">Maksymalna długość hasła to 50.</mat-error>
+        <mat-error class="ms-2" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">Hasło jest wymagane.</mat-error>
+        <div class="d-flex justify-content-center mt-3">
+          <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="onLoginClick()">Zaloguj się</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
