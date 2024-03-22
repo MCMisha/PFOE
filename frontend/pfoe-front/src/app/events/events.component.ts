@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {EventModel} from "../models/eventModel";
 import {EventService} from "../services/event.service";
 import {UserService} from "../services/user.service";
 import {User} from "../models/user";
@@ -11,10 +10,10 @@ interface EventModelWithOrganizerName {
   location?: string;
   category?: string;
   date?: string;
-  participant_number?: number;
+  participantNumber?: number;
   organizer?: number;
   organizerName?: string;
-  visits_number?: number;
+  visitsNumber?: number;
   creation_date?: Date;
 }
 
@@ -23,49 +22,54 @@ interface EventModelWithOrganizerName {
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
 })
-export class EventsComponent implements OnInit{
+export class EventsComponent implements OnInit {
   dataSource: MatTableDataSource<EventModelWithOrganizerName> = new MatTableDataSource<EventModelWithOrganizerName>();
 
-  events: EventModel[] = [
-    {id: 1, name: 'Testowe wydarzenie', location: 'Testowe', category: 'Test', date: '2021-01-01', participant_number: 10, organizer: 1, visits_number: 0, creation_date: new Date()}, //placeholder dopoki backend nie dziala
-  ];
+  events: EventModelWithOrganizerName[] = []
+
+  //   [
+  //   {id: 1, name: 'Testowe wydarzenie', location: 'Testowe', category: 'Test', date: '2021-01-01', participant_number: 10, organizer: 1, visits_number: 0, creation_date: new Date()}, //placeholder dopoki backend nie dziala
+  // ];
 
   users: User[] = [
     {id: 1, firstName: 'Testowy', lastName: 'Użytkownik'},  //placeholder dopoki backend nie dziala
     {id: 2, firstName: 'Adam', lastName: 'Nowak'}
   ];
 
-  constructor(private eventService : EventService, private userService : UserService) { }
+  constructor(private eventService: EventService, private userService: UserService) {
+  }
 
   ngOnInit(): void {
-    //this.loadEvents();
+    this.loadEvents();
     //this.loadUsers();
-
-    this.dataSource.data = this.events as EventModelWithOrganizerName[];
-
-    this.dataSource.data.forEach(event => {
-      const organizer = this.users.find(user => user.id === event.organizer);
-      event.organizerName = organizer ? organizer.firstName + " " + organizer.lastName : 'Unknown';
-    });
   }
 
   loadEvents(): void {
     this.eventService.getEvents()
       .subscribe(events => {
-        this.events = events as EventModel[];
+        this.events = events as EventModelWithOrganizerName[];
+
+        // Populate organizerName after events are loaded
+        this.dataSource.data = this.events as EventModelWithOrganizerName[];
+
+        this.dataSource.data.forEach(event => {
+          const organizer = this.users.find(user => user.id === event.organizer);
+          event.organizerName = organizer ? organizer.firstName + " " + organizer.lastName : 'Unknown';
+        });
       });
   }
 
-  // loadUsers(): void {
-  //   this.userService.getUsers()
-  //     .subscribe((users: User[]) => {
-  //       this.users = users as User[];
-  //     });
-  // }
+
+// loadUsers(): void {
+//   this.userService.getUsers()
+//     .subscribe((users: User[]) => {
+//       this.users = users as User[];
+//     });
+// }
 
 
-
-  columnsToDisplay = ['name', 'location', 'category', 'date', 'participant_number', 'organizer'];
+  columnsToDisplay = ['name', 'location', 'category', 'date', 'participantNumber', 'organizer'];
+  selectedRow: EventModelWithOrganizerName | null = null;
 
   handleNew() {
     console.log('New button clicked');
@@ -80,5 +84,9 @@ export class EventsComponent implements OnInit{
   handleDelete() {
     console.log('Delete button clicked');
     // Add your logic for the "Delete" button here
+  }
+
+  selectRow(row: EventModelWithOrganizerName): void {
+    this.selectedRow = row;
   }
 }
