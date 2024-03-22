@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WebApi.Contexts;
 using WebApi.Models;
 
@@ -19,7 +20,7 @@ public class EventRepository
 
     public Event? GetById(int id)
     {
-        return _appDbContext.Events.FirstOrDefault(e => e.Id == id);
+        return _appDbContext.Events.AsNoTracking().FirstOrDefault(e => e.Id == id);
     }
 
     public void Add(Event @event)

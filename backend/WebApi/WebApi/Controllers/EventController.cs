@@ -55,7 +55,7 @@ public class EventController : Controller
 
         _eventService.Update(@event);
 
-        return NoContent();
+        return Ok();
     }
 
     [HttpDelete("delete/{id:int}")]
@@ -70,6 +70,6 @@ public class EventController : Controller
 
         _eventService.Delete(id);
 
-        return NoContent();
+        return Ok();
     }
 }
