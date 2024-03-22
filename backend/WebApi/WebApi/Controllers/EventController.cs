@@ -36,14 +36,14 @@ public class EventController : Controller
         return Ok(@event);
     }
 
-    [HttpPost]
+    [HttpPost("new")]
     public IActionResult Create(Event @event)
     {
         _eventService.Add(@event);
         return CreatedAtAction(nameof(Get), new { id = @event.Id }, @event);
     }
 
-    [HttpPut]
+    [HttpPut("edit")]
     public IActionResult Update(Event @event)
     {
         var existingEvent = _eventService.Get(@event.Id);
@@ -58,7 +58,7 @@ public class EventController : Controller
         return NoContent();
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("delete/{id:int}")]
     public IActionResult Delete(int id)
     {
         var @event = _eventService.Get(id);

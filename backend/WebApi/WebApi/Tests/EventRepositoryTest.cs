@@ -34,7 +34,7 @@ public class EventRepositoryTest
         var eventRepository = new EventRepository(InitConfiguration());
         var newEvent = new Event
         {
-            Id = 1,
+            Id = -1,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -68,7 +68,7 @@ public class EventRepositoryTest
         var eventRepository = new EventRepository(InitConfiguration());
         var newEvent = new Event
         {
-            Id = 2,
+            Id = -2,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -93,7 +93,7 @@ public class EventRepositoryTest
         var eventRepository = new EventRepository(InitConfiguration());
         var newEvent = new Event
         {
-            Id = 3,
+            Id = -3,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
@@ -121,7 +121,7 @@ public class EventRepositoryTest
         var eventRepository = new EventRepository(InitConfiguration());
         var newEvent = new Event
         {
-            Id = 4,
+            Id = -4,
             Name = "New Event",
             Location = "New Location",
             Category = "New Category",
