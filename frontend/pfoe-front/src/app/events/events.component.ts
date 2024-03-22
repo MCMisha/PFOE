@@ -1,8 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {EventService} from "../services/event.service";
 import {UserService} from "../services/user.service";
 import {User} from "../models/user";
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
+} from '@angular/material/dialog';
+import {MatButton} from "@angular/material/button";
 
 interface EventModelWithOrganizerName {
   id?: number;
@@ -36,8 +45,10 @@ export class EventsComponent implements OnInit {
     {id: 2, firstName: 'Adam', lastName: 'Nowak'}
   ];
 
-  constructor(private eventService: EventService, private userService: UserService) {
+  constructor(private eventService: EventService, private userService: UserService, private dialog: MatDialog) {
   }
+
+
 
   ngOnInit(): void {
     this.loadEvents();
@@ -84,9 +95,53 @@ export class EventsComponent implements OnInit {
   handleDelete() {
     console.log('Delete button clicked');
     // Add your logic for the "Delete" button here
+    if (this.selectedRow != null) {
+      this.eventService.deleteEvent(this.selectedRow.id as number)
+        .subscribe(() => {
+          this.loadEvents();
+          this.selectedRow = null;
+        });
+    }
+    else {
+      this.dialog.open(NoRowSelectedDialogComponent, {
+        data: {
+          width: '250px',
+          message: 'Nie wybrano wydarzenia.'
+        }
+      });
+    }
   }
 
   selectRow(row: EventModelWithOrganizerName): void {
-    this.selectedRow = row;
+    if (this.selectedRow == null) {
+      this.selectedRow = row;
+    }
+    else {
+      this.selectedRow = null;
+    }
   }
+}
+
+@Component({
+  selector: 'no-row-selected-dialog',
+  template: `
+    <h2 mat-dialog-title>Błąd</h2>
+    <mat-dialog-content>
+      <p>{{ data.message }}</p>
+    </mat-dialog-content>
+    <mat-dialog-actions style="justify-content: flex-end">
+      <button mat-button [mat-dialog-close]="'OK'">OK</button>
+    </mat-dialog-actions>
+  `,
+  imports: [
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogTitle,
+    MatButton
+  ],
+  standalone: true
+})
+export class NoRowSelectedDialogComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { message: string }) { }
 }
