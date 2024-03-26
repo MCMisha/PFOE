@@ -19,13 +19,13 @@ jobs:
         dotnet-version: '6.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore ./backend/WebApi/WebApi.csproj
+      run: dotnet restore ./backend/WebApi/WebApi/WebApi.csproj
 
     - name: Build
-      run: dotnet build ./backend/WebApi/WebApi.csproj --configuration Release --no-restore
+      run: dotnet build ./backend/WebApi/WebApi/WebApi.csproj --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish ./backend/WebApi/WebApi.csproj --configuration Release --no-build --output ./build
+      run: dotnet publish ./backend/WebApi/WebApi/WebApi.csproj --configuration Release --no-build --output ./build
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
