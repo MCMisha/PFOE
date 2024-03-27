@@ -22,18 +22,18 @@ function formValidator(control: AbstractControl): { [key: string]: boolean } | n
   styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
+  private emailPattern = /^\w[-.\w]+@([-.\w]+\.)+[\w-]{2,4}$/;
   registrationForm = this.fb.group({
     firstName: ['', [Validators.required, Validators.maxLength(30)]],
     lastName: ['', [Validators.required, Validators.maxLength(40)]],
     email: ['', [Validators.required,
-      Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'), Validators.maxLength(50)]],
+      Validators.pattern(this.emailPattern), Validators.maxLength(50)]],
     login: ['', [Validators.required, Validators.maxLength(50)]],
     password: ['', [Validators.required, Validators.maxLength(50)]],
     repeatPassword: ['', [Validators.required, Validators.maxLength(50)]]
   }, {
     validator: [formValidator]
   });
-
   existingEmailError = false;
   existingLoginError = false;
   matchingPasswordError = false;
@@ -65,7 +65,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.registrationForm.get('email')?.valueChanges.pipe(
         debounceTime(300),
         switchMap(email => {
-          if (email === null || email === '') {
+          if (email === null || email === '' || !this.emailPattern.test(email)) {
             return of(false);
           }
           return this.userService.checkEmail(email);
