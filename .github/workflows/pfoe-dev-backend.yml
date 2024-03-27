@@ -57,13 +57,7 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_16231E4D95B947698BFCA24E6FC164F0 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B6C662C523BC4143AF0C44385C338179 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F30B8AE7EDF74A44AB0DFA052572BC4E }}
-      - name: Замена переменных в appsettings
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
-        env:
-          ConnectionStrings.AppDb: ${{ secrets.APP_DB_CONNECTION_STRING }}
-          
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -71,4 +65,3 @@ jobs:
           app-name: 'pfoe-dev'
           slot-name: 'Production'
           package: .
-          
