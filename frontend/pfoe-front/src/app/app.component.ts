@@ -10,7 +10,8 @@ export class AppComponent {
   title = 'pfoe-front';
   menuItems = [
     {path: '', name: 'Strona główna'},
-    {path: 'events', name: 'Wydarzenia'}
+    {path: 'events', name: 'Wydarzenia'},
+    {path: 'settings', name: 'Ustawienia'}
   ];
   search = new FormControl('');
 
