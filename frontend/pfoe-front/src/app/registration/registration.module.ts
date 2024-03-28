@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     MatCardContent,
     ReactiveFormsModule,
     MatInput,
-    MatButton
+    MatButton,
+    MatProgressSpinnerModule
   ]
 })
 export class RegistrationModule { }

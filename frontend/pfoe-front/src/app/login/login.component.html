@@ -20,7 +20,10 @@
         <mat-error class="ms-2" *ngIf="loginForm.get('password')?.hasError('maxlength') && loginForm.get('password')?.touched">Maksymalna długość hasła to 50.</mat-error>
         <mat-error class="ms-2" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">Hasło jest wymagane.</mat-error>
         <div class="d-flex justify-content-center mt-3">
-          <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="onLoginClick()">Zaloguj się</button>
+          <div style="position: relative;">
+            <button mat-raised-button color="primary" [disabled]="loginForm.invalid || isLoading" (click)="onLoginClick()">Zaloguj się</button>
+            <mat-spinner *ngIf="isLoading" diameter="20" style="position: absolute; right: -25px; top: 50%; transform: translateY(-50%);"></mat-spinner>
+          </div>
         </div>
       </div>
     </mat-card-content>
