@@ -38,6 +38,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   existingLoginError = false;
   matchingPasswordError = false;
   subscription: any = new Subscription();
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -95,12 +96,18 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     const user: User = {
       ...this.registrationForm.value
     };
+    this.isLoading = true;
     this.userService.register(user).subscribe(_ => {
+      this.isLoading = false;
       this.openSnackBar('Poczekaj na potwierdzenie e-mailem', 'OK');
     });
   }
 
   private openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action);
+  }
+
+  disabledRegister() {
+    return this.registrationForm.invalid || this.existingEmailError || this.existingLoginError || this.matchingPasswordError || this.isLoading;
   }
 }
