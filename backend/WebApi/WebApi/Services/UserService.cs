@@ -6,7 +6,7 @@ namespace WebApi.Services;
 public class UserService
 {
     private readonly UserRepository _userRepository;
-    public Func<User?>? GetByLoginFunc {get; init;} //właściwość dodana na potrzeby testów jednostkowych
+    public Func<User?>? GetByLoginFunc {get; init;}
 
     public UserService(IConfiguration configuration)
     {

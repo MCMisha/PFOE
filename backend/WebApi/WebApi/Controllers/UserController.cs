@@ -15,7 +15,7 @@ public class UserController : Controller
     private readonly UserService _userService;
     private readonly HashService _hashService;
     private readonly EmailService _emailService;
-    public Func<bool>? UserChecker { get; init; } //właściwośc dodana na potrzeby testów jednostkowych
+    public Func<bool>? UserChecker { get; init; }
 
 
     public UserController(ILogger<UserController> logger, IConfiguration configuration)
