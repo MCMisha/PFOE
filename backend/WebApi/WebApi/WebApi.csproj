@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+      <UserSecretsId>6f418c61-ea40-4ec2-9332-991aad07988d</UserSecretsId>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.26" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.26">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
+        <PackageReference Include="NUnit" Version="4.1.0" />
+        <PackageReference Include="sib_api_v3_sdk" Version="4.0.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="xunit" Version="2.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Tests\TestProject\bin\Debug\net6.0\TestProject1.deps.json" />
+      <_ContentIncludedByDefault Remove="Tests\TestProject\bin\Debug\net6.0\TestProject1.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="Tests\TestProject\global.json" />
+      <_ContentIncludedByDefault Remove="Tests\TestProject\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="Tests\TestProject\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="Tests\TestProject\obj\TestProject.csproj.nuget.dgspec.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="EmailTemplatesResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>EmailTemplatesResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="EmailTemplatesResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>EmailTemplatesResources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>
