@@ -45,10 +45,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "MSTest.TestFramework": {
-              "target": "Package",
-              "version": "[3.2.2, )"
-            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.26, )"
@@ -58,14 +54,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.26, )"
-            },
-            "Microsoft.NET.Test.Sdk": {
-              "target": "Package",
-              "version": "[17.9.0, )"
-            },
-            "Moq": {
-              "target": "Package",
-              "version": "[4.20.70, )"
             },
             "NUnit": {
               "target": "Package",
