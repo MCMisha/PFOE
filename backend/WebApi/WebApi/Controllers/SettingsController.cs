@@ -31,14 +31,6 @@ public class SettingsController : Controller
         return Ok(settings);
     }
 
-    [HttpPost("new")]
-    public IActionResult Create(Setting settings)
-    {
-        _settingsService.Add(settings);
-        return CreatedAtAction(nameof(Get), new { userId = settings.UserId }, settings);
-    }
-
-
     [HttpPut("edit")]
     public IActionResult Update(Setting settings)
     {

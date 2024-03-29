@@ -16,12 +16,6 @@ public class SettingsService
     {
         return _settingsRepository.GetByUserId(userId);
     }
-
-    public void Add(Setting settings)
-    {
-        _settingsRepository.Add(settings);
-    }
-
     public void Update(Setting settings)
     {
         if (_settingsRepository.GetByUserId(settings.UserId) != null)
