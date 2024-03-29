@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {EventService} from "../services/event.service";
 import {UserService} from "../services/user.service";
@@ -12,6 +12,7 @@ import {
   MatDialogTitle
 } from '@angular/material/dialog';
 import {MatButton} from "@angular/material/button";
+import {MatPaginator} from "@angular/material/paginator";
 
 interface EventModelWithOrganizerName {
   id?: number;
@@ -33,7 +34,6 @@ interface EventModelWithOrganizerName {
 })
 export class EventsComponent implements OnInit {
   dataSource: MatTableDataSource<EventModelWithOrganizerName> = new MatTableDataSource<EventModelWithOrganizerName>();
-
   events: EventModelWithOrganizerName[] = []
 
   //   [
@@ -45,9 +45,10 @@ export class EventsComponent implements OnInit {
     {id: 2, firstName: 'Adam', lastName: 'Nowak'}
   ];
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator
+
   constructor(private eventService: EventService, private userService: UserService, private dialog: MatDialog) {
   }
-
 
 
   ngOnInit(): void {
@@ -67,6 +68,8 @@ export class EventsComponent implements OnInit {
           const organizer = this.users.find(user => user.id === event.organizer);
           event.organizerName = organizer ? organizer.firstName + " " + organizer.lastName : 'Unknown';
         });
+
+        this.dataSource.paginator = this.paginator;
       });
   }
 

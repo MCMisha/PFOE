@@ -12,6 +12,8 @@ import {
   MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
   MatTable
 } from "@angular/material/table";
+import {MatButton} from "@angular/material/button";
+import {MatPaginator} from "@angular/material/paginator";
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import {
     MatHeaderRow,
     MatRow,
     MatHeaderRowDef,
-    MatRowDef
+    MatRowDef,
+    MatButton,
+    MatPaginator
   ]
 })
 export class EventsModule { }

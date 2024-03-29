@@ -1,7 +1,7 @@
 <div class="button-container" style="margin-top: 25px; margin-left: 30px">
-  <button class="rounded-button green" (click)="handleNew()">NOWE</button>
-  <button class="rounded-button yellow" (click)="handleEdit()">EDYTUJ</button>
-  <button class="rounded-button red" (click)="handleDelete()">USUŃ</button>
+  <button mat-raised-button color="primary" class="rounded-button" (click)="handleNew()">NOWE</button>
+  <button mat-raised-button color="accent" class="rounded-button" (click)="handleEdit()">EDYTUJ</button>
+  <button mat-raised-button color="warn" class="rounded-button" (click)="handleDelete()">USUŃ</button>
 </div>
 
 <div class="table-container" style="margin: 30px 50px 30px 50px">
@@ -45,7 +45,7 @@
 
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
     <tr mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="selectRow(row)" [ngClass]="{'highlightTableColor': selectedRow === row}"></tr>
-
   </table>
 </div>
 
+<mat-paginator [pageSizeOptions]="[1, 10, 25, 100]" showFirstLastButtons></mat-paginator>
