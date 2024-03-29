@@ -18,12 +18,6 @@ public class SettingsRepository
         return _appDbContext.Settings.AsNoTracking().FirstOrDefault(s => s.UserId == userId);
     }
 
-    public void Add(Setting settings)
-    {
-        _appDbContext.Settings.Add(settings);
-        _appDbContext.SaveChanges();
-    }
-
     public void Update(Setting settings)
     {
         _appDbContext.Settings.Update(settings);

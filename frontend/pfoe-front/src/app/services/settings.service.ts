@@ -17,11 +17,6 @@ export class SettingsService {
     return this.http.put(`${environment.baseApiUri}/Settings/edit`, settings, httpOptions).pipe(catchError(this.handleError('saveSettings', settings)));
   }
 
-  createSettings(userId: number, selectedStyle: string, selectedFontSize: number) {
-    const settings: Settings = {id: 0, user_id: userId, style: selectedStyle, font_size: selectedFontSize};
-    return this.http.post(`${environment.baseApiUri}/Settings/new?`, settings, httpOptions).pipe(catchError(this.handleError('createSettings', settings)));
-  }
-
   getSettings(id: number) {
     return this.http.get(`${environment.baseApiUri}/Settings/${id}`, httpOptions).pipe(catchError(this.handleError('getSettings', id)));
   }
