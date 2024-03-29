@@ -22,22 +22,23 @@ function formValidator(control: AbstractControl): { [key: string]: boolean } | n
   styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
+  private emailPattern = /^\w[-.\w]+@([-.\w]+\.)+[\w-]{2,4}$/;
   registrationForm = this.fb.group({
     firstName: ['', [Validators.required, Validators.maxLength(30)]],
     lastName: ['', [Validators.required, Validators.maxLength(40)]],
     email: ['', [Validators.required,
-      Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'), Validators.maxLength(50)]],
+      Validators.pattern(this.emailPattern), Validators.maxLength(50)]],
     login: ['', [Validators.required, Validators.maxLength(50)]],
     password: ['', [Validators.required, Validators.maxLength(50)]],
     repeatPassword: ['', [Validators.required, Validators.maxLength(50)]]
   }, {
     validator: [formValidator]
   });
-
   existingEmailError = false;
   existingLoginError = false;
   matchingPasswordError = false;
   subscription: any = new Subscription();
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -65,7 +66,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.registrationForm.get('email')?.valueChanges.pipe(
         debounceTime(300),
         switchMap(email => {
-          if (email === null || email === '') {
+          if (email === null || email === '' || !this.emailPattern.test(email)) {
             return of(false);
           }
           return this.userService.checkEmail(email);
@@ -95,12 +96,18 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     const user: User = {
       ...this.registrationForm.value
     };
+    this.isLoading = true;
     this.userService.register(user).subscribe(_ => {
+      this.isLoading = false;
       this.openSnackBar('Poczekaj na potwierdzenie e-mailem', 'OK');
     });
   }
 
   private openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action);
+  }
+
+  disabledRegister() {
+    return this.registrationForm.invalid || this.existingEmailError || this.existingLoginError || this.matchingPasswordError || this.isLoading;
   }
 }

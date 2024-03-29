@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   subscription: any = new Subscription();
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -38,9 +39,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLoginClick() {
+    this.isLoading = true;
     const _login = this.loginForm.value.login!;
     const _password = this.loginForm.value.password!;
-
     this.userService.login(_login, _password).pipe(
       map(_ => _login),
     catchError((err) => {
@@ -51,6 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }),
   ).
     subscribe((res) => {
+      this.isLoading = false;
       if (res !== null) {
         this.openSnackBar('Udało się zalogować', 'OK');
         this.router.navigate(['..']);
