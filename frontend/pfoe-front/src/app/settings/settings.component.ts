@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { SettingsService } from '../services/settings.service';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Settings} from "../models/settings";
 
 @Component({
   selector: 'app-settings',
@@ -7,25 +9,29 @@ import { SettingsService } from '../services/settings.service';
   styleUrl: './settings.component.scss'
 })
 
-export class SettingsComponent {
-  selectedStyle: string; // Property to hold the selected style
-  selectedFontSize: string; // Property to hold the selected font size
+export class SettingsComponent implements OnInit{
+  selectedStyle: string = ''; // Property to hold the selected style
+  selectedFontSize: string = 'medium' // Property to hold the selected font size
+  currentUserId: number = 1; // Property to hold the current user id
 
-  constructor(private settingsService: SettingsService) {
-    // Initialize the properties with default values if needed
-    this.selectedStyle = '';
-    this.selectedFontSize = '';
+  constructor(private settingsService: SettingsService,
+              private snackBar: MatSnackBar) {
   }
 
-  // Method to handle saving changes
-  saveChanges() {
-    // Here you can save the selected values to your database or perform any other action
+  ngOnInit() {
+    this.settingsService.getSettings(this.currentUserId).subscribe((settings) => {
+      const { style, font_size} = settings as Settings;
+      this.selectedStyle = style
+      this.selectedFontSize = font_size.toString();
+    });
+  }
+
+  onSaveChangesClick() {
     console.log('Selected Style:', this.selectedStyle);
     console.log('Selected Font Size:', this.selectedFontSize);
 
-    // Call the service to save the settings
-    this.settingsService.saveSettings(this.selectedStyle, this.selectedFontSize).subscribe((response) => {
-      console.log('Settings saved successfully:', response);
+    this.settingsService.saveSettings(this.selectedStyle, parseInt(this.selectedFontSize)).subscribe(() => {
+      this.snackBar.open('Ustawienia zapisane', 'OK');
     });
   }
 }
