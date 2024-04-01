@@ -44,4 +44,9 @@ public class EventService
             _eventRepository.Delete(@event);
         }
     }
+
+    public List<Event> Search(string query)
+    {
+        return _eventRepository.Search(query);
+    }
 }
