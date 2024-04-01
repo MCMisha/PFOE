@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 
 namespace WebApi.Contexts
@@ -15,10 +12,10 @@ namespace WebApi.Contexts
             _configuration = configuration;
         }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options)
-        {
-        }
+        // public AppDbContext(DbContextOptions<AppDbContext> options)
+        //     : base(options)
+        // {
+        // }
 
         public virtual DbSet<Event> Events { get; set; } = null!;
         public virtual DbSet<FailedLogin> FailedLogins { get; set; } = null!;
@@ -67,7 +64,13 @@ namespace WebApi.Contexts
                 entity.Property(e => e.ParticipantNumber).HasColumnName("participant_number");
 
                 entity.Property(e => e.VisitsNumber).HasColumnName("visits_number");
+
+                entity.HasIndex(e => new { e.Name, e.Location, e.Category })
+                    .HasMethod("GIN")
+                    .IsTsVectorExpressionIndex("english");
             });
+
+
 
             modelBuilder.Entity<FailedLogin>(entity =>
             {
