@@ -84,4 +84,11 @@ public class EventController : Controller
 
         return Ok();
     }
+
+    //search
+    [HttpGet("search/{query}")]
+    public ActionResult<List<Event>?> Search(string query)
+    {
+        return _eventService.Search(query);
+    }
 }

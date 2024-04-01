@@ -47,14 +47,11 @@ public class EventRepository
         _appDbContext.SaveChanges();
     }
 
-    public int MaxId()
+    public List<Event> Search(string query)
     {
-        if (!_appDbContext.Events.Any())
-        {
-            return 0;
-        }
-
-        return _appDbContext.Events.Max(e => e.Id);
+        return _appDbContext.Events
+            .Where(e => EF.Functions.ToTsVector("english", e.Name + " " + e.Location + " " + e.Category)
+                .Matches(query)).ToList();
     }
 
     public ActionResult<List<Event>> GetMostPopular()
