@@ -49,9 +49,9 @@ public class EventRepository
 
     public List<Event> Search(string query)
     {
-        return _appDbContext.Events
-            .Where(e => EF.Functions.ToTsVector("english", e.Name + " " + e.Location + " " + e.Category)
-                .Matches(query)).ToList();
+        return _appDbContext.Events.FromSqlInterpolated(
+                $"SELECT id, name, location, organizer, visits_number, creation_date, category, date, participant_number FROM pfoe.event WHERE event.document_idx_col @@ to_tsquery('english', {query})")
+            .ToList();
     }
 
     public ActionResult<List<Event>> GetMostPopular()
