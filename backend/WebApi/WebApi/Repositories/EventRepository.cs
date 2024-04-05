@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Contexts;
 using WebApi.Models;
@@ -16,6 +17,11 @@ public class EventRepository
     public List<Event> GetAll()
     {
         return _appDbContext.Events.ToList();
+    }
+
+    public List<Event> GetNewest()
+    {
+        return _appDbContext.Events.OrderByDescending(x => x.CreationDate).Take(5).ToList();
     }
 
     public Event? GetById(int id)
@@ -49,5 +55,10 @@ public class EventRepository
         }
 
         return _appDbContext.Events.Max(e => e.Id);
+    }
+
+    public ActionResult<List<Event>> GetMostPopular()
+    {
+        return _appDbContext.Events.OrderByDescending(e => e.VisitsNumber).Take(5).ToList();
     }
 }

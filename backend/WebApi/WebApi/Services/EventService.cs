@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 using WebApi.Repositories;
 
@@ -43,5 +44,15 @@ public class EventService
         {
             _eventRepository.Delete(@event);
         }
+    }
+
+    public ActionResult<List<Event>> GetNewest()
+    {
+        return _eventRepository.GetNewest();
+    }
+
+    public ActionResult<List<Event>> GetMostPopular()
+    {
+        return _eventRepository.GetMostPopular();
     }
 }
