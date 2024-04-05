@@ -20,6 +20,14 @@ export class EventService {
     return this.http.get(`${environment.baseApiUri}/Event/${id}`, httpOptions).pipe(catchError(this.handleError('getEvent', id)));
   }
 
+  getNewest():Observable<any> {
+    return this.http.get(`${environment.baseApiUri}/Event/newest`, httpOptions).pipe(catchError(this.handleError('getNewest')));
+  }
+
+  getMostPopular(): Observable<any> {
+    return this.http.get(`${environment.baseApiUri}/Event/most-popular`, httpOptions).pipe(catchError(this.handleError('getMostPopular')));
+  }
+
   updateEvent(event: EventModel) {
     return this.http.put(`${environment.baseApiUri}/Event/edit`, event, httpOptions).pipe(catchError(this.handleError('updateEvent', event)));
   }
