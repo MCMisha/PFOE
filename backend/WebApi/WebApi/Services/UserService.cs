@@ -59,6 +59,16 @@ public class UserService
 
         return _userRepository.GetByLogin(login);
     }
+    
+    public User? GetById(int userId)
+    {
+        return _userRepository.GetById(userId);
+    }
+    
+    public IEnumerable<User> GetAllUsers()
+    {
+        return _userRepository.GetAllUsers();
+    }
 
     public User? AddNewUser(User user)
     {

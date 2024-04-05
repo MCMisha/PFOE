@@ -121,5 +121,10 @@ public class UserController : Controller
 
         return Ok(true);
     }
+    
+    private IEnumerable<User> GetAllUsers()
+    {
+        return _userService.GetAllUsers();
+    }
 
 }
