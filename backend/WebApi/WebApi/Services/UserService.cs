@@ -28,7 +28,7 @@ public class UserService
         if (failedLogin == null && user.Password == password)
         {
             _failedLoginRepository.AddLastLoginTime(user.Id);
-            return false;
+            return true;
         }
 
         if (user.Password != password)

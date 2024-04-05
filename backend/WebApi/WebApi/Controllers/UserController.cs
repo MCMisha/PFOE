@@ -114,7 +114,7 @@ public class UserController : Controller
         }
         TimeSpan difference = DateTime.Now - checkLoginAttempts.LastLoginTime;
         
-        if (difference.Hours > 3)
+        if (difference.Hours >= 3)
         {
             return Ok(false);
         }
