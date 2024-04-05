@@ -23,6 +23,13 @@ public class FailedLoginRepository
         var failedLoginToIncrement = _appDbContext.FailedLogins.FirstOrDefault(failedLogin => failedLogin.UserId == userId);
         if (failedLoginToIncrement == null)
         {
+            _appDbContext.FailedLogins.Add(new FailedLogin
+            {
+                FailedLoginAttempts = 1,
+                LastLoginTime = DateTime.Now,
+                UserId = userId
+            });
+            _appDbContext.SaveChanges();
             return;
         }
         failedLoginToIncrement.FailedLoginAttempts++;

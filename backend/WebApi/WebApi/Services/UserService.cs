@@ -19,12 +19,23 @@ public class UserService
     {
         var user = GetByLogin(login);
 
-        if (user == null || user.Password != password)
+        if (user == null)
         {
             return false;
         }
-        _failedLoginRepository.AddLastLoginTime(user.Id);
         
+        var failedLogin = _failedLoginRepository.FindLoginAttemptsByUserId(user.Id);
+        if (failedLogin == null && user.Password == password)
+        {
+            _failedLoginRepository.AddLastLoginTime(user.Id);
+            return false;
+        }
+
+        if (user.Password != password)
+        {
+            _failedLoginRepository.IncrementLoginAttempts(user.Id);
+            return false;
+        }
         return true;
     }
 
