@@ -6,11 +6,13 @@ namespace WebApi.Services;
 public class UserService
 {
     private readonly UserRepository _userRepository;
+    private readonly FailedLoginRepository _failedLoginRepository;
     public Func<User?>? GetByLoginFunc {get; init;} //właściwość dodana na potrzeby testów jednostkowych
 
     public UserService(IConfiguration configuration)
     {
         _userRepository = new UserRepository(configuration);
+        _failedLoginRepository = new FailedLoginRepository(configuration);
     }
 
     public bool Login(string login, string password)
@@ -21,7 +23,8 @@ public class UserService
         {
             return false;
         }
-
+        _failedLoginRepository.AddLastLoginTime(user.Id);
+        
         return true;
     }
 
@@ -32,10 +35,11 @@ public class UserService
 
     public bool CheckEmail(string email)
     {
+        
         return _userRepository.CheckEmail(email);
     }
 
-    private User? GetByLogin(string login)
+    public User? GetByLogin(string login)
     {
         if (GetByLoginFunc != null)
         {
@@ -54,4 +58,21 @@ public class UserService
         }
         return _userRepository.AddNewUser(user);
     }
+
+    public FailedLogin? CheckLoginAttempts(int userId)
+    {
+        return _failedLoginRepository.FindLoginAttemptsByUserId(userId);
+    }
+
+    public void IncrementLoginAttempts(int userId)
+    {
+        _failedLoginRepository.IncrementLoginAttempts(userId);
+    }
+
+    public void ResetLoginAttempts(int userId)
+    {
+        _failedLoginRepository.ResetLoginAttempts(userId);
+    }
+    
+    
 }
