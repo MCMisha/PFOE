@@ -44,6 +44,7 @@ public class UserService
         return _userRepository.GetByLogin(login) != null;
     }
 
+
     public bool CheckEmail(string email)
     {
         
@@ -58,6 +59,11 @@ public class UserService
         }
 
         return _userRepository.GetByLogin(login);
+    }
+
+    public User? GetById(int id)
+    {
+        return _userRepository.GetById(id);
     }
 
     public User? AddNewUser(User user)

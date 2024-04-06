@@ -122,4 +122,20 @@ public class UserController : Controller
         return Ok(true);
     }
 
+    [HttpGet("getById/{id:int}")]
+    public IActionResult GetById(int id)
+    {
+        var user = _userService.GetById(id);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        user.Password = "";
+        user.Email = "";
+
+        return Ok(user);
+    }
+
 }

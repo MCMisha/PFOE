@@ -32,6 +32,10 @@ export class UserService {
     return this.http.post(`${environment.baseApiUri}/User/login?login=${encodedLogin}&password=${encodedPassword}`, httpOptions).pipe();
   }
 
+  getById(id: number) {
+    return this.http.get(`${environment.baseApiUri}/User/getById/${id}`, httpOptions).pipe(catchError(this.handleError('getUser', id)));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

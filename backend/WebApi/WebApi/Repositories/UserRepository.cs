@@ -30,6 +30,11 @@ public class UserRepository
         return _appDbContext.Users.FirstOrDefault(user => user.Login == login);
     }
 
+    public User? GetById(int id)
+    {
+        return _appDbContext.Users.FirstOrDefault(user => user.Id == id);
+    }
+
     public bool CheckEmail(string email)
     {
         return _appDbContext.Users.FirstOrDefault(user => user.Email == email) != null;
