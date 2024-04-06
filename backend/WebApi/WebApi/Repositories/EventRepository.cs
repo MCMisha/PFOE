@@ -52,6 +52,9 @@ public class EventRepository
         return _appDbContext.Events.FromSqlInterpolated(
                 $"SELECT id, name, location, organizer, visits_number, creation_date, category, date, participant_number FROM pfoe.event WHERE event.document_idx_col @@ to_tsquery('english', {query})")
             .ToList();
+        return _appDbContext.Events.FromSqlInterpolated(
+                $"SELECT id, name, location, organizer, visits_number, creation_date, category, date, participant_number FROM pfoe.event WHERE event.document_idx_col @@ to_tsquery('english', {query})")
+            .ToList();
     }
 
     public ActionResult<List<Event>> GetMostPopular()
