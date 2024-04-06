@@ -22,6 +22,18 @@ public class EventController : Controller
     {
         return _eventService.GetAll();
     }
+    
+    [HttpGet("newest")]
+    public ActionResult<List<Event>?> GetNewest()
+    {
+        return _eventService.GetNewest();
+    }
+    
+    [HttpGet("most-popular")]
+    public ActionResult<List<Event>?> GetMostPopular()
+    {
+        return _eventService.GetMostPopular();
+    }
 
     [HttpGet("{id:int}")]
     public IActionResult Get(int id)
@@ -52,7 +64,7 @@ public class EventController : Controller
         {
             return NotFound();
         }
-
+        
         _eventService.Update(@event);
 
         return Ok();

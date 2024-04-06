@@ -13,12 +13,23 @@
       <mat-icon style="margin-bottom: 4px; padding-bottom: 0;" [ngStyle]="{'color': '#82B1FF'}" aria-hidden="false">account_circle</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button routerLink="login" mat-menu-item>
-        <span>Zaloguj się</span>
-      </button>
-      <button routerLink="registration" mat-menu-item>
-        <span>Zarejestruj się</span>
-      </button>
+      <span *ngIf="isLoggedIn; else elseBlock;">
+       <button routerLink="settings" mat-menu-item>
+          <span>Ustawienia</span>
+        </button>
+        <button (click)="logOut()" mat-menu-item>
+          <span>Wyloguj się</span>
+        </button>
+      </span>
+      <ng-template #elseBlock>
+        <button routerLink="login" mat-menu-item>
+          <span>Zaloguj się</span>
+        </button>
+        <button routerLink="registration" mat-menu-item>
+          <span>Zarejestruj się</span>
+        </button>
+      </ng-template>
+
     </mat-menu>
   </div>
 </div>
