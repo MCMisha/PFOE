@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {catchError, Observable, of} from "rxjs";
+import {catchError, Observable, of, Subject} from "rxjs";
 import {httpOptions} from "../constants/constants";
 import {User} from "../models/user";
 
@@ -9,7 +9,7 @@ import {User} from "../models/user";
   providedIn: 'root'
 })
 export class UserService {
-
+  loginSuccess = new Subject<string>();
   constructor(private http: HttpClient) {
   }
 
@@ -28,8 +28,17 @@ export class UserService {
   login(login: string, password: string) {
     const encodedLogin = encodeURIComponent(login);
     const encodedPassword = encodeURIComponent(password);
-
+    this.loginSuccess.next(login);
     return this.http.post(`${environment.baseApiUri}/User/login?login=${encodedLogin}&password=${encodedPassword}`, httpOptions).pipe();
+  }
+
+  logOut(login: string) {
+    const encodedLogin = encodeURIComponent(login);
+    return this.http.delete(`${environment.baseApiUri}/User/logout?login=${encodedLogin}`, httpOptions).pipe();
+  }
+
+  isLoggedIn(login: string) {
+    return this.http.get(`${environment.baseApiUri}/User/isLogged?login=${login}`, httpOptions).pipe(catchError(this.handleError('isLoggedIn', login)));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

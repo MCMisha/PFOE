@@ -31,12 +31,42 @@ public class UserController : Controller
     {
         string decodedLogin = HttpUtility.UrlDecode(login);
         string decodedPassword = HttpUtility.UrlDecode(password);
-        if (CheckUserFunc(decodedLogin, decodedPassword))
+        var user = _userService.GetByLogin(decodedLogin);
+        if (user == null)
         {
-            return Ok();
+            return NotFound();
         }
 
+        var checkLoginAttempts = _userService.CheckLoginAttempts(user.Id);
+        if (checkLoginAttempts != null)
+        {
+            if (checkLoginAttempts.FailedLoginAttempts == 3)
+            {
+                return NotFound();
+            }
+        }
+        
+        if (CheckUserFunc(decodedLogin, decodedPassword))
+        {
+            _userService.ResetLoginAttempts(user.Id);
+            return Ok();
+        }
+        _userService.IncrementLoginAttempts(user.Id);
+        
         return NotFound();
+    }
+
+    [HttpDelete("logout")]
+    public IActionResult Logout(string login)
+    {
+        string decodedLogin = HttpUtility.UrlDecode(login);
+        var user = _userService.GetByLogin(decodedLogin);
+        if (user == null)
+        {
+            return NotFound();
+        }
+        _userService.DeleteLoginAttempts(user.Id);
+        return Ok();
     }
 
     [HttpGet("checkEmail")]
@@ -75,4 +105,39 @@ public class UserController : Controller
 
         return BadRequest();
     }
+
+    [HttpGet("isLogged")]
+    public IActionResult IsLogged(string login)
+    {
+        var user = _userService.GetByLogin(login);
+        
+        if (user == null)
+        {
+            return Ok(false);
+        }
+
+        var checkLoginAttempts = _userService.CheckLoginAttempts(user.Id);
+        if (checkLoginAttempts == null)
+        {
+            return Ok(false);
+        }
+        if (checkLoginAttempts.FailedLoginAttempts == 3)
+        {
+            return Ok(false);
+        }
+        TimeSpan difference = DateTime.Now - checkLoginAttempts.LastLoginTime;
+        
+        if (difference.Hours >= 3)
+        {
+            return Ok(false);
+        }
+
+        return Ok(true);
+    }
+    
+    private IEnumerable<User> GetAllUsers()
+    {
+        return _userService.GetAllUsers();
+    }
+
 }
