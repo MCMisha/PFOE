@@ -51,6 +51,17 @@ public class FailedLoginRepository
         _appDbContext.SaveChanges();
     }
 
+    public void DeleteLoginAttempts(int userId)
+    {
+        var failedLoginToDelete = _appDbContext.FailedLogins.FirstOrDefault(failedLogin => failedLogin.UserId == userId);
+        if (failedLoginToDelete == null)
+        {
+            return;
+        }
+        _appDbContext.FailedLogins.Remove(failedLoginToDelete);
+        _appDbContext.SaveChanges();
+    }
+
     public void AddLastLoginTime(int userId)
     {
         var newFailedLogin = new FailedLogin { LastLoginTime = DateTime.Now, FailedLoginAttempts = 0, UserId = userId };

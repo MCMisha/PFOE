@@ -52,7 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logOut() {
-    console.log(this.login);
-
+    this.subscription.add(this.userService.logOut(this.login).subscribe());
+    window.location.reload();
   }
 }
