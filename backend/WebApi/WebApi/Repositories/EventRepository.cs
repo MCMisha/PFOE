@@ -49,11 +49,16 @@ public class EventRepository
 
     public List<Event> Search(string query)
     {
-        // return _appDbContext.Events.FromSqlInterpolated(
-        //         $"SELECT id, name, location, organizer, visits_number, creation_date, category, date, participant_number FROM pfoe.event WHERE event.document_idx_col @@ to_tsquery('english', {query})")
-        //     .ToList();
+        var result = new List<Event>(0);
 
-        return _appDbContext.Events.Where(e => EF.Functions.ToTsVector("english", e.Name + " " + e.Location + " " + e.Category).Matches(EF.Functions.ToTsQuery("english", query))).ToList();
+        if (!string.IsNullOrEmpty(query))
+        {
+            result = _appDbContext.Events
+                .Where(e => e.Name.Contains(query) || e.Location.Contains(query) || e.Category.Contains(query))
+                .Take(15).ToList();
+        }
+
+        return result;
     }
 
     public ActionResult<List<Event>> GetMostPopular()

@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {UserService} from "./services/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   isLoggedIn: any = false;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -47,12 +48,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onKeyDown($event: KeyboardEvent) {
     if ($event.key === 'Enter') {
-      console.log(this.search.value);
+      if(this.search.value) {
+        const query: string = this.search.value.trim();
+
+        this.router.navigate(['/search'], {queryParams: {q: query}}).then( () => {
+            this.search.setValue("");
+          }
+        );
+      }
     }
   }
 
   logOut() {
     console.log(this.login);
-
   }
 }
