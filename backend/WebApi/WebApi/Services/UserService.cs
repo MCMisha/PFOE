@@ -95,5 +95,10 @@ public class UserService
         _failedLoginRepository.ResetLoginAttempts(userId);
     }
     
+    public void DeleteLoginAttempts(int userId)
+    {
+        _failedLoginRepository.DeleteLoginAttempts(userId);
+    }
+    
     
 }
