@@ -9,29 +9,35 @@ import {Settings} from "../models/settings";
   styleUrl: './settings.component.scss'
 })
 
-export class SettingsComponent implements OnInit{
-  selectedStyle: string = ''; // Property to hold the selected style
-  selectedFontSize: string = 'medium' // Property to hold the selected font size
-  currentUserId: number = 1; // Property to hold the current user id
+export class SettingsComponent implements OnInit { //todo: pobieranie userid zalogowanego uzytkownika
+  selectedStyle: string | undefined;
+  selectedFontSize: number | undefined;
+  currentUserId: number = -1;
 
   constructor(private settingsService: SettingsService,
               private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
-    this.settingsService.getSettings(this.currentUserId).subscribe((settings) => {
-      const { style, font_size} = settings as Settings;
-      this.selectedStyle = style
-      this.selectedFontSize = font_size.toString();
-    });
+    if(this.currentUserId) {
+      this.settingsService.getSettings(this.currentUserId).subscribe((settings) => {
+        const {style, font_size} = settings as Settings;
+        this.selectedStyle = style
+        this.selectedFontSize = font_size
+      });
+    }
   }
 
   onSaveChangesClick() {
-    console.log('Selected Style:', this.selectedStyle);
-    console.log('Selected Font Size:', this.selectedFontSize);
+    if(this.selectedFontSize && this.selectedStyle) {
+      this.settingsService.saveSettings(this.currentUserId, this.selectedStyle, this.selectedFontSize);
+      console.log(this.selectedStyle);
+      console.log(this.selectedFontSize);
 
-    this.settingsService.saveSettings(this.selectedStyle, parseInt(this.selectedFontSize)).subscribe(() => {
-      this.snackBar.open('Ustawienia zapisane', 'OK');
-    });
+      this.snackBar.open('Ustawienia zapisane.', '', {panelClass: 'snackbar'})._dismissAfter(3000);
+    }
+    else {
+      this.snackBar.open('Nie wybrano ustawień!', '', {panelClass: 'snackbar'})._dismissAfter(1000);
+    }
   }
 }

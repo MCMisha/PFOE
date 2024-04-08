@@ -15,13 +15,13 @@ export class SettingsService {
   saveSettings(userId: number, selectedStyle: string, selectedFontSize: number) {
     this.getSettings(userId).subscribe((res) => {
       const settings: Settings = {id: (res as Settings).id, user_id: userId, style: selectedStyle, font_size: selectedFontSize};
-      return this.http.put(`${environment.baseApiUri}/Settings/edit`, settings, httpOptions).pipe(catchError(this.handleError('saveSettings', settings)));
+      return this.http.put(`${environment.baseApiUri}/Settings/edit`, settings, httpOptions).pipe(catchError(this.handleError('saveSettings')));
     });
   }
 
 
-  getSettings(userId: number) {
-    return this.http.get(`${environment.baseApiUri}/Settings/${userId}`, httpOptions).pipe(catchError(this.handleError('getSettings', userId)));
+  getSettings(userId: number): Observable<Settings> {
+    return this.http.get<Settings>(`${environment.baseApiUri}/Settings/${userId}`, httpOptions).pipe(catchError(this.handleError<Settings>('getSettings')));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

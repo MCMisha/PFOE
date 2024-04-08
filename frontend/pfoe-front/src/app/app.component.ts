@@ -13,7 +13,6 @@ export class AppComponent implements OnInit, OnDestroy {
   menuItems = [
     {path: '', name: 'Strona główna'},
     {path: 'events', name: 'Wydarzenia'},
-    {path: 'settings', name: 'Ustawienia'}
   ];
   search = new FormControl('');
   login: string = '';
