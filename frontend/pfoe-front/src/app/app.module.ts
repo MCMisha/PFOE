@@ -19,6 +19,7 @@ import {
   MatRowDef,
   MatTable
 } from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import {
     MatHeaderCellDef,
     MatHeaderRowDef,
     MatHeaderRow,
-    MatRow
+    MatRow,
+    MatPaginator
   ],
   providers: [],
   bootstrap: [AppComponent]

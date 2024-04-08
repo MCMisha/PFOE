@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {EventModel} from "../models/eventModel";
 import {SearchService} from "../services/search.service";
 import {ActivatedRoute} from "@angular/router";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-search',
@@ -14,6 +15,7 @@ export class SearchComponent implements OnInit{
   dataSource: MatTableDataSource<EventModel> = new MatTableDataSource<EventModel>();
   events: EventModel[] = [];
   columnsToDisplay = ['name', 'location', 'category', 'date', 'participantNumber'];
+  @ViewChild(MatPaginator) paginator!: MatPaginator
 
   constructor(private route:ActivatedRoute, private searchService : SearchService) {
   }
@@ -25,7 +27,8 @@ export class SearchComponent implements OnInit{
       this.events = []
 
       if(query) {
-        this.search(query)
+        this.search(query);
+        this.dataSource.paginator = this.paginator;
       }
     })
   }
