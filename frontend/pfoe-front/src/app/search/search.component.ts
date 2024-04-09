@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {EventModel} from "../models/eventModel";
 import {SearchService} from "../services/search.service";
-import {ActivatedRoute, Route, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
@@ -36,7 +36,6 @@ export class SearchComponent implements OnInit {
         if (res != null) {
           this.events = res as EventModel[];
           this.dataSource.data = this.events;
-          console.log(this.events);
           setTimeout(() => this.dataSource.paginator = this.paginator);
         }
       }
@@ -44,6 +43,6 @@ export class SearchComponent implements OnInit {
   }
 
   goToEvent(id: number) {
-
+    this.router.navigate([`/event/${id}`]);
   }
 }
