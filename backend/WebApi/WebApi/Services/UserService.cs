@@ -59,6 +59,16 @@ public class UserService
 
         return _userRepository.GetByLogin(login);
     }
+    
+    public User? GetById(int userId)
+    {
+        return _userRepository.GetById(userId);
+    }
+    
+    public IEnumerable<User> GetAllUsers()
+    {
+        return _userRepository.GetAllUsers();
+    }
 
     public User? AddNewUser(User user)
     {
@@ -83,6 +93,11 @@ public class UserService
     public void ResetLoginAttempts(int userId)
     {
         _failedLoginRepository.ResetLoginAttempts(userId);
+    }
+    
+    public void DeleteLoginAttempts(int userId)
+    {
+        _failedLoginRepository.DeleteLoginAttempts(userId);
     }
     
     

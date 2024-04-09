@@ -56,6 +56,19 @@ public class UserController : Controller
         return NotFound();
     }
 
+    [HttpDelete("logout")]
+    public IActionResult Logout(string login)
+    {
+        string decodedLogin = HttpUtility.UrlDecode(login);
+        var user = _userService.GetByLogin(decodedLogin);
+        if (user == null)
+        {
+            return NotFound();
+        }
+        _userService.DeleteLoginAttempts(user.Id);
+        return Ok();
+    }
+
     [HttpGet("checkEmail")]
     public IActionResult CheckEmail(string email)
     {
@@ -120,6 +133,11 @@ public class UserController : Controller
         }
 
         return Ok(true);
+    }
+    
+    private IEnumerable<User> GetAllUsers()
+    {
+        return _userService.GetAllUsers();
     }
 
 }

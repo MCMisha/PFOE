@@ -32,6 +32,11 @@ export class UserService {
     return this.http.post(`${environment.baseApiUri}/User/login?login=${encodedLogin}&password=${encodedPassword}`, httpOptions).pipe();
   }
 
+  logOut(login: string) {
+    const encodedLogin = encodeURIComponent(login);
+    return this.http.delete(`${environment.baseApiUri}/User/logout?login=${encodedLogin}`, httpOptions).pipe();
+  }
+
   isLoggedIn(login: string) {
     return this.http.get(`${environment.baseApiUri}/User/isLogged?login=${login}`, httpOptions).pipe(catchError(this.handleError('isLoggedIn', login)));
   }
