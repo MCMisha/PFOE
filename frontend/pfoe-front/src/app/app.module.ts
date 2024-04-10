@@ -9,12 +9,25 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchComponent } from './search/search.component';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow,
+  MatRowDef,
+  MatTable
+} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 import { SettingsComponent } from './settings/settings.component';
 import {MatOption, MatSelect} from "@angular/material/select";
 @NgModule({
   declarations: [
     AppComponent,
-    SettingsComponent
+    SettingsComponent,
+    AppComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +41,22 @@ import {MatOption, MatSelect} from "@angular/material/select";
     HttpClientModule,
     MatSelect,
     MatOption,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    MatTable,
+    MatHeaderCell,
+    MatCellDef,
+    MatColumnDef,
+    MatCell,
+    MatCell,
+    MatCell,
+    MatCell,
+    MatRowDef,
+    MatHeaderCellDef,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRow,
+    MatPaginator
   ],
   providers: [],
   bootstrap: [AppComponent]
