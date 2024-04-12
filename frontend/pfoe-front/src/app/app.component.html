@@ -3,18 +3,20 @@
        *ngFor="let menuItem of menuItems"
   >
     <a class="text-light text-decoration-none" [routerLink]="menuItem.path">
-      {{menuItem.name}}
+      {{ menuItem.name }}
     </a>
   </div>
 
   <div class="ms-auto d-flex align-items-center px-2">
     <input placeholder="Wyszukaj" [formControl]="search" (keydown)="onKeyDown($event)" [value]="search">
     <button class="py-auto" mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon style="margin-bottom: 4px; padding-bottom: 0;" [ngStyle]="{'color': '#82B1FF'}" aria-hidden="false">account_circle</mat-icon>
+      <mat-icon style="margin-bottom: 4px; padding-bottom: 0;" [ngStyle]="{'color': '#82B1FF'}" aria-hidden="false">
+        account_circle
+      </mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <span *ngIf="isLoggedIn; else elseBlock;">
-       <button routerLink="settings" mat-menu-item>
+      <span *ngIf="userService._isLoggedIn; else elseBlock;">
+       <button [routerLink]="['/settings']" mat-menu-item>
           <span>Ustawienia</span>
         </button>
         <button (click)="logOut()" mat-menu-item>

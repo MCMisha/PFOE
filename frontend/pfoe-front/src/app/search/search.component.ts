@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      const query = params['q'];
+      const query = params[ 'q' ];
 
       if (query) {
         this.search(query);

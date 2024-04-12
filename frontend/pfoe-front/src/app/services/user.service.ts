@@ -10,6 +10,8 @@ import {User} from "../models/user";
 })
 export class UserService {
   loginSuccess = new Subject<string>();
+  _isLoggedIn: boolean = false;
+
   constructor(private http: HttpClient) {
   }
 

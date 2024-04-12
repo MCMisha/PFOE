@@ -18,26 +18,24 @@ export class AppComponent implements OnInit, OnDestroy {
   search = new FormControl('');
   login: string = '';
   subscription = new Subscription();
-  isLoggedIn: any = false;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(protected userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
     this.login = localStorage.getItem('login') || '';
     this.subscription.add(
       this.userService.loginSuccess.subscribe(login => {
-        if(this.login === '') {
+        if (this.login === '') {
           this.login = login;
         }
-        this.isLoggedIn = true;
+        this.userService._isLoggedIn = true;
         localStorage.setItem('login', login);
       })
     );
     this.subscription.add(
-      this.userService.isLoggedIn(this.login).subscribe(res =>
-      {
-        this.isLoggedIn = Boolean(res);
+      this.userService.isLoggedIn(this.login).subscribe(res => {
+        this.userService._isLoggedIn = Boolean(res);
       })
     )
   }
@@ -48,10 +46,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onKeyDown($event: KeyboardEvent) {
     if ($event.key === 'Enter') {
-      if(this.search.value) {
+      if (this.search.value) {
         const query: string = this.search.value.trim();
 
-        this.router.navigate(['/search'], {queryParams: {q: query}}).then( () => {
+        this.router.navigate(['/search'], {queryParams: {q: query}}).then(() => {
             this.search.setValue("");
           }
         );
@@ -61,10 +59,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logOut() {
     this.subscription.add(this.userService.logOut(this.login).subscribe(_ => {
-      this.isLoggedIn = false;
+      this.userService._isLoggedIn = false;
       this.login = '';
       window.location.reload();
     }));
-
   }
 }
