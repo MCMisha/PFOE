@@ -11,6 +11,7 @@ import {User} from "../models/user";
 export class UserService {
   loginSuccess = new Subject<string>();
   _isLoggedIn: boolean = false;
+  id: number | undefined;
 
   constructor(private http: HttpClient) {
   }
@@ -27,11 +28,11 @@ export class UserService {
     return this.http.post(`${environment.baseApiUri}/User/register`, user, httpOptions).pipe(catchError(this.handleError('register', user)));
   }
 
-  login(login: string, password: string) {
+  login(login: string, password: string): Observable<number> {
     const encodedLogin = encodeURIComponent(login);
     const encodedPassword = encodeURIComponent(password);
     this.loginSuccess.next(login);
-    return this.http.post(`${environment.baseApiUri}/User/login?login=${encodedLogin}&password=${encodedPassword}`, httpOptions).pipe();
+    return this.http.post<number>(`${environment.baseApiUri}/User/login?login=${encodedLogin}&password=${encodedPassword}`, httpOptions).pipe();
   }
 
   logOut(login: string) {
