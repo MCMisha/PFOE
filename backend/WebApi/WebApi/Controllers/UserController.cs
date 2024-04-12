@@ -49,7 +49,7 @@ public class UserController : Controller
         if (CheckUserFunc(decodedLogin, decodedPassword))
         {
             _userService.ResetLoginAttempts(user.Id);
-            return Ok();
+            return Ok(user.Id);
         }
         _userService.IncrementLoginAttempts(user.Id);
         
@@ -134,7 +134,7 @@ public class UserController : Controller
 
         return Ok(true);
     }
-    
+
     private IEnumerable<User> GetAllUsers()
     {
         return _userService.GetAllUsers();
