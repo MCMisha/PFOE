@@ -10,8 +10,6 @@ import {User} from "../models/user";
 })
 export class UserService {
   loginSuccess = new Subject<string>();
-  _isLoggedIn: boolean = false;
-  id: number | undefined;
 
   constructor(private http: HttpClient) {
   }
@@ -40,8 +38,12 @@ export class UserService {
     return this.http.delete(`${environment.baseApiUri}/User/logout?login=${encodedLogin}`, httpOptions).pipe();
   }
 
-  isLoggedIn(login: string) {
-    return this.http.get(`${environment.baseApiUri}/User/isLogged?login=${login}`, httpOptions).pipe(catchError(this.handleError('isLoggedIn', login)));
+  isLoggedIn(login: string | null): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.baseApiUri}/User/isLogged?login=${login}`, httpOptions).pipe(catchError(this.handleError<boolean>('isLoggedIn', false)));
+  }
+
+  getIdByLogin(login: string): Observable<number> {
+    return this.http.get<number>(`${environment.baseApiUri}/User/${login}`, httpOptions).pipe(catchError(this.handleError<number>("getByLogin", -1)));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

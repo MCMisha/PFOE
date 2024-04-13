@@ -10,7 +10,7 @@ import {UserService} from "../services/user.service";
   styleUrl: './settings.component.scss'
 })
 
-export class SettingsComponent implements OnInit { //todo: pobieranie userid zalogowanego uzytkownika
+export class SettingsComponent implements OnInit {
   selectedStyle: string | undefined;
   selectedFontSize: number | undefined;
   currentUserId: number | undefined;
@@ -22,18 +22,32 @@ export class SettingsComponent implements OnInit { //todo: pobieranie userid zal
   }
 
   ngOnInit() {
-    this.currentUserId = this.userService.id;
-  }
+    const login = localStorage.getItem('login');
 
-  onSaveChangesClick() {
-    if (this.selectedFontSize && this.selectedStyle && this.currentUserId) {
-      this.settingsService.saveSettings(this.currentUserId, this.selectedStyle, this.selectedFontSize).subscribe(() => {
-        this.router.navigate(['/']);
-        this.snackBar.open('Ustawienia zapisane.', '', {panelClass: 'snackbar'})._dismissAfter(3000);
+    if (login) {
+      this.userService.getIdByLogin(login).subscribe(id => {
+        this.currentUserId = id;
       })
     }
     else {
-      this.snackBar.open('Nie wybrano ustawień!', '', {panelClass: 'snackbar'})._dismissAfter(1000);
+      this.snackBar.open('Błąd pobierania użytkownika.')._dismissAfter(1000);
+    }
+  }
+
+  onSaveChangesClick() {
+    if (this.currentUserId) {
+      if (this.selectedFontSize && this.selectedStyle) {
+        this.settingsService.saveSettings(this.currentUserId, this.selectedStyle, this.selectedFontSize).subscribe(() => {
+          void this.router.navigate(['/']);
+          this.snackBar.open('Ustawienia zapisane.')._dismissAfter(3000);
+        })
+      }
+      else {
+        this.snackBar.open('Nie wybrano ustawień!')._dismissAfter(1000);
+      }
+    }
+    else {
+      this.snackBar.open('Błąd pobierania użytkownika.')._dismissAfter(1000);
     }
   }
 }

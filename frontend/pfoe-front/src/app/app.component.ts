@@ -13,13 +13,14 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'pfoe-front';
   menuItems = [
     {path: '', name: 'Strona główna'},
-    {path: 'events', name: 'Wydarzenia'},
+    {path: 'events', name: 'Wydarzenia'}
   ];
   search = new FormControl('');
   login: string = '';
   subscription = new Subscription();
+  isLoggedIn: any = false;
 
-  constructor(protected userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -29,13 +30,13 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.login === '') {
           this.login = login;
         }
-        this.userService._isLoggedIn = true;
+        this.isLoggedIn = true;
         localStorage.setItem('login', login);
       })
     );
     this.subscription.add(
       this.userService.isLoggedIn(this.login).subscribe(res => {
-        this.userService._isLoggedIn = Boolean(res);
+        this.isLoggedIn = Boolean(res);
       })
     )
   }
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logOut() {
     this.subscription.add(this.userService.logOut(this.login).subscribe(_ => {
-      this.userService._isLoggedIn = false;
+      this.isLoggedIn = false;
       this.login = '';
       window.location.reload();
     }));

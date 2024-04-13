@@ -1,8 +1,10 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {UserService} from "../services/user.service";
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {catchError, map, of, Subscription} from "rxjs";
+import {catchError, debounceTime, map, of, Subscription, switchMap, throwError} from "rxjs";
+import {User} from "../models/user";
+import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
 
 @Component({
@@ -42,8 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const _login = this.loginForm.value.login!;
     const _password = this.loginForm.value.password!;
     this.userService.login(_login, _password).pipe(
-      map(userId => {
-        this.userService.id = userId;
+      map(_ => {
         this.userService.loginSuccess.next(_login);
         return _login;
       }),
