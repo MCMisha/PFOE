@@ -45,15 +45,30 @@ public class UserController : Controller
                 return NotFound();
             }
         }
-        
+
         if (CheckUserFunc(decodedLogin, decodedPassword))
         {
             _userService.ResetLoginAttempts(user.Id);
             return Ok();
         }
+
         _userService.IncrementLoginAttempts(user.Id);
-        
+
         return NotFound();
+    }
+
+    [HttpDelete("logout")]
+    public IActionResult Logout(string login)
+    {
+        string decodedLogin = HttpUtility.UrlDecode(login);
+        var user = _userService.GetByLogin(decodedLogin);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        _userService.DeleteLoginAttempts(user.Id);
+        return Ok();
     }
 
     [HttpGet("checkEmail")]
@@ -86,7 +101,8 @@ public class UserController : Controller
         if (newUser != null)
         {
             TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
-            _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName), textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), user.Login);
+            _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
+                textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), user.Login);
             return Ok(newUser);
         }
 
@@ -97,7 +113,7 @@ public class UserController : Controller
     public IActionResult IsLogged(string login)
     {
         var user = _userService.GetByLogin(login);
-        
+
         if (user == null)
         {
             return Ok(false);
@@ -108,13 +124,15 @@ public class UserController : Controller
         {
             return Ok(false);
         }
+
         if (checkLoginAttempts.FailedLoginAttempts == 3)
         {
             return Ok(false);
         }
+
         TimeSpan difference = DateTime.Now - checkLoginAttempts.LastLoginTime;
-        
-        if (difference.Hours > 3)
+
+        if (difference.Hours >= 3)
         {
             return Ok(false);
         }
@@ -122,6 +140,23 @@ public class UserController : Controller
         return Ok(true);
     }
 
+    private IEnumerable<User> GetAllUsers()
+    {
+        return _userService.GetAllUsers();
+    }
+
+    [HttpGet("{login}")]
+    public IActionResult GetIdByLogin(string login)
+    {
+        var user = _userService.GetByLogin(login);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(user.Id);
+    }
     [HttpGet("getById/{id:int}")]
     public IActionResult GetById(int id)
     {

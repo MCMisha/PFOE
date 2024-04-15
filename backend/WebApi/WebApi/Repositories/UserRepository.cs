@@ -29,6 +29,10 @@ public class UserRepository
     {
         return _appDbContext.Users.FirstOrDefault(user => user.Login == login);
     }
+    public User? GetById(int userId)
+    {
+        return _appDbContext.Users.FirstOrDefault(user => user.Id == userId);
+    }
 
     public User? GetById(int id)
     {
@@ -39,4 +43,6 @@ public class UserRepository
     {
         return _appDbContext.Users.FirstOrDefault(user => user.Email == email) != null;
     }
+
+    
 }

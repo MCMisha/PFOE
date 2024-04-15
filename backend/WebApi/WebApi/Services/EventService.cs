@@ -55,4 +55,9 @@ public class EventService
     {
         return _eventRepository.GetMostPopular();
     }
+
+    public List<Event> Search(string query)
+    {
+        return _eventRepository.Search(query);
+    }
 }

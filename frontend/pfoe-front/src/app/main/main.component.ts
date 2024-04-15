@@ -20,13 +20,11 @@ export class MainComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.eventService.getMostPopular().subscribe(events => {
         this.mostPopular = events;
-        console.log(this.mostPopular);
       })
     );
     this.subscription.add(
       this.eventService.getNewest().subscribe(events => {
         this.newest = events;
-        console.log(this.newest);
       })
     );
   }
