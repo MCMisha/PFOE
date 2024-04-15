@@ -1,26 +1,35 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {Subscription} from "rxjs";
+import {of, Subject, Subscription, switchMap, takeUntil} from "rxjs";
 import {UserService} from "./services/user.service";
 import {Router} from "@angular/router";
+import {BodyClassService} from "./services/body-class.service";
+import {FontSize} from "./enums/font-size";
+import {BgClass} from "./enums/bg-class";
+import {SettingsService} from "./services/settings.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss', '../styles.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'pfoe-front';
+  private destroy$ = new Subject<void>();
   menuItems = [
     {path: '', name: 'Strona główna'},
     {path: 'events', name: 'Wydarzenia'}
   ];
+  fontSizeDefault = FontSize._16PX;
+  pageStyleDefault = BgClass.LIGHT;
   search = new FormControl('');
   login: string = '';
   subscription = new Subscription();
   isLoggedIn: any = false;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService,
+              private settingsService: SettingsService,
+              private bodyClassService: BodyClassService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -35,13 +44,32 @@ export class AppComponent implements OnInit, OnDestroy {
       })
     );
     this.subscription.add(
-      this.userService.isLoggedIn(this.login).subscribe(res => {
-        this.isLoggedIn = Boolean(res);
+      this.userService.isLoggedIn(this.login).pipe(
+        switchMap(res => {
+          this.isLoggedIn = Boolean(res);
+          if (!this.isLoggedIn) {
+            this.bodyClassService.setStyles(this.pageStyleDefault, this.fontSizeDefault);
+            return of(null);
+          }
+          else {
+            return this.userService.getIdByLogin(this.login).pipe(
+              switchMap(id => this.settingsService.getSettings(id))
+            );
+          }
+        }),
+        takeUntil(this.destroy$)
+      ).subscribe(settings => {
+        if (settings) {
+          this.bodyClassService.setStyles(settings.style, settings.fontSize);
+        }
       })
     )
+
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.subscription.unsubscribe();
   }
 
