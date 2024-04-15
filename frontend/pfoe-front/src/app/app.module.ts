@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {MatIconModule} from '@angular/material/icon';
@@ -20,8 +20,12 @@ import {
   MatTable
 } from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
+import { SettingsComponent } from './settings/settings.component';
+import {MatOption, MatSelect} from "@angular/material/select";
 @NgModule({
   declarations: [
+    AppComponent,
+    SettingsComponent,
     AppComponent,
     SearchComponent
   ],
@@ -34,6 +38,10 @@ import {MatPaginator} from "@angular/material/paginator";
     MatButtonModule,
     MatMenuModule,
     AppRoutingModule,
+    HttpClientModule,
+    MatSelect,
+    MatOption,
+    FormsModule,
     HttpClientModule,
     MatTable,
     MatHeaderCell,

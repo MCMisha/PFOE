@@ -10,6 +10,7 @@ import {User} from "../models/user";
 })
 export class UserService {
   loginSuccess = new Subject<string>();
+
   constructor(private http: HttpClient) {
   }
 
@@ -25,11 +26,11 @@ export class UserService {
     return this.http.post(`${environment.baseApiUri}/User/register`, user, httpOptions).pipe(catchError(this.handleError('register', user)));
   }
 
-  login(login: string, password: string) {
+  login(login: string, password: string): Observable<number> {
     const encodedLogin = encodeURIComponent(login);
     const encodedPassword = encodeURIComponent(password);
     this.loginSuccess.next(login);
-    return this.http.post(`${environment.baseApiUri}/User/login?login=${encodedLogin}&password=${encodedPassword}`, httpOptions).pipe();
+    return this.http.post<number>(`${environment.baseApiUri}/User/login?login=${encodedLogin}&password=${encodedPassword}`, httpOptions).pipe();
   }
 
   logOut(login: string) {
@@ -37,8 +38,12 @@ export class UserService {
     return this.http.delete(`${environment.baseApiUri}/User/logout?login=${encodedLogin}`, httpOptions).pipe();
   }
 
-  isLoggedIn(login: string) {
-    return this.http.get(`${environment.baseApiUri}/User/isLogged?login=${login}`, httpOptions).pipe(catchError(this.handleError('isLoggedIn', login)));
+  isLoggedIn(login: string | null): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.baseApiUri}/User/isLogged?login=${login}`, httpOptions).pipe(catchError(this.handleError<boolean>('isLoggedIn', false)));
+  }
+
+  getIdByLogin(login: string): Observable<number> {
+    return this.http.get<number>(`${environment.baseApiUri}/User/${login}`, httpOptions).pipe(catchError(this.handleError<number>("getByLogin", -1)));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

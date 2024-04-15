@@ -1,6 +1,6 @@
 export interface Settings {
   id: number;
-  user_id: number;
+  userId: number;
   style: string;
-  font_size: number;
+  fontSize: number;
 }

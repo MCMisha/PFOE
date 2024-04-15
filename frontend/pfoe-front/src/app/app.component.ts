@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.login = localStorage.getItem('login') || '';
     this.subscription.add(
       this.userService.loginSuccess.subscribe(login => {
-        if(this.login === '') {
+        if (this.login === '') {
           this.login = login;
         }
         this.isLoggedIn = true;
@@ -35,8 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
       })
     );
     this.subscription.add(
-      this.userService.isLoggedIn(this.login).subscribe(res =>
-      {
+      this.userService.isLoggedIn(this.login).subscribe(res => {
         this.isLoggedIn = Boolean(res);
       })
     )
@@ -48,10 +47,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onKeyDown($event: KeyboardEvent) {
     if ($event.key === 'Enter') {
-      if(this.search.value) {
+      if (this.search.value) {
         const query: string = this.search.value.trim();
 
-        this.router.navigate(['/search'], {queryParams: {q: query}}).then( () => {
+        this.router.navigate(['/search'], {queryParams: {q: query}}).then(() => {
             this.search.setValue("");
           }
         );
@@ -65,6 +64,5 @@ export class AppComponent implements OnInit, OnDestroy {
       this.login = '';
       window.location.reload();
     }));
-
   }
 }
