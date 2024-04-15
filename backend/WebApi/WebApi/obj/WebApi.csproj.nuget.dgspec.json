@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\olaf\\RiderProjects\\PFOE-fix\\backend\\WebApi\\WebApi\\WebApi.csproj": {}
+    "E:\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\olaf\\RiderProjects\\PFOE-fix\\backend\\WebApi\\WebApi\\WebApi.csproj": {
+    "E:\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\olaf\\RiderProjects\\PFOE-fix\\backend\\WebApi\\WebApi\\WebApi.csproj",
+        "projectUniqueName": "E:\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "C:\\Users\\olaf\\RiderProjects\\PFOE-fix\\backend\\WebApi\\WebApi\\WebApi.csproj",
-        "packagesPath": "C:\\Users\\olaf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\olaf\\RiderProjects\\PFOE-fix\\backend\\WebApi\\WebApi\\obj\\",
+        "projectPath": "E:\\PFOE\\backend\\WebApi\\WebApi\\WebApi.csproj",
+        "packagesPath": "C:\\Users\\misha\\.nuget\\packages\\",
+        "outputPath": "E:\\PFOE\\backend\\WebApi\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\olaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\misha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -102,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.415\\RuntimeIdentifierGraph.json"
         }
       }
     }
