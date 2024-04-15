@@ -13,9 +13,9 @@
         <mat-form-field class="select-field">
             <mat-label>Rozmiar czcionki *</mat-label>
             <mat-select [(ngModel)]="selectedFontSize">
-                <mat-option value="12">12</mat-option>
-                <mat-option value="16">16</mat-option>
-                <mat-option value="20">20</mat-option>
+                <mat-option [value]="FontSize._12PX">12</mat-option>
+                <mat-option [value]="FontSize._16PX">16</mat-option>
+                <mat-option [value]="FontSize._20PX">20</mat-option>
             </mat-select>
         </mat-form-field>
 
