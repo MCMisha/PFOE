@@ -1,1 +1,55 @@
-<p>events works!</p>
+<div (click)="loseFocus()">
+    <div class="button-container" style="margin-top: 25px; margin-left: 30px">
+        <button mat-raised-button color="primary" class="rounded-button" (click)="handleNew()">NOWE</button>
+        <button mat-raised-button color="accent" class="rounded-button" (click)="handleEdit()">EDYTUJ</button>
+        <button mat-raised-button color="warn" class="rounded-button" (click)="handleDelete()">USUŃ</button>
+    </div>
+
+    <div class="table-container" style="margin: 30px 50px 30px 50px">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+                <td mat-cell *matCellDef="let event">
+                    <a (click)="loseFocus(); $event.stopPropagation()" class="text-decoration-none text-black" routerLink="/event/{{event.id}}">{{ event.name }}</a>
+            </ng-container>
+
+            <!-- Location Column -->
+            <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef>Lokalizacja</th>
+                <td mat-cell *matCellDef="let event">{{ event.location }}</td>
+            </ng-container>
+
+            <!-- Category Column -->
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef>Kategoria</th>
+                <td mat-cell *matCellDef="let event">{{ event.category }}</td>
+            </ng-container>
+
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Data wydarzenia</th>
+                <td mat-cell *matCellDef="let event">{{ event.date }}</td>
+            </ng-container>
+
+            <!-- Participant Number Column -->
+            <ng-container matColumnDef="participantNumber">
+                <th mat-header-cell *matHeaderCellDef>Ilość miejsc</th>
+                <td mat-cell *matCellDef="let event">{{ event.participantNumber }}</td>
+            </ng-container>
+
+            <!-- Organizer Column -->
+            <ng-container matColumnDef="organizer">
+                <th mat-header-cell *matHeaderCellDef>Organizator</th>
+                <td mat-cell *matCellDef="let event">{{ event.organizerName }}</td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="selectRow(row); $event.stopPropagation()"
+                [ngClass]="{'highlightTableColor': selectedRow === row}"></tr>
+        </table>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

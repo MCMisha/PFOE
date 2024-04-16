@@ -157,4 +157,17 @@ public class UserController : Controller
 
         return Ok(user.Id);
     }
+
+    [HttpGet("{id:int}")]
+    public IActionResult GetById(int id)
+    {
+        var user = _userService.GetById(id);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(user.FirstName + " " + user.LastName);
+    }
 }
