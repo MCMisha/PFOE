@@ -7,7 +7,7 @@ public class UserService
 {
     private readonly UserRepository _userRepository;
     private readonly FailedLoginRepository _failedLoginRepository;
-    public Func<User?>? GetByLoginFunc {get; init;} //właściwość dodana na potrzeby testów jednostkowych
+    public Func<User?>? GetByLoginFunc { get; init; } //właściwość dodana na potrzeby testów jednostkowych
 
     public UserService(IConfiguration configuration)
     {
@@ -23,7 +23,7 @@ public class UserService
         {
             return false;
         }
-        
+
         var failedLogin = _failedLoginRepository.FindLoginAttemptsByUserId(user.Id);
         if (failedLogin == null && user.Password == password)
         {
@@ -36,6 +36,7 @@ public class UserService
             _failedLoginRepository.IncrementLoginAttempts(user.Id);
             return false;
         }
+
         return true;
     }
 
@@ -47,7 +48,6 @@ public class UserService
 
     public bool CheckEmail(string email)
     {
-        
         return _userRepository.CheckEmail(email);
     }
 
@@ -60,20 +60,15 @@ public class UserService
 
         return _userRepository.GetByLogin(login);
     }
-    
+
     public User? GetById(int userId)
     {
         return _userRepository.GetById(userId);
     }
-    
+
     public IEnumerable<User> GetAllUsers()
     {
         return _userRepository.GetAllUsers();
-    }
-
-    public User? GetById(int id)
-    {
-        return _userRepository.GetById(id);
     }
 
     public User? AddNewUser(User user)
@@ -83,6 +78,7 @@ public class UserService
         {
             return null;
         }
+
         return _userRepository.AddNewUser(user);
     }
 
@@ -100,11 +96,9 @@ public class UserService
     {
         _failedLoginRepository.ResetLoginAttempts(userId);
     }
-    
+
     public void DeleteLoginAttempts(int userId)
     {
         _failedLoginRepository.DeleteLoginAttempts(userId);
     }
-    
-    
 }

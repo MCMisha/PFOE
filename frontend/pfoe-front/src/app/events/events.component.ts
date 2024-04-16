@@ -55,9 +55,10 @@ export class EventsComponent implements OnInit {
         this.dataSource.data = this.events as EventModelWithOrganizerName[];
 
         this.dataSource.data.forEach(event => {
-          this.userService.getById(event.organizer as number).subscribe((user) => {
-            const organizer: User | null = user as User | null;
-            event.organizerName = organizer ? organizer.firstName + " " + organizer.lastName : 'Unknown';
+          this.userService.getById(event.organizer as number).subscribe((organizerName) => {
+            // const organizer: User | null = user as User | null;
+            // event.organizerName = organizer ? organizer.firstName + " " + organizer.lastName : 'Unknown';
+            event.organizerName = organizerName ? organizerName : "Unknown";
           });
         });
 
@@ -70,17 +71,14 @@ export class EventsComponent implements OnInit {
   selectedRow: EventModelWithOrganizerName | null = null;
 
   handleNew() {
-    console.log('New button clicked');
     // Add your logic for the "New" button here
   }
 
   handleEdit() {
-    console.log('Edit button clicked');
     // Add your logic for the "Edit" button here
   }
 
   handleDelete() {
-    console.log('Delete button clicked');
     // Add your logic for the "Delete" button here
     if (this.selectedRow != null) {
       this.eventService.deleteEvent(this.selectedRow.id as number)
@@ -88,7 +86,8 @@ export class EventsComponent implements OnInit {
           this.loadEvents();
           this.selectedRow = null;
         });
-    } else {
+    }
+    else {
       this.dialog.open(NoRowSelectedDialogComponent, {
         data: {
           width: '250px',
@@ -101,7 +100,8 @@ export class EventsComponent implements OnInit {
   selectRow(row: EventModelWithOrganizerName): void {
     if (this.selectedRow == null) {
       this.selectedRow = row;
-    } else {
+    }
+    else {
       this.selectedRow = null;
     }
   }
@@ -110,13 +110,13 @@ export class EventsComponent implements OnInit {
 @Component({
   selector: 'no-row-selected-dialog',
   template: `
-    <h2 mat-dialog-title>Błąd</h2>
-    <mat-dialog-content>
-      <p>{{ data.message }}</p>
-    </mat-dialog-content>
-    <mat-dialog-actions style="justify-content: flex-end">
-      <button mat-button [mat-dialog-close]="'OK'">OK</button>
-    </mat-dialog-actions>
+      <h2 mat-dialog-title>Błąd</h2>
+      <mat-dialog-content>
+          <p>{{ data.message }}</p>
+      </mat-dialog-content>
+      <mat-dialog-actions style="justify-content: flex-end">
+          <button mat-button [mat-dialog-close]="'OK'">OK</button>
+      </mat-dialog-actions>
   `,
   imports: [
     MatDialogContent,
