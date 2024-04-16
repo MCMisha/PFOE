@@ -35,23 +35,22 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.login = localStorage.getItem('login') || '';
     this.subscription.add(
-      this.userService.loginSuccess.subscribe(login => {
-        if (this.login === '') {
-          this.login = login;
-        }
-        this.isLoggedIn = true;
-        localStorage.setItem('login', login);
-      })
-    );
-    this.subscription.add(
-      this.userService.isLoggedIn(this.login).pipe(
+      this.userService.loginSuccess.pipe(
+        switchMap(login => {
+          if (this.login === '') {
+            this.login = login;
+          }
+          this.isLoggedIn = true;
+
+          localStorage.setItem('login', login);
+          return this.userService.isLoggedIn(this.login);
+        }),
         switchMap(res => {
           this.isLoggedIn = Boolean(res);
           if (!this.isLoggedIn) {
             this.bodyClassService.setStyles(this.pageStyleDefault, this.fontSizeDefault);
             return of(null);
-          }
-          else {
+          } else {
             return this.userService.getIdByLogin(this.login).pipe(
               switchMap(id => this.settingsService.getSettings(id))
             );
@@ -63,8 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.bodyClassService.setStyles(settings.style, settings.fontSize);
         }
       })
-    )
-
+    );
   }
 
   ngOnDestroy() {
