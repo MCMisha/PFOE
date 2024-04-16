@@ -2,7 +2,6 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {EventService} from "../services/event.service";
 import {UserService} from "../services/user.service";
-import {User} from "../models/user";
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -66,7 +65,6 @@ export class EventsComponent implements OnInit {
       });
   }
 
-
   columnsToDisplay = ['name', 'location', 'category', 'date', 'participantNumber', 'organizer'];
   selectedRow: EventModelWithOrganizerName | null = null;
 
@@ -104,6 +102,11 @@ export class EventsComponent implements OnInit {
     else {
       this.selectedRow = null;
     }
+    this.selectedRow = row;
+  }
+
+  loseFocus() {
+    this.selectedRow = null;
   }
 }
 
