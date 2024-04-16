@@ -1,1 +1,16 @@
-<p>events works!</p>
+<div class="container">
+  <div class="row justify-content-start">
+    <mat-card class="mt-2" style="background-color: #D9D9D9; max-width: 300px; border: 2px solid black;">
+      <mat-card-header class="justify-content-center h5">
+        Przykladowe wydarzenie
+      </mat-card-header>
+      <mat-card-content>
+        <ul *ngFor="let event of tempEvent">
+          <li>
+            <a class="text-decoration-none text-black" routerLink="/event/{{event.id}}">{{ event.name }}</a>
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -16,7 +16,7 @@ export class EventService {
     return this.http.post(`${environment.baseApiUri}/Event/new`, event, httpOptions).pipe(catchError(this.handleError('createEvent', event)));
   }
 
-  getEvent(id: number) {
+  getEvent(id: number):Observable<any> {
     return this.http.get(`${environment.baseApiUri}/Event/${id}`, httpOptions).pipe(catchError(this.handleError('getEvent', id)));
   }
 

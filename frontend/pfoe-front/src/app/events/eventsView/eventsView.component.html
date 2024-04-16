@@ -1,0 +1,42 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details</title>
+  <style>
+    .event-container {
+      background-color: #d9d9d9; /* Szary kolor tła */
+      border: 2px solid black; /* Czarna obramówka */
+      border-radius: 5px; /* Zaokrąglone rogi */
+      padding: 20px; /* Wewnętrzne wypełnienie */
+      width: fit-content; /* Dopasowuje szerokość do zawartości */
+    }
+
+    .event-details {
+
+    }
+
+    #signup-button {
+      background-color: #4758b8; /* Niebieski kolor tła */
+      color: white; /* Biały kolor tekstu */
+      border: none; /* Brak obramowania */
+      border-radius: 5px; /* Zaokrąglone rogi */
+      padding: 7px 20px; /* Wewnętrzne wypełnienie */
+      cursor: pointer; /* Kursor wskazujący */
+      display: block; /* Element blokowy, aby można było ustawić marginesy */
+      margin: 20px auto 0; /* Marginesy: góra, auto (poziome wyśrodkowanie), brak marginesu na dole */
+    }
+  </style>
+</head>
+<body>
+
+<div class="event-container" style="margin-left: 75px; margin-top: 10px;">
+  <div class="event-details" style=" margin-bottom: 40px">
+    <h3 style="margin-bottom: 30px;"><strong>{{currentEvent?.name}}</strong></h3>
+    <p><strong>Data: </strong>{{currentEvent?.date}}</p>
+    <p><strong>Kategoria: </strong>{{currentEvent?.category}}</p>
+    <p><strong>Ilość uczestników: </strong>{{currentEvent?.participant_number}}</p>
+    <p><strong>Miejsce: </strong>{{currentEvent?.location}}</p>
+  </div>
+  <button id="signup-button" (click)="onSignUpClick()">Zapisz się</button>
+</div>
+</body>
