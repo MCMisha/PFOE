@@ -34,6 +34,27 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.login = localStorage.getItem('login') || '';
+    if (this.login !== '') {
+      this.userService.isLoggedIn(this.login).pipe(
+        switchMap(res => {
+          this.isLoggedIn = Boolean(res);
+          if (!this.isLoggedIn) {
+            this.bodyClassService.setStyles(this.pageStyleDefault, this.fontSizeDefault);
+            return of(null);
+          } else {
+            return this.userService.getIdByLogin(this.login).pipe(
+              switchMap(id => this.settingsService.getSettings(id))
+            );
+          }
+        }),
+        takeUntil(this.destroy$)
+      ).subscribe(settings => {
+        if (settings) {
+          this.bodyClassService.setStyles(settings.style, settings.fontSize);
+        }
+      });
+    }
+
     this.subscription.add(
       this.userService.loginSuccess.pipe(
         switchMap(login => {
