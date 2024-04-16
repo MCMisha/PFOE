@@ -46,8 +46,8 @@ export class UserService {
     return this.http.get<number>(`${environment.baseApiUri}/User/${login}`, httpOptions).pipe(catchError(this.handleError<number>("getByLogin", -1)));
   }
 
-  getById(id: number) {
-    return this.http.get(`${environment.baseApiUri}/User/getById/${id}`, httpOptions).pipe(catchError(this.handleError('getUser', id)));
+  getById(id: number): Observable<string | null> {
+    return this.http.get(`${environment.baseApiUri}/User/${id}`, {responseType: 'text'}).pipe(catchError(this.handleError<string | null>('getUser', null)));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
