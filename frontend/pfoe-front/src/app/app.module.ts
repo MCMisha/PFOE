@@ -25,6 +25,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import { NewEventComponent } from './new-event/new-event.component';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
+import {RouterModule} from "@angular/router";
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,13 +50,11 @@ import { EditEventComponent } from './edit-event/edit-event.component';
     MatOption,
     FormsModule,
     HttpClientModule,
+    RouterModule,
     MatTable,
     MatHeaderCell,
     MatCellDef,
     MatColumnDef,
-    MatCell,
-    MatCell,
-    MatCell,
     MatCell,
     MatRowDef,
     MatHeaderCellDef,
