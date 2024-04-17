@@ -1,7 +1,7 @@
 import {Router} from '@angular/router';
 import {inject} from "@angular/core";
 
-import {UserService} from "./services/user.service";
+import {UserService} from "../services/user.service";
 import {catchError, map, of} from "rxjs";
 
 export const authGuard = () => {

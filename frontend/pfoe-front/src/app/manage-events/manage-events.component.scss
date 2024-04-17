@@ -22,16 +22,13 @@
   padding-bottom: 33px;
 }
 
-
-.table-container {
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
-  font-size: 20px;
-}
-
 .highlightTableColor {
   background-color: gray;
+}
+
+.mat-button-disabled {
+  color: #aaa !important; /* Светлый цвет текста для отключенных кнопок */
+  background-color: #fff !important; /* Темный фон для отключенных кнопок */
 }
 
 .shadowed-paginator {

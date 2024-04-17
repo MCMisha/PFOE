@@ -23,6 +23,12 @@ public class EventController : Controller
         return _eventService.GetAll();
     }
     
+    [HttpGet("organizer/{organizerId}")]
+    public ActionResult<List<Event>> GetByOrganizerId(int organizerId)
+    {
+        return _eventService.GetByOrganizer(organizerId);
+    }
+    
     [HttpGet("newest")]
     public ActionResult<List<Event>?> GetNewest()
     {

@@ -23,6 +23,11 @@ public class EventRepository
     {
         return _appDbContext.Events.OrderByDescending(x => x.CreationDate).Take(5).ToList();
     }
+    
+    public List<Event> GetByOrganizerId(int organizerId)
+    {
+        return _appDbContext.Events.Where(x => x.Organizer == organizerId).ToList();
+    }
 
     public Event? GetById(int id)
     {

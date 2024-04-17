@@ -22,12 +22,18 @@ import {
 import {MatPaginator} from "@angular/material/paginator";
 import { SettingsComponent } from './settings/settings.component';
 import {MatOption, MatSelect} from "@angular/material/select";
+import { NewEventComponent } from './new-event/new-event.component';
+import { ManageEventsComponent } from './manage-events/manage-events.component';
+import { EditEventComponent } from './edit-event/edit-event.component';
 @NgModule({
   declarations: [
     AppComponent,
     SettingsComponent,
     AppComponent,
-    SearchComponent
+    SearchComponent,
+    NewEventComponent,
+    ManageEventsComponent,
+    EditEventComponent
   ],
   imports: [
     BrowserModule,

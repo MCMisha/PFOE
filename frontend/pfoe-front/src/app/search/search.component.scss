@@ -11,3 +11,7 @@
 .no-events-message p {
   font-size: 16px;
 }
+
+.shadowed-paginator {
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15), -2px 2px 5px rgba(0, 0, 0, 0.15);
+}
