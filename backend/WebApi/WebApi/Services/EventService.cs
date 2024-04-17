@@ -17,6 +17,11 @@ public class EventService
     {
         return _eventRepository.GetAll();
     }
+    
+    public List<Event> GetByOrganizer(int organizerId)
+    {
+        return _eventRepository.GetByOrganizerId(organizerId);
+    }
 
     public Event? Get(int id)
     {

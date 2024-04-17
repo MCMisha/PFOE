@@ -20,6 +20,10 @@ export class EventService {
     return this.http.get(`${environment.baseApiUri}/Event/${id}`, httpOptions).pipe(catchError(this.handleError('getEvent', id)));
   }
 
+  getEventsByOrganizerId(organizerId: number) {
+    return this.http.get(`${environment.baseApiUri}/Event/organizer/${organizerId}`, httpOptions).pipe(catchError(this.handleError('getByOrganizerId',)));
+  }
+
   getNewest():Observable<any> {
     return this.http.get(`${environment.baseApiUri}/Event/newest`, httpOptions).pipe(catchError(this.handleError('getNewest')));
   }

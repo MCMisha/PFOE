@@ -1,7 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EventService} from "../services/event.service";
-import {Subscription} from "rxjs";
+import {of, Subscription, switchMap, takeUntil} from "rxjs";
 import {EventModel} from "../models/eventModel";
+import {UserService} from "../services/user.service";
+import {BodyClassService} from "../services/body-class.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -13,10 +16,21 @@ export class MainComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   mostPopular: EventModel[] = [];
   newest: EventModel[] = [];
-  constructor(private eventService: EventService) {
+  isLoggedIn: any = false;
+  login: string = '';
+
+  constructor(private eventService: EventService,
+              private router: Router,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
+    this.login = localStorage.getItem('login') || '';
+    if (this.login !== '') {
+      this.userService.isLoggedIn(this.login).subscribe(res => {
+        this.isLoggedIn = Boolean(res);
+      })
+    }
     this.subscription.add(
       this.eventService.getMostPopular().subscribe(events => {
         this.mostPopular = events;
@@ -31,5 +45,13 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  onNewEventClick() {
+    this.router.navigate(['/event/new']);
+  }
+
+  onManageEventsClick() {
+    this.router.navigate(['/event/manage']);
   }
 }
