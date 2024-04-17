@@ -75,7 +75,7 @@ export class ManageEventsComponent implements OnInit, OnDestroy {
   selectedRow: EventModelWithOrganizerName | null = null;
 
   handleNew() {
-    // Add your logic for the "New" button here
+    this.router.navigate(['/event/new']);
   }
 
   handleEdit() {
