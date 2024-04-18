@@ -8,6 +8,8 @@ import {NoRowSelectedDialogComponent} from "../events/events.component";
 import {EventModel} from "../models/eventModel";
 import {Subject, Subscription, switchMap, takeUntil} from "rxjs";
 import {Router} from "@angular/router";
+import {BodyClassService} from "../services/body-class.service";
+import {SettingsService} from "../services/settings.service";
 
 interface EventModelWithOrganizerName {
   id?: number;
@@ -31,12 +33,14 @@ export class ManageEventsComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<EventModel> = new MatTableDataSource<EventModel>();
   events: EventModel[] = [];
   currentUserId: number | undefined;
+  isDarkStyle = false;
   private subscription = new Subscription();
   @ViewChild(MatPaginator) paginator!: MatPaginator
   private destroy$ = new Subject<void>();
 
   constructor(private eventService: EventService,
               private userService: UserService,
+              private settingsService: SettingsService,
               private router: Router,
               private dialog: MatDialog) {
   }
@@ -54,6 +58,16 @@ export class ManageEventsComponent implements OnInit, OnDestroy {
   loadEvents(): void {
     const login = localStorage.getItem('login');
     if (login) {
+      this.subscription.add(
+        this.userService.getIdByLogin(login).pipe(
+          switchMap(id => {
+            this.currentUserId = id;
+            return this.settingsService.getSettings(this.currentUserId);
+          })
+        ).subscribe(settings => {
+          this.isDarkStyle = settings.style === 'dark';
+        })
+      );
       this.subscription.add(
         this.userService.getIdByLogin(login).pipe(
           switchMap(id => {
@@ -79,7 +93,7 @@ export class ManageEventsComponent implements OnInit, OnDestroy {
   }
 
   handleEdit() {
-    this.router.navigate(['/event/edit'], { queryParams:{id: this.selectedRow?.id}});
+    this.router.navigate(['/event/edit'], {queryParams: {id: this.selectedRow?.id}});
   }
 
   handleDelete() {
@@ -90,8 +104,7 @@ export class ManageEventsComponent implements OnInit, OnDestroy {
           this.loadEvents();
           this.selectedRow = null;
         });
-    }
-    else {
+    } else {
       this.dialog.open(NoRowSelectedDialogComponent, {
         data: {
           width: '250px',
@@ -104,8 +117,7 @@ export class ManageEventsComponent implements OnInit, OnDestroy {
   selectRow(row: EventModelWithOrganizerName): void {
     if (this.selectedRow == null) {
       this.selectedRow = row;
-    }
-    else {
+    } else {
       this.selectedRow = null;
     }
     this.selectedRow = row;

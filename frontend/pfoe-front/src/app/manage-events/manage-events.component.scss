@@ -26,9 +26,18 @@
   background-color: gray;
 }
 
-.mat-button-disabled {
-  color: #aaa !important; /* Светлый цвет текста для отключенных кнопок */
-  background-color: #fff !important; /* Темный фон для отключенных кнопок */
+.dark .mat-mdc-raised-button[disabled], .mat-mdc-raised-button.mat-mdc-button-disabled {
+  cursor: default;
+  pointer-events: none;
+  color: gray;
+  background-color: white;
+}
+
+.light .mat-mdc-raised-button[disabled], .mat-mdc-raised-button.mat-mdc-button-disabled{
+  cursor: default;
+  pointer-events: none;
+  color: black;
+  background-color: lightgray;
 }
 
 .shadowed-paginator {
