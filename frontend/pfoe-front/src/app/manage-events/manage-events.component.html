@@ -1,7 +1,7 @@
 <div (click)="loseFocus()">
   <div class="button-container" [ngStyle]="{'margin-top': '25px', 'margin-left': '30px'}">
     <button mat-raised-button color="primary" class="rounded-button" (click)="handleNew()">NOWE</button>
-    <button mat-raised-button color="accent" class="rounded-button" [disabled]="!selectedRow" (click)="handleEdit()">EDYTUJ</button>
+    <button mat-raised-button color="accent" [ngClass]="isDarkStyle ? 'dark' : 'light'" class="rounded-button" [disabled]="!selectedRow" (click)="handleEdit()">EDYTUJ</button>
     <button mat-raised-button color="warn" class="rounded-button" [disabled]="!selectedRow" (click)="handleDelete()">USUŃ</button>
   </div>
   <div>
