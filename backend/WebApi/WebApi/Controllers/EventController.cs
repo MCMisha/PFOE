@@ -30,21 +30,34 @@ public class EventController : Controller
     }
     
     [HttpGet("newest")]
-    public ActionResult<List<Event>?> GetNewest()
+    public ActionResult<List<Event>> GetNewest()
     {
         return _eventService.GetNewest();
     }
     
     [HttpGet("most-popular")]
-    public ActionResult<List<Event>?> GetMostPopular()
+    public ActionResult<List<Event>> GetMostPopular()
     {
         return _eventService.GetMostPopular();
     }
 
     [HttpGet("{id:int}")]
+    public IActionResult GetEvent(int id)
+    {
+        var @event = _eventService.GetEventAndIncreaseVisits(id);
+
+        if (@event == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(@event);
+    }
+    
+    [HttpGet("edit/{id:int}")]
     public IActionResult Get(int id)
     {
-        var @event = _eventService.Get(id);
+        var @event = _eventService.GetEvent(id);
 
         if (@event == null)
         {
@@ -64,7 +77,7 @@ public class EventController : Controller
     [HttpPut("edit")]
     public IActionResult Update(Event @event)
     {
-        var existingEvent = _eventService.Get(@event.Id);
+        var existingEvent = _eventService.GetEvent(@event.Id);
 
         if (existingEvent is null)
         {
@@ -79,7 +92,7 @@ public class EventController : Controller
     [HttpDelete("delete/{id:int}")]
     public IActionResult Delete(int id)
     {
-        var @event = _eventService.Get(id);
+        var @event = _eventService.GetEvent(id);
 
         if (@event is null)
         {

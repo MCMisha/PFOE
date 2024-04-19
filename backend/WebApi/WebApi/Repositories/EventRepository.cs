@@ -18,7 +18,7 @@ public class EventRepository
     {
         return _appDbContext.Events.ToList();
     }
-
+    
     public List<Event> GetNewest()
     {
         return _appDbContext.Events.OrderByDescending(x => x.CreationDate).Take(5).ToList();
@@ -32,6 +32,14 @@ public class EventRepository
     public Event? GetById(int id)
     {
         return _appDbContext.Events.AsNoTracking().FirstOrDefault(e => e.Id == id);
+    }
+    
+    public void IncrementVisits(int eventId)
+    {
+        var @event = _appDbContext.Events.FirstOrDefault(x => x.Id == eventId);
+        @event.VisitsNumber++;
+        _appDbContext.Events.Update(@event);
+        _appDbContext.SaveChanges();
     }
 
     public void Add(Event @event)

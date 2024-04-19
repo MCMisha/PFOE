@@ -20,6 +20,10 @@ export class EventService {
     return this.http.get(`${environment.baseApiUri}/Event/${id}`, httpOptions).pipe(catchError(this.handleError('getEvent', id)));
   }
 
+  getEventForEditing(id: number) {
+    return this.http.get(`${environment.baseApiUri}/Event/edit/${id}`, httpOptions).pipe(catchError(this.handleError('getEventForEditing', id)));
+  }
+
   getEventsByOrganizerId(organizerId: number) {
     return this.http.get(`${environment.baseApiUri}/Event/organizer/${organizerId}`, httpOptions).pipe(catchError(this.handleError('getByOrganizerId',)));
   }
