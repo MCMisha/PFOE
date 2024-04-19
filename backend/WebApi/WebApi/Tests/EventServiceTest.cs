@@ -45,7 +45,7 @@ public class EventServiceTest
         };
         eventService.Add(newEvent);
 
-        var result = eventService.Get(newEvent.Id);
+        var result = eventService.GetEvent(newEvent.Id);
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.EqualTo(newEvent));
@@ -57,7 +57,7 @@ public class EventServiceTest
     public void Get_IdDoesNotExist_ReturnsNull()
     {
         var eventService = new EventService(InitConfiguration());
-        var result = eventService.Get(-1);
+        var result = eventService.GetEvent(-1);
 
         Assert.That(result, Is.Null);
     }
@@ -80,7 +80,7 @@ public class EventServiceTest
         };
 
         eventService.Add(newEvent);
-        var result = eventService.Get(newEvent.Id);
+        var result = eventService.GetEvent(newEvent.Id);
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.EqualTo(newEvent));
@@ -108,7 +108,7 @@ public class EventServiceTest
 
         newEvent.Name = "Updated Event";
         eventService.Update(newEvent);
-        var result = eventService.Get(newEvent.Id);
+        var result = eventService.GetEvent(newEvent.Id);
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.EqualTo(newEvent));
@@ -134,7 +134,7 @@ public class EventServiceTest
         };
 
         eventService.Update(newEvent);
-        var result = eventService.Get(newEvent.Id);
+        var result = eventService.GetEvent(newEvent.Id);
 
         Assert.That(result, Is.Null);
     }
@@ -158,7 +158,7 @@ public class EventServiceTest
         eventService.Add(newEvent);
 
         eventService.Delete(newEvent.Id);
-        var result = eventService.Get(newEvent.Id);
+        var result = eventService.GetEvent(newEvent.Id);
 
         Assert.That(result, Is.Null);
     }
@@ -181,7 +181,7 @@ public class EventServiceTest
         };
 
         eventService.Delete(newEvent.Id);
-        var result = eventService.Get(newEvent.Id);
+        var result = eventService.GetEvent(newEvent.Id);
 
         Assert.That(result, Is.Null);
     }
