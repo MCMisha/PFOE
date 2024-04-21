@@ -42,6 +42,9 @@ public class UserController : Controller
         {
             if (checkLoginAttempts.FailedLoginAttempts == 3)
             {
+                TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
+                _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
+                    textInfo.ToTitleCase(nameof(EmailType.BLOCKED_USER).ToLower()).Replace("_", ""), user.Login);
                 return NotFound();
             }
         }
@@ -51,9 +54,7 @@ public class UserController : Controller
             _userService.ResetLoginAttempts(user.Id);
             return Ok();
         }
-
-        _userService.IncrementLoginAttempts(user.Id);
-
+        
         return NotFound();
     }
 
