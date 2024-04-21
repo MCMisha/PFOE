@@ -2,5 +2,5 @@
 
 public enum EmailType
 {
-    REGISTRATION
+    REGISTRATION, BLOCKED_USER
 }
