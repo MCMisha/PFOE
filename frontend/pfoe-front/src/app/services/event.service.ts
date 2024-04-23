@@ -4,6 +4,7 @@ import {EventModel} from "../models/eventModel";
 import {catchError, Observable, of} from "rxjs";
 import {environment} from "../../environments/environment";
 import {httpOptions} from "../constants/constants";
+import {User} from "../models/user";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class EventService {
 
   getEvent(id: number):Observable<any> {
     return this.http.get(`${environment.baseApiUri}/Event/${id}`, httpOptions).pipe(catchError(this.handleError('getEvent', id)));
+  }
+
+  getParticipantNumber(id: number): Observable<any> {
+    return this.http.get(`${environment.baseApiUri}/Event/getParticipantNumber/${id}`, httpOptions).pipe(catchError(this.handleError('getParticipantNumber', id)));
   }
 
   getNewest():Observable<any> {
@@ -36,7 +41,11 @@ export class EventService {
     return this.http.delete(`${environment.baseApiUri}/Event/delete/${id}`, httpOptions).pipe(catchError(this.handleError('deleteEvent', id)));
   }
 
-
+  /*
+  addParticipant(participant: Participant) {
+    return this.http.post(`${environment.baseApiUri}/User/register`, participant, httpOptions).pipe(catchError(this.handleError('register', participant)));
+  }
+  */
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

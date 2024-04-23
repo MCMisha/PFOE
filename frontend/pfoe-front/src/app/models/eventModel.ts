@@ -4,7 +4,7 @@ export class EventModel {
   location: string | null | undefined;
   category: string | null | undefined;
   date: string | null | undefined;
-  participant_number: number | null | undefined;
+  participantNumber: number | null | undefined;
   organizer: number | null | undefined;
   visits_number: number | null | undefined;
   creation_date: Date | null | undefined;

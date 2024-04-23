@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Contexts;
@@ -60,5 +61,12 @@ public class EventRepository
     public ActionResult<List<Event>> GetMostPopular()
     {
         return _appDbContext.Events.OrderByDescending(e => e.VisitsNumber).Take(5).ToList();
+    }
+
+    public int GetParticipantNumber(int id)
+    {
+        var participants = _appDbContext.Participants.Where(e => e.EventId == id).Count();
+        
+        return participants;
     }
 }

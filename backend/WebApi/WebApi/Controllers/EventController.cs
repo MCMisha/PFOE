@@ -84,4 +84,10 @@ public class EventController : Controller
 
         return Ok();
     }
+
+    [HttpGet("getParticipantNumber/{id:int}")]
+    public int GetParticipantNumber(int id)
+    {
+        return _eventService.GetParticipantNumber(id);
+    }
 }
