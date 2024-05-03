@@ -41,11 +41,11 @@ export class EventService {
     return this.http.delete(`${environment.baseApiUri}/Event/delete/${id}`, httpOptions).pipe(catchError(this.handleError('deleteEvent', id)));
   }
 
-  /*
-  addParticipant(participant: Participant) {
-    return this.http.post(`${environment.baseApiUri}/User/register`, participant, httpOptions).pipe(catchError(this.handleError('register', participant)));
+
+  addParticipant(userId: number, eventId: number): Observable<any> {
+    return this.http.post(`${environment.baseApiUri}/User/register/${userId}&{eventId}`,  httpOptions).pipe(catchError(this.handleError('register', [userId, eventId])));
   }
-  */
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

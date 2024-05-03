@@ -4,6 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import {catchError, map, of, Subscription} from "rxjs";
 import {EventService} from "../../services/event.service";
 import {User} from "../../models/user";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-events',
@@ -16,8 +17,10 @@ export class EventsViewComponent implements OnInit,  OnDestroy{
     currentEvent: EventModel | undefined;
     private id: string | null | undefined | number;
     public currentParticipants: string | null | undefined | number;
+    login: string = '';
+    isLoggedIn: any = false;
 
-    constructor(private eventService: EventService, private route: ActivatedRoute) {
+    constructor(private eventService: EventService, private route: ActivatedRoute, private userService: UserService) {
 
     }
 
@@ -43,8 +46,19 @@ export class EventsViewComponent implements OnInit,  OnDestroy{
   }
 
   onSignUpClick() {
-    console.log("Zapisano do wydarzenia");
-    console.log(this.currentEvent?.participantNumber);
+      this.login = localStorage.getItem('login') || '';
+      this.subscription.add(
+        this.userService.isLoggedIn(this.login).subscribe(res => {
+          this.isLoggedIn = Boolean(res);
+        })
+      )
+
+
+
+      this.eventService.addParticipant(2, Number(this.id)).subscribe();
+
+    //console.log("Zapisano do wydarzenia");
+    //console.log(this.currentEvent?.participantNumber);
   }
 
 

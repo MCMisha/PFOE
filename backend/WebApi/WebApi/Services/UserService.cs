@@ -99,6 +99,11 @@ public class UserService
     {
         _failedLoginRepository.DeleteLoginAttempts(userId);
     }
+
     
+    public void AddParticipant(int userId, int eventId)
+    {
+        _userRepository.AddParticipant(userId, eventId);
+    }
     
 }

@@ -39,5 +39,14 @@ public class UserRepository
         return _appDbContext.Users.FirstOrDefault(user => user.Email == email) != null;
     }
 
+    public void AddParticipant(int userId, int eventId)
+    {
+        Participant newParticipant = new Participant {
+            UserId = userId, EventId = eventId
+        };
+
+        _appDbContext.Participants.Add(newParticipant);
+        _appDbContext.SaveChanges();
+    }
     
 }

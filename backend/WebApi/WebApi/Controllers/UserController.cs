@@ -140,4 +140,10 @@ public class UserController : Controller
         return _userService.GetAllUsers();
     }
 
+    [HttpGet("addParticipant/{userId:int}&{eventId:int}")]
+    public void AddParticipant(int userId, int eventId)
+    {
+        _userService.AddParticipant(userId, eventId);
+    }
+
 }
