@@ -30,4 +30,4 @@ import {ReactiveFormsModule} from "@angular/forms";
     ReactiveFormsModule
   ]
 })
-export class EventsModule { }
+export class EventsViewModule { }

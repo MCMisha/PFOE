@@ -53,8 +53,12 @@ export class EventService {
   }
 
 
-  addParticipant(userId: number, eventId: number): Observable<any> {
-    return this.http.post(`${environment.baseApiUri}/User/register/${userId}&{eventId}`,  httpOptions).pipe(catchError(this.handleError('register', [userId, eventId])));
+  addParticipant(userId: number, eventId: number) {
+    return this.http.post(`${environment.baseApiUri}/Event/addParticipant?userId=${userId}&eventId=${eventId}`,  httpOptions).pipe();
+  }
+
+  isUserSignedUpForEvent(userId: number | undefined | null, eventId: string | null){
+    return this.http.get(`${environment.baseApiUri}/Event/isUserSignedUpForEvent?userId=${userId}&eventId=${eventId}`,  httpOptions).pipe();
   }
 
 

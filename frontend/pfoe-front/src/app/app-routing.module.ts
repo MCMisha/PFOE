@@ -13,8 +13,11 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule), canActivate: [noAuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [authGuard]},
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
-  { path: 'search', component: SearchComponent}
+  { path: 'search', component: SearchComponent},
+  { path: 'event/:id', loadChildren: () => import('./events/eventsView/eventsView.module').then(m => m.EventsViewModule) }
 ];
+
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

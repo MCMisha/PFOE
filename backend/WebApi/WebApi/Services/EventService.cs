@@ -80,4 +80,14 @@ public class EventService
     {
         return _eventRepository.Search(query);
     }
+    
+    public void AddParticipant(int userId, int eventId)
+    {
+        _eventRepository.AddParticipant(userId, eventId);
+    }
+
+    public bool IsUserSignedUpForEvent(int userId, int eventId)
+    {
+       return _eventRepository.IsUserSignedUpForEvent(userId, eventId);
+    }
 }

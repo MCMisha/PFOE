@@ -171,10 +171,6 @@ public class UserController : Controller
 
         return Ok(user.FirstName + " " + user.LastName);
     }
-    [HttpGet("addParticipant/{userId:int}&{eventId:int}")]
-    public void AddParticipant(int userId, int eventId)
-    {
-        _userService.AddParticipant(userId, eventId);
-    }
+    
 
 }

@@ -7,6 +7,8 @@
     <p><strong>Ilość uczestników: </strong>{{currentParticipants + "/" + currentEvent?.participantNumber}}</p>
     <p><strong>Miejsce: </strong>{{currentEvent?.location}}</p>
   </div>
-  <button id="signup-button" [disabled]="isLoggedIn" (click)="onSignUpClick()">Zapisz się</button>
+  <div class="d-flex justify-content-center">
+    <button mat-raised-button color="primary" [disabled]="!isLoggedIn||isSignedUp" (click)="onSignUpClick()">Zapisz się</button>
+  </div>
 </div>
 

@@ -5,6 +5,7 @@ import {catchError, map, of, Subscription} from "rxjs";
 import {EventService} from "../../services/event.service";
 import {User} from "../../models/user";
 import {UserService} from "../../services/user.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-events',
@@ -16,23 +17,42 @@ export class EventsViewComponent implements OnInit,  OnDestroy{
     private subscription = new Subscription();
     currentEvent: EventModel | undefined;
     private id: string | null | undefined | number;
+    private currentUserId: null | undefined | number;
     public currentParticipants: string | null | undefined | number;
     login: string = '';
     isLoggedIn: any = false;
+    isSignedUp: any = false;
 
-    constructor(private eventService: EventService, private route: ActivatedRoute, private userService: UserService) {
+
+    constructor(private eventService: EventService, private route: ActivatedRoute, private userService: UserService, private snackBar: MatSnackBar) {
 
     }
 
     ngOnInit() {
       this.id = this.route.snapshot.paramMap.get('id');
 
-      this.subscription.add(
-        this.eventService.getParticipantNumber(Number(this.id)).subscribe(participantCount => this.currentParticipants = participantCount)
-
+      this.login = localStorage.getItem('login') || '';
+      this.subscription.add(this.userService.getIdByLogin(this.login).subscribe(res => {
+        this.currentUserId = res;
+        })
       )
 
-      const login = localStorage.getItem('login');
+      this.subscription.add(
+        this.eventService.getParticipantNumber(Number(this.id)).subscribe(participantCount => this.currentParticipants = participantCount)
+      )
+
+      this.login = localStorage.getItem('login') || '';
+      this.subscription.add(
+        this.userService.isLoggedIn(this.login).subscribe(res => {
+          this.isLoggedIn = Boolean(res);
+        })
+      )
+
+      this.subscription.add(
+        this.eventService.isUserSignedUpForEvent(this.currentUserId, this.id).subscribe(res => {
+          this.isSignedUp = Boolean(res);
+        })
+      )
 
       this.subscription.add(
         this.eventService.getEvent(Number(this.id)).subscribe(event => {
@@ -46,19 +66,19 @@ export class EventsViewComponent implements OnInit,  OnDestroy{
   }
 
   onSignUpClick() {
-      this.login = localStorage.getItem('login') || '';
-      this.subscription.add(
-        this.userService.isLoggedIn(this.login).subscribe(res => {
-          this.isLoggedIn = Boolean(res);
-        })
-      )
 
 
+      if(this.currentEvent?.id === undefined){
+        return;
+      }
+      this.eventService.addParticipant(Number(this.id), this.currentEvent?.id).subscribe();
 
-      this.eventService.addParticipant(2, Number(this.id)).subscribe();
+      this.snackBar.open('Udało się zapisać na wydarzenie', 'OK');
+      window.location.reload();
+  }
 
-    //console.log("Zapisano do wydarzenia");
-    //console.log(this.currentEvent?.participantNumber);
+  private openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action);
   }
 
 

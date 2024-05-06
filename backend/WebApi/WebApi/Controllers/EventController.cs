@@ -122,4 +122,21 @@ public class EventController : Controller
 
         return events;
     }
+    
+    [HttpPost("addParticipant")]
+    public IActionResult AddParticipant(int userId, int eventId)
+    {
+        _eventService.AddParticipant(userId, eventId);
+
+        return Ok();
+
+    }
+
+    [HttpGet("isUserSignedUpForEvent")]
+    public IActionResult IsUserSignedUpForEvent(int userId, int eventId)
+    {
+        var isSignedUp = _eventService.IsUserSignedUpForEvent(userId, eventId);
+
+        return Ok(isSignedUp);
+    }
 }

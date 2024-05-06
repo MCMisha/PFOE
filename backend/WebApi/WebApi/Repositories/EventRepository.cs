@@ -86,4 +86,21 @@ public class EventRepository
         
         return participants;
     }
+    
+    public void AddParticipant(int userId, int eventId)
+    {
+        Participant newParticipant = new Participant {
+            UserId = userId, EventId = eventId
+        };
+
+        _appDbContext.Participants.Add(newParticipant);
+        _appDbContext.SaveChanges();
+    }
+
+    public bool IsUserSignedUpForEvent(int userId, int eventId)
+    {
+        var participant = _appDbContext.Participants.FirstOrDefault(p => p.UserId == userId && p.EventId == eventId);
+
+        return participant != null;
+    }
 }
