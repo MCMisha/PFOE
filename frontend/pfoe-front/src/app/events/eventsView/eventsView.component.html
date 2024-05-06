@@ -1,14 +1,18 @@
-
 <div class="event-container" style="margin-left: 75px; margin-top: 10px;">
-  <div class="event-details" style=" margin-bottom: 40px">
-    <h3 style="margin-bottom: 30px;"><strong>{{currentEvent?.name}}</strong></h3>
-    <p><strong>Data: </strong>{{currentEvent?.date}}</p>
-    <p><strong>Kategoria: </strong>{{currentEvent?.category}}</p>
-    <p><strong>Ilość uczestników: </strong>{{currentParticipants + "/" + currentEvent?.participantNumber}}</p>
-    <p><strong>Miejsce: </strong>{{currentEvent?.location}}</p>
-  </div>
-  <div class="d-flex justify-content-center">
-    <button mat-raised-button color="primary" [disabled]="!isLoggedIn||isSignedUp" (click)="onSignUpClick()">Zapisz się</button>
-  </div>
+    <div class="event-details" style=" margin-bottom: 40px">
+        <h3 style="margin-bottom: 30px;"><strong>{{ currentEvent?.name }}</strong></h3>
+        <p><strong>Data: </strong>{{ currentEvent?.date }}</p>
+        <p><strong>Kategoria: </strong>{{ currentEvent?.category }}</p>
+        <p><strong>Ilość uczestników: </strong>{{ currentParticipants + "/" + currentEvent?.participantNumber }}</p>
+        <p><strong>Miejsce: </strong>{{ currentEvent?.location }}</p>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div style="position: relative;">
+            <button mat-raised-button color="primary" [disabled]="isButtonDisabled"
+                    (click)="onSignUpClick()">Zapisz się
+            </button>
+            <mat-spinner *ngIf="isLoading" diameter="20" style="position: absolute; right: -25px; top: 50%; transform: translateY(-50%);"></mat-spinner>
+        </div>
+    </div>
 </div>
 

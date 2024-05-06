@@ -53,11 +53,11 @@ export class EventService {
   }
 
 
-  addParticipant(userId: number, eventId: number) {
+  addParticipant(userId: number | undefined, eventId: number) {
     return this.http.post(`${environment.baseApiUri}/Event/addParticipant?userId=${userId}&eventId=${eventId}`,  httpOptions).pipe();
   }
 
-  isUserSignedUpForEvent(userId: number | undefined | null, eventId: string | null){
+  isUserSignedUpForEvent(userId: number | undefined, eventId: number){
     return this.http.get(`${environment.baseApiUri}/Event/isUserSignedUpForEvent?userId=${userId}&eventId=${eventId}`,  httpOptions).pipe();
   }
 
