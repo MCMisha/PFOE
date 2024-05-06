@@ -25,11 +25,11 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
         working-directory: backend/WebApi/WebApi
-        
+
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
         working-directory: backend/WebApi/WebApi
-        
+         
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
@@ -54,9 +54,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_16231E4D95B947698BFCA24E6FC164F0 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B6C662C523BC4143AF0C44385C338179 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F30B8AE7EDF74A44AB0DFA052572BC4E }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6854679B11EC433E9F248AF911409D98 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7467A156E6A04FF08CC7FCBB2ADC2368 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_52885FD922074D6FBB6976B90249E367 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -65,3 +65,4 @@ jobs:
           app-name: 'pfoe-dev'
           slot-name: 'Production'
           package: .
+          

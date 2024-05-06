@@ -25,6 +25,14 @@ export class EventService {
     return this.http.get(`${environment.baseApiUri}/Event/getParticipantNumber/${id}`, httpOptions).pipe(catchError(this.handleError('getParticipantNumber', id)));
   }
 
+  getEventForEditing(id: number) {
+    return this.http.get(`${environment.baseApiUri}/Event/edit/${id}`, httpOptions).pipe(catchError(this.handleError('getEventForEditing', id)));
+  }
+
+  getEventsByOrganizerId(organizerId: number) {
+    return this.http.get(`${environment.baseApiUri}/Event/organizer/${organizerId}`, httpOptions).pipe(catchError(this.handleError('getByOrganizerId',)));
+  }
+
   getNewest():Observable<any> {
     return this.http.get(`${environment.baseApiUri}/Event/newest`, httpOptions).pipe(catchError(this.handleError('getNewest')));
   }
@@ -33,6 +41,9 @@ export class EventService {
     return this.http.get(`${environment.baseApiUri}/Event/most-popular`, httpOptions).pipe(catchError(this.handleError('getMostPopular')));
   }
 
+  getEvents() {
+    return this.http.get(`${environment.baseApiUri}/Event`, httpOptions).pipe(catchError(this.handleError('getEvents', [])));
+  }
   updateEvent(event: EventModel) {
     return this.http.put(`${environment.baseApiUri}/Event/edit`, event, httpOptions).pipe(catchError(this.handleError('updateEvent', event)));
   }

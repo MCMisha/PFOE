@@ -17,9 +17,9 @@ public class EmailService
     public EmailService(IConfiguration configuration)
     {
         string apiKey = configuration.GetSection("ApiKey").Value;
-        if (!Configuration.Default.ApiKey.ContainsKey("api-key"))
+        if (Configuration.Default.ApiKey.ContainsKey("api-key") == false)
         {
-            Configuration.Default.ApiKey.Add("api-key", apiKey);   
+            Configuration.Default.ApiKey.TryAdd("api-key", apiKey);   
         }
         apiIstance = new TransactionalEmailsApi();
         senderName = "Platforma do organizacji wydarzeń";
@@ -31,12 +31,15 @@ public class EmailService
     private void InitEmailTypes()
     {
         TextInfo textInfo = new CultureInfo("en-GB").TextInfo;
-        var paramsForRegistration = new List<string>
+        var paramsForRegistrationAndBlocked = new List<string>
         {
             "login"
         };
-        parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), paramsForRegistration);
+        
+        parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), paramsForRegistrationAndBlocked);
         subjectByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), "Rejestracja");
+        parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.BLOCKED_USER).ToLower()).Replace("_", ""), paramsForRegistrationAndBlocked);
+        subjectByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.BLOCKED_USER).ToLower()).Replace("_", ""), "Zablokowane konto");
     }
 
     public void SendEmailByType(string email, string name, string emailType, params string[] paramValues)

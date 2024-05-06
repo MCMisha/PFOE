@@ -1,30 +1,41 @@
 <div class="container">
   <div class="row justify-content-start">
+    <div class="col-md-3">
+      <mat-card class="mt-2" style="background-color: #D9D9D9; max-width: 300px; border: 2px solid black;">
+        <mat-card-header class="justify-content-center h5">
+          Nowe wydarzenia
+        </mat-card-header>
+        <mat-card-content>
+          <ul *ngFor="let event of newest">
+            <li>
+              <a class="text-decoration-none text-black" routerLink="/event/{{event.id}}">{{ event.name }}</a>
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
-    <mat-card class="mt-2" style="background-color: #D9D9D9; max-width: 300px; border: 2px solid black;">
-      <mat-card-header class="justify-content-center h5">
-        Nowe wydarzenia
-      </mat-card-header>
-      <mat-card-content>
-        <ul *ngFor="let event of newest">
-          <li>
-            <a class="text-decoration-none text-black" routerLink="/event/{{event.id}}">{{ event.name }}</a>
-          </li>
-        </ul>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="mt-2 ms-5" style="background-color: #D9D9D9; max-width: 300px; border: 2px solid black;">
-      <mat-card-header class="justify-content-center h5">
-        Najpopularniejsze wydarzenia
-      </mat-card-header>
-      <mat-card-content>
-        <ul *ngFor="let event of mostPopular">
-          <li>
-            <a class="text-decoration-none text-black" routerLink="/event/{{event.id}}">{{ event.name }}</a>
-          </li>
-        </ul>
-      </mat-card-content>
-    </mat-card>
+    <div class="col-md-4">
+      <mat-card class="mt-2" style="background-color: #D9D9D9; max-width: 300px; border: 2px solid black;">
+        <mat-card-header class="justify-content-center h5">
+          Najpopularniejsze wydarzenia
+        </mat-card-header>
+        <mat-card-content>
+          <ul *ngFor="let event of mostPopular">
+            <li>
+              <a class="text-decoration-none text-black" routerLink="/event/{{event.id}}">{{ event.name }}</a>
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-4">
+      <button [hidden]="!isLoggedIn" (click)="onNewEventClick()" class="btn btn-primary mt-2" color="primary" style="width: 250px;" mat-raised-button>
+        Utwórz wydarzenie
+      </button>
+      <button [hidden]="!isLoggedIn" (click)="onManageEventsClick()" class="btn btn-primary mt-2" color="primary" style="width: 250px;" mat-raised-button>
+        Zarządzaj wydarzeniami
+      </button>
+    </div>
   </div>
 </div>

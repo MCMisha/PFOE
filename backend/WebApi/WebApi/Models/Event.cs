@@ -1,4 +1,7 @@
-﻿namespace WebApi.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace WebApi.Models
 {
     public partial class Event
     {

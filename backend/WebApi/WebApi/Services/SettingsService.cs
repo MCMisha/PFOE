@@ -16,6 +16,7 @@ public class SettingsService
     {
         return _settingsRepository.GetByUserId(userId);
     }
+
     public void Update(Setting settings)
     {
         if (_settingsRepository.GetByUserId(settings.UserId) != null)

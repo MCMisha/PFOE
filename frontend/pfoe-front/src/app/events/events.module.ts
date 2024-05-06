@@ -3,12 +3,17 @@ import { CommonModule } from '@angular/common';
 
 import { EventsRoutingModule } from './events-routing.module';
 import { EventsComponent } from './events.component';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable
+} from "@angular/material/table";
 import {MatButton} from "@angular/material/button";
-import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {ReactiveFormsModule} from "@angular/forms";
+import {MatPaginator} from "@angular/material/paginator";
 
 
 @NgModule({
@@ -18,16 +23,18 @@ import {ReactiveFormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     EventsRoutingModule,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCell,
+    MatCell,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatHeaderRow,
+    MatRow,
+    MatHeaderRowDef,
+    MatRowDef,
     MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatProgressSpinner,
-    ReactiveFormsModule
+    MatPaginator
   ]
 })
 export class EventsModule { }

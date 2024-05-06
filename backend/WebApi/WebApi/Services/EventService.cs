@@ -18,7 +18,22 @@ public class EventService
         return _eventRepository.GetAll();
     }
 
-    public Event? Get(int id)
+    public List<Event> GetByOrganizer(int organizerId)
+    {
+        return _eventRepository.GetByOrganizerId(organizerId);
+    }
+
+    public Event? GetEventAndIncreaseVisits(int id)
+    {
+        var @event = _eventRepository.GetById(id);
+        if (@event != null)
+        {
+            _eventRepository.IncrementVisits(id);
+        }
+        return @event;
+    }
+
+    public Event? GetEvent(int id)
     {
         return _eventRepository.GetById(id);
     }
@@ -59,5 +74,10 @@ public class EventService
     public int GetParticipantNumber(int id)
     {
         return _eventRepository.GetParticipantNumber(id);
+    }
+
+    public List<Event> Search(string query)
+    {
+        return _eventRepository.Search(query);
     }
 }
