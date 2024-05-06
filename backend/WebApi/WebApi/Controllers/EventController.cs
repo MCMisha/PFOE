@@ -28,7 +28,7 @@ public class EventController : Controller
     {
         return _eventService.GetByOrganizer(organizerId);
     }
-    
+
     [HttpGet("newest")]
     public ActionResult<List<Event>> GetNewest()
     {
@@ -53,7 +53,7 @@ public class EventController : Controller
 
         return Ok(@event);
     }
-    
+
     [HttpGet("edit/{id:int}")]
     public IActionResult Get(int id)
     {
@@ -104,6 +104,12 @@ public class EventController : Controller
         return Ok();
     }
 
+    [HttpGet("getParticipantNumber/{id:int}")]
+    public int GetParticipantNumber(int id)
+    {
+        return _eventService.GetParticipantNumber(id);
+    }
+
     [HttpGet("search/{query}")]
     public ActionResult<List<Event>> Search(string query)
     {
@@ -115,5 +121,22 @@ public class EventController : Controller
         }
 
         return events;
+    }
+    
+    [HttpPost("addParticipant")]
+    public IActionResult AddParticipant(int userId, int eventId)
+    {
+        _eventService.AddParticipant(userId, eventId);
+
+        return Ok();
+
+    }
+
+    [HttpGet("isUserSignedUpForEvent")]
+    public IActionResult IsUserSignedUpForEvent(int userId, int eventId)
+    {
+        var isSignedUp = _eventService.IsUserSignedUpForEvent(userId, eventId);
+
+        return Ok(isSignedUp);
     }
 }
