@@ -17,7 +17,7 @@ public class EventService
     {
         return _eventRepository.GetAll();
     }
-    
+
     public List<Event> GetByOrganizer(int organizerId)
     {
         return _eventRepository.GetByOrganizerId(organizerId);
@@ -32,7 +32,7 @@ public class EventService
         }
         return @event;
     }
-    
+
     public Event? GetEvent(int id)
     {
         return _eventRepository.GetById(id);
@@ -71,8 +71,23 @@ public class EventService
         return _eventRepository.GetMostPopular();
     }
 
+    public int GetParticipantNumber(int id)
+    {
+        return _eventRepository.GetParticipantNumber(id);
+    }
+
     public List<Event> Search(string query)
     {
         return _eventRepository.Search(query);
+    }
+    
+    public void AddParticipant(int userId, int eventId)
+    {
+        _eventRepository.AddParticipant(userId, eventId);
+    }
+
+    public bool IsUserSignedUpForEvent(int userId, int eventId)
+    {
+       return _eventRepository.IsUserSignedUpForEvent(userId, eventId);
     }
 }

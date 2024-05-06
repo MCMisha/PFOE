@@ -4,6 +4,7 @@ import {EventModel} from "../models/eventModel";
 import {catchError, Observable, of} from "rxjs";
 import {environment} from "../../environments/environment";
 import {httpOptions} from "../constants/constants";
+import {User} from "../models/user";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,12 @@ export class EventService {
     return this.http.post(`${environment.baseApiUri}/Event/new`, event, httpOptions).pipe(catchError(this.handleError('createEvent', event)));
   }
 
-  getEvent(id: number) {
+  getEvent(id: number):Observable<any> {
     return this.http.get(`${environment.baseApiUri}/Event/${id}`, httpOptions).pipe(catchError(this.handleError('getEvent', id)));
+  }
+
+  getParticipantNumber(id: number): Observable<any> {
+    return this.http.get(`${environment.baseApiUri}/Event/getParticipantNumber/${id}`, httpOptions).pipe(catchError(this.handleError('getParticipantNumber', id)));
   }
 
   getEventForEditing(id: number) {
@@ -46,6 +51,16 @@ export class EventService {
   deleteEvent(id: number) {
     return this.http.delete(`${environment.baseApiUri}/Event/delete/${id}`, httpOptions).pipe(catchError(this.handleError('deleteEvent', id)));
   }
+
+
+  addParticipant(userId: number | undefined, eventId: number) {
+    return this.http.post(`${environment.baseApiUri}/Event/addParticipant?userId=${userId}&eventId=${eventId}`,  httpOptions).pipe();
+  }
+
+  isUserSignedUpForEvent(userId: number | undefined, eventId: number){
+    return this.http.get(`${environment.baseApiUri}/Event/isUserSignedUpForEvent?userId=${userId}&eventId=${eventId}`,  httpOptions).pipe();
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

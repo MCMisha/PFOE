@@ -171,4 +171,6 @@ public class UserController : Controller
 
         return Ok(user.FirstName + " " + user.LastName);
     }
+    
+
 }
