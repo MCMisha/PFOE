@@ -38,8 +38,8 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.login = localStorage.getItem('login') || '';
-
     try {
+      this.isLoading = true;
       this.currentUserId = await this.userService.getIdByLogin(this.login).toPromise();
       this.currentParticipants = await this.eventService.getParticipantNumber(Number(this.id)).toPromise();
       this.isLoggedIn = Boolean(await this.userService.isLoggedIn(this.login).toPromise());
@@ -73,5 +73,6 @@ export class EventsViewComponent implements OnInit, OnDestroy {
     this.currentParticipants = await this.eventService.getParticipantNumber(Number(this.id)).toPromise();
     this.isSignedUp = Boolean(await this.eventService.isUserSignedUpForEvent(this.currentUserId, this.id).toPromise());
     this.isButtonDisabled = !this.isLoggedIn || this.isSignedUp || this.isLoading || !this.isAnyPlaces;
+    this.isLoading = false;
   }
 }
