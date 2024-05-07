@@ -24,7 +24,7 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   isLoggedIn: boolean = false;
   isSignedUp: boolean = false;
-  isAnyPlaces: boolean = true;
+  isAnyPlaces: boolean = false;
   isButtonDisabled: boolean = true;
   private ngUnsubscribe = new Subject<void>();
 
