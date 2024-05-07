@@ -22,6 +22,7 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   private update = new BehaviorSubject<boolean>(false);
   login: string = '';
   isLoading: boolean = false;
+  isOrganizer: boolean = false;
   isLoggedIn: boolean = false;
   isSignedUp: boolean = false;
   isAnyPlaces: boolean = false;
@@ -46,6 +47,7 @@ export class EventsViewComponent implements OnInit, OnDestroy {
       this.isSignedUp = Boolean(await this.eventService.isUserSignedUpForEvent(this.currentUserId, this.id).toPromise());
       this.currentEvent = await this.eventService.getEvent(Number(this.id)).toPromise();
       this.isAnyPlaces = Boolean(this.currentParticipants < this.currentEvent?.participantNumber!);
+      this.isOrganizer = this.currentEvent?.organizer === this.currentUserId;
     } catch (error) {
       console.error(error);
     }
@@ -72,7 +74,9 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   private async updateData() {
     this.currentParticipants = await this.eventService.getParticipantNumber(Number(this.id)).toPromise();
     this.isSignedUp = Boolean(await this.eventService.isUserSignedUpForEvent(this.currentUserId, this.id).toPromise());
-    this.isButtonDisabled = !this.isLoggedIn || this.isSignedUp || this.isLoading || !this.isAnyPlaces;
     this.isLoading = false;
+
+    this.isButtonDisabled = !this.isLoggedIn || this.isSignedUp || this.isLoading || !this.isAnyPlaces || this.isOrganizer;
+
   }
 }
