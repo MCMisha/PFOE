@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - pfoe-prod
+name: Build and deploy ASP.Net Core app to Azure Web App - pfoe-prod-pl
 
 on:
   push:
@@ -24,17 +24,17 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
-        working-directory: backend/WebApi/WebApi        
+        working-directory: backend/WebApi/WebApi
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp-prod
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
         working-directory: backend/WebApi/WebApi
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp-prod
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,15 +54,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1FF5609C88A14E25B1E02275A730F39D }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_98DCA440044F40938C50597B930B61EA }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4576A20329FC42A0AF33A24774D4E24E }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_642F1E57C9C744BD8F8630FEE0D2CF04 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_04427B8AF029405C8EE58A09C6C5ED68 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C0BD4AEACABB4ED796133C1F7B4783CB }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'pfoe-prod'
+          app-name: 'pfoe-prod-pl'
           slot-name: 'Production'
           package: .
           
