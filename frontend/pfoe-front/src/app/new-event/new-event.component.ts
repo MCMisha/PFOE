@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EventService} from "../services/event.service";
-import {ActivatedRoute, Event} from "@angular/router";
+import {ActivatedRoute, Event, Router} from "@angular/router";
 import {UserService} from "../services/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Subject, Subscription, switchMap, takeUntil} from "rxjs";
@@ -39,6 +39,7 @@ export class NewEventComponent implements OnInit, OnDestroy{
     private userService: UserService,
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
+    private router: Router
     ) {
   }
 
@@ -73,6 +74,7 @@ export class NewEventComponent implements OnInit, OnDestroy{
     this.eventService.createEvent(event).subscribe(_ => {
       this.isLoading = false;
       this.snackBar.open('Udało się utworzyć wydarzenie', 'OK');
+      this.router.navigate([''])
     });
 
   }
