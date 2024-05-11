@@ -3,11 +3,13 @@ import {EventService} from "../services/event.service";
 import {ActivatedRoute, Event} from "@angular/router";
 import {UserService} from "../services/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Subject, Subscription} from "rxjs";
+import {Subject, Subscription, switchMap, takeUntil} from "rxjs";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {User} from "../models/user";
 import {EventModel} from "../models/eventModel";
 import {toNumbers} from "@angular/compiler-cli/src/version_helpers";
+import {EventCategory, eventCategoriesArray} from "../enums/event-category";
+import {FontSize} from "../enums/font-size";
 
 
 @Component({
@@ -27,16 +29,27 @@ export class NewEventComponent implements OnInit, OnDestroy{
 
   subscription: any = new Subscription();
   isLoading: boolean = false;
+  private currentUserId: number | undefined = -1;
+  login: string = '';
+  //categoires = eventCategoriesToTable(EventCategory);
+  categories = eventCategoriesArray;
 
   constructor(
     private eventService: EventService,
     private userService: UserService,
     private snackBar: MatSnackBar,
-    private fb: FormBuilder,) {
+    private fb: FormBuilder,
+    ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.login = localStorage.getItem('login') || '';
 
+    try {
+      this.currentUserId = await this.userService.getIdByLogin(this.login).toPromise();
+    } catch (error) {
+      console.error(error);
+    }
 
   }
 
@@ -51,6 +64,7 @@ export class NewEventComponent implements OnInit, OnDestroy{
       date: this.newEventForm.value.eventDate,
       participantNumber: Number(this.newEventForm.value.eventMaxParticipants),
       location: this.newEventForm.value.eventLocation,
+      organizer: this.currentUserId,
       visits_number: 0,
       creation_date: new Date()
     };
@@ -65,7 +79,8 @@ export class NewEventComponent implements OnInit, OnDestroy{
     this.isLoading = false;
     this.snackBar.open('Udało się utworzyć wydarzenie', 'OK');
     console.log(event.name, event.category, event.date, event.participantNumber, event.location);
-    console.log(event.visits_number, event.creation_date)
+    console.log(event.organizer, event.visits_number, event.creation_date)
+    console.log(this.categories);
   }
 
   disabledCreateEvent() {
