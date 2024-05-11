@@ -26,6 +26,23 @@ import { NewEventComponent } from './new-event/new-event.component';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
 import {RouterModule} from "@angular/router";
+import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle
+} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/moment';
+import * as moment from 'moment';
+
+
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +56,8 @@ import {RouterModule} from "@angular/router";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     ReactiveFormsModule,
     MatInputModule,
     MatIconModule,
@@ -61,7 +80,14 @@ import {RouterModule} from "@angular/router";
     MatHeaderRowDef,
     MatHeaderRow,
     MatRow,
-    MatPaginator
+    MatPaginator,
+    MatCardContent,
+    MatCard,
+    MatCardHeader,
+    MatProgressSpinner,
+    MatDatepicker,
+    MatDatepickerToggle,
+    MatDatepickerInput
   ],
   providers: [],
   bootstrap: [AppComponent]
