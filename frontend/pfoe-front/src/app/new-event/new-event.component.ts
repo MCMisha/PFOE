@@ -31,8 +31,8 @@ export class NewEventComponent implements OnInit, OnDestroy{
   isLoading: boolean = false;
   private currentUserId: number | undefined = -1;
   login: string = '';
-  //categoires = eventCategoriesToTable(EventCategory);
   categories = eventCategoriesArray;
+  todaysDate = new Date();
 
   constructor(
     private eventService: EventService,
@@ -70,17 +70,11 @@ export class NewEventComponent implements OnInit, OnDestroy{
     };
 
     this.isLoading = true;
-    /*
     this.eventService.createEvent(event).subscribe(_ => {
       this.isLoading = false;
       this.snackBar.open('Udało się utworzyć wydarzenie', 'OK');
     });
-    */
-    this.isLoading = false;
-    this.snackBar.open('Udało się utworzyć wydarzenie', 'OK');
-    console.log(event.name, event.category, event.date, event.participantNumber, event.location);
-    console.log(event.organizer, event.visits_number, event.creation_date)
-    console.log(this.categories);
+
   }
 
   disabledCreateEvent() {

@@ -34,15 +34,9 @@ import {
   MatDatepickerModule,
   MatDatepickerToggle
 } from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/moment';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import * as moment from 'moment';
 
-
-export function momentAdapterFactory() {
-  return adapterFactory(moment);
-}
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,7 +83,9 @@ export function momentAdapterFactory() {
     MatDatepickerToggle,
     MatDatepickerInput
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
