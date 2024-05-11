@@ -27,7 +27,7 @@
         </mat-error>
         <mat-form-field class="shape-container mt-3" appearance="outline">
           <mat-label>Data</mat-label>
-          <input matInput  [matDatepicker]="releasedAtPicker" formControlName="eventDate" [min]="todaysDate" (click)="releasedAtPicker.open()"/> <!---------------------------------------------------------------------->
+          <input matInput readonly [matDatepicker]="releasedAtPicker" formControlName="eventDate" [min]="todaysDate" (click)="releasedAtPicker.open()"/> <!---------------------------------------------------------------------->
           <mat-datepicker-toggle matSuffix [for]="releasedAtPicker" >
           </mat-datepicker-toggle>
           <mat-datepicker #releasedAtPicker>
