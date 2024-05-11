@@ -4,7 +4,7 @@ import {of, Subscription, switchMap, takeUntil} from "rxjs";
 import {EventModel} from "../models/eventModel";
 import {UserService} from "../services/user.service";
 import {BodyClassService} from "../services/body-class.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -21,26 +21,19 @@ export class MainComponent implements OnInit, OnDestroy {
 
   constructor(private eventService: EventService,
               private router: Router,
-              private userService: UserService) {
+              private userService: UserService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.login = localStorage.getItem('login') || '';
+    this.mostPopular = this.route.snapshot.data['mostPopular'];
+    this.newest = this.route.snapshot.data['newest'];
     if (this.login !== '') {
       this.userService.isLoggedIn(this.login).subscribe(res => {
         this.isLoggedIn = Boolean(res);
       })
     }
-    this.subscription.add(
-      this.eventService.getMostPopular().subscribe(events => {
-        this.mostPopular = events;
-      })
-    );
-    this.subscription.add(
-      this.eventService.getNewest().subscribe(events => {
-        this.newest = events;
-      })
-    );
   }
 
   ngOnDestroy(): void {

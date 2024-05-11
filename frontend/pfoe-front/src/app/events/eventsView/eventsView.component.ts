@@ -38,6 +38,7 @@ export class EventsViewComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
+    this.currentEvent = this.route.snapshot.data['event'];
     this.login = localStorage.getItem('login') || '';
     try {
       this.isLoading = true;
@@ -45,7 +46,6 @@ export class EventsViewComponent implements OnInit, OnDestroy {
       this.currentParticipants = await this.eventService.getParticipantNumber(Number(this.id)).toPromise();
       this.isLoggedIn = Boolean(await this.userService.isLoggedIn(this.login).toPromise());
       this.isSignedUp = Boolean(await this.eventService.isUserSignedUpForEvent(this.currentUserId, this.id).toPromise());
-      this.currentEvent = await this.eventService.getEvent(Number(this.id)).toPromise();
       this.isAnyPlaces = Boolean(this.currentParticipants < this.currentEvent?.participantNumber!);
       this.isOrganizer = this.currentEvent?.organizer === this.currentUserId;
     } catch (error) {
