@@ -24,8 +24,8 @@ export class EditEventComponent implements OnInit, OnDestroy {
     participantNumber: ['', [Validators.required]],
     location: ['', [Validators.required, Validators.maxLength(50)]],
     organizer: [0],
-    visits_number: [0],
-    creation_date: [new Date()]
+    visitsNumber: [0],
+    creationDate: [new Date()]
   });
 
   subscription: any = new Subscription();
@@ -46,7 +46,10 @@ export class EditEventComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.event = this.route.snapshot.data['event'];
-
+    console.log(this.event)
+    const creation_date = new Date(this.event?.creationDate?.toString().slice(0,23)!);
+    //2024-03-30 23:59:59.999000
+    console.log(creation_date);
     this.editEventForm.patchValue({
       id: this.event?.id,
       name: this.event?.name,
@@ -55,8 +58,8 @@ export class EditEventComponent implements OnInit, OnDestroy {
       participantNumber: this.event?.participantNumber?.toString(), // Convert number to string
       location: this.event?.location,
       organizer: this.event?.organizer,
-      visits_number: this.event?.visits_number,
-      creation_date: this.event?.creation_date,
+      visitsNumber: this.event?.visitsNumber,
+      creationDate: creation_date,
     });
 
   }
@@ -74,8 +77,8 @@ export class EditEventComponent implements OnInit, OnDestroy {
       participantNumber: Number(this.editEventForm.value.participantNumber),
       location: this.editEventForm.value.location,
       organizer: this.editEventForm.value.organizer,
-      visits_number: this.editEventForm.value.visits_number,
-      creation_date: this.editEventForm.value.creation_date,
+      visitsNumber: this.editEventForm.value.visitsNumber,
+      creationDate: this.editEventForm.value.creationDate,
     };
 
     this.isLoading = true;

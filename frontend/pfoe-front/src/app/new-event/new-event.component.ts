@@ -66,8 +66,8 @@ export class NewEventComponent implements OnInit, OnDestroy{
       participantNumber: Number(this.newEventForm.value.eventMaxParticipants),
       location: this.newEventForm.value.eventLocation,
       organizer: this.currentUserId,
-      visits_number: 0,
-      creation_date: new Date()
+      visitsNumber: 0,
+      creationDate: new Date()
     };
 
     this.isLoading = true;

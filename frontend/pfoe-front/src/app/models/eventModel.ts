@@ -6,6 +6,6 @@ export class EventModel {
   participantNumber?: number | null | undefined;
   location?: string | null | undefined;
   organizer?: number | null | undefined;
-  visits_number?: number | null | undefined;
-  creation_date?: Date | null | undefined;
+  visitsNumber?: number | null | undefined;
+  creationDate?: Date | null | undefined;
 }
