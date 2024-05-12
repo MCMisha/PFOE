@@ -7,14 +7,14 @@ using WebApi.Enums;
 
 namespace WebApi.Services;
 
-public class EmailService
+public static class EmailService
 {
-    private Dictionary<string, List<string>> parametersByEmailType = new ();
-    private Dictionary<string, string> subjectByEmailType = new();
-    private readonly TransactionalEmailsApi apiIstance;
-    private readonly string senderName;
-    private readonly string senderEmail;
-    public EmailService(IConfiguration configuration)
+    private static Dictionary<string, List<string>> parametersByEmailType = new ();
+    private static Dictionary<string, string> subjectByEmailType = new();
+    private static readonly TransactionalEmailsApi apiIstance;
+    private static readonly string senderName;
+    private static readonly string senderEmail;
+    static EmailService()
     {
         apiIstance = new TransactionalEmailsApi();
         senderName = "Platforma do organizacji wydarzeń";
@@ -23,7 +23,7 @@ public class EmailService
         InitEmailTypes();
     }
 
-    private void InitEmailTypes()
+    private static void InitEmailTypes()
     {
         TextInfo textInfo = new CultureInfo("en-GB").TextInfo;
         var paramsForRegistrationAndBlocked = new List<string>
@@ -42,7 +42,7 @@ public class EmailService
         subjectByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.SIGN_FOR_EVENT).ToLower()).Replace("_", ""), "Rejestracja na wydarzenie");
     }
 
-    public void SendEmailByType(string email, string name, string emailType, params string[] paramValues)
+    public static void SendEmailByType(string email, string name, string emailType, params string[] paramValues)
     {
         SendSmtpEmailSender emailSender = new(senderName, senderEmail);
         JObject Headers = new()

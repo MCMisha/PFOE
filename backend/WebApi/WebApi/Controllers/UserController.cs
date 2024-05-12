@@ -14,7 +14,6 @@ public class UserController : Controller
     private readonly ILogger<UserController> _logger;
     private readonly UserService _userService;
     private readonly HashService _hashService;
-    private readonly EmailService _emailService;
     public Func<bool>? UserChecker { get; init; } //właściwośc dodana na potrzeby testów jednostkowych
 
 
@@ -23,7 +22,6 @@ public class UserController : Controller
         _logger = logger;
         _userService = new UserService(configuration);
         _hashService = new HashService();
-        _emailService = new EmailService(configuration);
     }
 
     [HttpPost("login")]
@@ -43,7 +41,7 @@ public class UserController : Controller
             if (checkLoginAttempts.FailedLoginAttempts == 3)
             {
                 TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
-                _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
+                EmailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
                     textInfo.ToTitleCase(nameof(EmailType.BLOCKED_USER).ToLower()).Replace("_", ""), user.Login);
                 return NotFound();
             }
@@ -102,7 +100,7 @@ public class UserController : Controller
         if (newUser != null)
         {
             TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
-            _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
+            EmailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
                 textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), user.Login);
             return Ok(newUser);
         }
