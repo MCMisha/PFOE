@@ -14,13 +14,13 @@ public class EventController : Controller
     private readonly EventService _eventService;
     private readonly UserService _userService;
     private readonly EmailService _emailService;
-    
+
     public EventController(ILogger<EventController> logger, IConfiguration configuration)
     {
         _logger = logger;
         _eventService = new EventService(configuration);
         _userService = new UserService(configuration);
-        _emailService = new EmailService(configuration);    
+        _emailService = new EmailService(configuration);
     }
 
     [HttpGet]
@@ -28,7 +28,7 @@ public class EventController : Controller
     {
         return _eventService.GetAll();
     }
-    
+
     [HttpGet("organizer/{organizerId}")]
     public ActionResult<List<Event>> GetByOrganizerId(int organizerId)
     {
@@ -40,7 +40,7 @@ public class EventController : Controller
     {
         return _eventService.GetNewest();
     }
-    
+
     [HttpGet("most-popular")]
     public ActionResult<List<Event>> GetMostPopular()
     {
@@ -89,7 +89,7 @@ public class EventController : Controller
         {
             return NotFound();
         }
-        
+
         _eventService.Update(@event);
 
         return Ok();
@@ -128,7 +128,7 @@ public class EventController : Controller
 
         return events;
     }
-    
+
     [HttpPost("addParticipant")]
     public IActionResult AddParticipant(int userId, int eventId)
     {
@@ -139,12 +139,16 @@ public class EventController : Controller
         {
             return NotFound("Wydarzenie nie zostało znalezione");
         }
+
         if (user == null)
         {
             return BadRequest("Użytkownik nie został znaleniony");
         }
-        return Ok();
 
+        TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
+        _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
+            textInfo.ToTitleCase(nameof(EmailType.SIGN_FOR_EVENT).ToLower()).Replace("_", ""), _event.Name);
+        return Ok();
     }
 
     [HttpGet("isUserSignedUpForEvent")]
