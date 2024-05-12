@@ -35,11 +35,16 @@ public class EmailService
         {
             "login"
         };
-        
+        var paramsForSignForEvent = new List<string>
+        {
+            "eventTitle"
+        };
         parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), paramsForRegistrationAndBlocked);
         subjectByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), "Rejestracja");
         parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.BLOCKED_USER).ToLower()).Replace("_", ""), paramsForRegistrationAndBlocked);
         subjectByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.BLOCKED_USER).ToLower()).Replace("_", ""), "Zablokowane konto");
+        parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.SIGN_FOR_EVENT).ToLower()).Replace("_", ""), paramsForSignForEvent);
+        subjectByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.SIGN_FOR_EVENT).ToLower()).Replace("_", ""), "Rejestracja na wydarzenie");
     }
 
     public void SendEmailByType(string email, string name, string emailType, params string[] paramValues)
