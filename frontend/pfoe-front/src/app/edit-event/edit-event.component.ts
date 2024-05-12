@@ -14,17 +14,17 @@ import {eventCategoriesArray} from "../enums/event-category";
   styleUrl: './edit-event.component.scss'
 })
 export class EditEventComponent implements OnInit, OnDestroy {
-    event?: EventModel;
+  event?: EventModel;
 
   editEventForm = this.fb.group({
-    event_id: [0],
-    eventName: ['', [Validators.required, Validators.maxLength(50)]],
-    eventCategory: ['', [Validators.required]],
-    eventDate: ['', [Validators.required]],
-    eventMaxParticipants: ['', [Validators.required]],
-    eventLocation: ['', [Validators.required, Validators.maxLength(50)]],
-    eventOrganizer: [0],
-    eventVisit_number: [0],
+    id: [0],
+    name: ['', [Validators.required, Validators.maxLength(50)]],
+    category: ['', [Validators.required]],
+    date: ['', [Validators.required]],
+    participantNumber: ['', [Validators.required]],
+    location: ['', [Validators.required, Validators.maxLength(50)]],
+    organizer: [0],
+    visits_number: [0],
     creation_date: [new Date()]
   });
 
@@ -34,50 +34,52 @@ export class EditEventComponent implements OnInit, OnDestroy {
   categories = eventCategoriesArray;
   todaysDate = new Date();
 
-    constructor(
-      private route: ActivatedRoute,
-      private eventService: EventService,
-      private snackBar: MatSnackBar,
-      private fb: FormBuilder,
-      private router: Router
-    ) {
+  constructor(
+    private route: ActivatedRoute,
+    private eventService: EventService,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+    private router: Router
+  ) {
 
-    }
+  }
 
-    ngOnInit(): void {
-      this.event = this.route.snapshot.data['event'];
+  ngOnInit(): void {
+    this.event = this.route.snapshot.data['event'];
 
-      this.editEventForm.patchValue({
-        event_id: this.event?.id,
-        eventName: this.event?.name,
-        eventCategory: this.event?.category,
-        eventDate: this.event?.date,
-        eventMaxParticipants: this.event?.participantNumber?.toString(), // Convert number to string
-        eventLocation: this.event?.location,
-        eventOrganizer: this.event?.organizer,
-        eventVisit_number: this.event?.visits_number,
-        creation_date: this.event?.creation_date,
-      });
+    this.editEventForm.patchValue({
+      id: this.event?.id,
+      name: this.event?.name,
+      category: this.event?.category,
+      date: this.event?.date,
+      participantNumber: this.event?.participantNumber?.toString(), // Convert number to string
+      location: this.event?.location,
+      organizer: this.event?.organizer,
+      visits_number: this.event?.visits_number,
+      creation_date: this.event?.creation_date,
+    });
 
-    }
-    ngOnDestroy(): void {
-      this.subscription.unsubscribe();
-    }
+  }
 
-  onEditEventClick(){
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
-      /*
-      this.event = {
-        name: this.editEventForm.value.eventName,
-        category: this.editEventForm.value.eventCategory,
-        date: this.editEventForm.value.eventDate,
-        participantNumber: Number(this.editEventForm.value.eventMaxParticipants),
-        location: this.editEventForm.value.eventLocation,
-      }
-      */
+  onEditEventClick() {
+    const eventModel: EventModel = {
+      id: this.editEventForm.value.id!,
+      name: this.editEventForm.value.name,
+      category: this.editEventForm.value.category,
+      date: this.editEventForm.value.date,
+      participantNumber: Number(this.editEventForm.value.participantNumber),
+      location: this.editEventForm.value.location,
+      organizer: this.editEventForm.value.organizer,
+      visits_number: this.editEventForm.value.visits_number,
+      creation_date: this.editEventForm.value.creation_date,
+    };
 
     this.isLoading = true;
-    this.eventService.updateEvent(this.editEventForm.value).subscribe(_ => {
+    this.eventService.updateEvent(eventModel).subscribe(_ => {
       this.isLoading = false;
       this.snackBar.open('Udało się edytować wydarzenie', 'OK');
       this.router.navigate([''])

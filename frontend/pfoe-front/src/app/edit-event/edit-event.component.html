@@ -5,57 +5,57 @@
       <div class="mt-2" [formGroup]="editEventForm">
         <mat-form-field class="shape-container" appearance="outline">
           <mat-label>Nazwa</mat-label>
-          <input matInput formControlName="eventName"/>
+          <input matInput formControlName="name"/>
         </mat-form-field>
         <mat-error class="ms-2"
-                   *ngIf="editEventForm.get('eventName')?.hasError('maxlength') && editEventForm.get('eventName')?.touched">
+                   *ngIf="editEventForm.get('name')?.hasError('maxlength') && editEventForm.get('name')?.touched">
           Maksymalna długość to 50.
         </mat-error>
         <mat-error class="ms-2"
-                   *ngIf="editEventForm.get('eventName')?.hasError('required') && editEventForm.get('eventName')?.touched">
+                   *ngIf="editEventForm.get('name')?.hasError('required') && editEventForm.get('name')?.touched">
           Nazwa jest wymagana.
         </mat-error>
         <mat-form-field class="shape-container mt-3" appearance="outline">
           <mat-label>Kategoria</mat-label>
-          <mat-select matInput formControlName="eventCategory">
+          <mat-select matInput formControlName="category">
             <mat-option *ngFor="let item of categories" [value]="item">{{ item }}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-error class="ms-2"
-                   *ngIf="editEventForm.get('eventCategory')?.hasError('required') && editEventForm.get('eventCategory')?.touched">
+                   *ngIf="editEventForm.get('category')?.hasError('required') && editEventForm.get('category')?.touched">
           Kategoria jest wymagana.
         </mat-error>
         <mat-form-field class="shape-container mt-3" appearance="outline">
           <mat-label>Data</mat-label>
-          <input matInput readonly [matDatepicker]="releasedAtPicker" formControlName="eventDate" [min]="todaysDate" (click)="releasedAtPicker.open()"/> <!---------------------------------------------------------------------->
+          <input matInput readonly [matDatepicker]="releasedAtPicker" formControlName="date" [min]="todaysDate" (click)="releasedAtPicker.open()"/> <!---------------------------------------------------------------------->
           <mat-datepicker-toggle matSuffix [for]="releasedAtPicker" >
           </mat-datepicker-toggle>
           <mat-datepicker #releasedAtPicker>
           </mat-datepicker>
         </mat-form-field>
         <mat-error class="ms-2"
-                   *ngIf="editEventForm.get('eventDate')?.hasError('required') && editEventForm.get('eventDate')?.touched">
+                   *ngIf="editEventForm.get('date')?.hasError('required') && editEventForm.get('date')?.touched">
           Data jest wymagana.
         </mat-error>
         <mat-form-field class="shape-container mt-3" appearance="outline">
           <mat-label>Ilość miejsc</mat-label>
-          <input matInput formControlName="eventMaxParticipants" type="number" onkeydown="return ![69, 188, 189, 190].includes(event.keyCode)" [min]="0" [step]="1" pattern="^[0-9]*$" />
+          <input matInput formControlName="participantNumber" type="number" onkeydown="return ![69, 188, 189, 190].includes(event.keyCode)" [min]="0" [step]="1" pattern="^[0-9]*$" />
         </mat-form-field>
         <mat-error class="ms-2"
-                   *ngIf="editEventForm.get('eventMaxParticipants')?.hasError('required') && editEventForm.get('eventMaxParticipants')?.touched">
+                   *ngIf="editEventForm.get('participantNumber')?.hasError('required') && editEventForm.get('participantNumber')?.touched">
           Ilość miejsc jest wymagana.
         </mat-error>
         <mat-form-field class="shape-container mt-3" appearance="outline">
-          <mat-label>Lokalizacja</mat-label>
-          <input matInput formControlName="eventLocation"/>
+          <mat-label>Lokacja</mat-label>
+          <input matInput formControlName="location"/>
         </mat-form-field>
         <mat-error class="ms-2"
-                   *ngIf="editEventForm.get('eventLocation')?.hasError('maxlength') && editEventForm.get('eventLocation')?.touched">
+                   *ngIf="editEventForm.get('location')?.hasError('maxlength') && editEventForm.get('location')?.touched">
           Maksymalna długość to 50.
         </mat-error>
         <mat-error class="ms-2"
-                   *ngIf="editEventForm.get('eventLocation')?.hasError('required') && editEventForm.get('eventLocation')?.touched">
-          Lokalizacja jest wymagana.
+                   *ngIf="editEventForm.get('location')?.hasError('required') && editEventForm.get('location')?.touched">
+          Lokacja jest wymagana.
         </mat-error>
         <div class="d-flex justify-content-center mt-3">
           <div style="position: relative;">
