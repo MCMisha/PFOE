@@ -19,7 +19,14 @@ public class EmailService
         string apiKey = configuration.GetSection("ApiKey").Value;
         if (Configuration.Default.ApiKey.ContainsKey("api-key") == false)
         {
-            Configuration.Default.ApiKey.TryAdd("api-key", apiKey);   
+            try
+            {
+                Configuration.Default.ApiKey.TryAdd("api-key", apiKey);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
         apiIstance = new TransactionalEmailsApi();
         senderName = "Platforma do organizacji wydarzeń";
