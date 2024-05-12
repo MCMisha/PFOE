@@ -93,7 +93,7 @@ export class ManageEventsComponent implements OnInit, OnDestroy {
   }
 
   handleEdit() {
-    this.router.navigate(['/event/edit'], {queryParams: {id: this.selectedRow?.id}});
+    this.router.navigate([`/event/edit/${this.selectedRow?.id}`]);
   }
 
   handleDelete() {

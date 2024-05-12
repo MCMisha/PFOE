@@ -7,6 +7,7 @@ import {authGuard} from "../guards/auth.guard";
 import {EditEventComponent} from "../edit-event/edit-event.component";
 import {NewestResolver} from "../resolvers/newest-events.resolver";
 import {MostPopularEventsResolver} from "../resolvers/most-popular-events.resolver";
+import {EventResolver} from "../resolvers/event.resolver";
 
 const routes: Routes = [
   {
@@ -16,7 +17,11 @@ const routes: Routes = [
     }
   },
   {path: 'event/new', component: NewEventComponent, canActivate: [authGuard]},
-  {path: 'event/edit', component: EditEventComponent, canActivate: [authGuard]},
+  {
+    path: 'event/edit/:id', component: EditEventComponent, resolve: {
+      event: EventResolver
+    }, canActivate: [authGuard]
+  },
   {path: 'event/manage', component: ManageEventsComponent, canActivate: [authGuard]},
 ];
 
