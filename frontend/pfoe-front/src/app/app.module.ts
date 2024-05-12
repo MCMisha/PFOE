@@ -84,7 +84,7 @@ import * as moment from 'moment';
     MatDatepickerInput
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
   ],
   bootstrap: [AppComponent]
 })
