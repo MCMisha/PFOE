@@ -1,4 +1,6 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Enums;
 using WebApi.Models;
 using WebApi.Services;
 
@@ -10,11 +12,15 @@ public class EventController : Controller
 {
     private ILogger<EventController> _logger;
     private readonly EventService _eventService;
-
+    private readonly UserService _userService;
+    private readonly EmailService _emailService;
+    
     public EventController(ILogger<EventController> logger, IConfiguration configuration)
     {
         _logger = logger;
         _eventService = new EventService(configuration);
+        _userService = new UserService(configuration);
+        _emailService = new EmailService(configuration);    
     }
 
     [HttpGet]
@@ -127,7 +133,20 @@ public class EventController : Controller
     public IActionResult AddParticipant(int userId, int eventId)
     {
         _eventService.AddParticipant(userId, eventId);
-
+        var _event = _eventService.GetEvent(eventId);
+        var user = _userService.GetById(userId);
+        if (_event == null)
+        {
+            return NotFound("Wydarzenie nie zostało znalezione");
+        }
+        if (user == null)
+        {
+            return BadRequest("Użytkownik nie został znaleniony");
+        }
+        
+        TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
+        _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
+            textInfo.ToTitleCase(nameof(EmailType.SIGN_FOR_EVENT).ToLower()).Replace("_", ""), _event.Name);
         return Ok();
 
     }
