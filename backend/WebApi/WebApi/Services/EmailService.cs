@@ -16,18 +16,6 @@ public class EmailService
     private readonly string senderEmail;
     public EmailService(IConfiguration configuration)
     {
-        string apiKey = configuration.GetSection("ApiKey").Value;
-        if (Configuration.Default.ApiKey.ContainsKey("api-key") == false)
-        {
-            try
-            {
-                Configuration.Default.ApiKey.TryAdd("api-key", apiKey);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
         apiIstance = new TransactionalEmailsApi();
         senderName = "Platforma do organizacji wydarzeń";
         senderEmail = "pfoe.mfii@proton.me";
