@@ -65,7 +65,7 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   onSignUpClick() {
     this.isLoading = true;
     this.eventService.addParticipant(this.currentUserId, this.id).subscribe(() => {
-      this.snackBar.open('Udało się zapisać на wydarzenie', 'OK');
+      this.snackBar.open('Udało się zapisać na wydarzenie', 'OK');
       this.isLoading = false;
       this.update.next(true);
     });
