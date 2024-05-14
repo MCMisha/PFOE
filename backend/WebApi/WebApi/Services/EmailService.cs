@@ -16,7 +16,10 @@ public static class EmailService
     private static readonly string senderEmail;
     static EmailService()
     {
-        apiIstance = new TransactionalEmailsApi();
+        if (apiIstance == null)
+        {
+            apiIstance = new TransactionalEmailsApi();    
+        }
         senderName = "Platforma do organizacji wydarzeń";
         senderEmail = "pfoe.mfii@proton.me";
 

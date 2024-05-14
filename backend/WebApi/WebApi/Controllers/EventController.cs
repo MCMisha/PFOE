@@ -142,6 +142,9 @@ public class EventController : Controller
         {
             return BadRequest("Użytkownik nie został znaleniony");
         }
+        TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
+        EmailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
+            textInfo.ToTitleCase(nameof(EmailType.SIGN_FOR_EVENT).ToLower()).Replace("_", ""), _event.Name);
         return Ok();
     }
 
