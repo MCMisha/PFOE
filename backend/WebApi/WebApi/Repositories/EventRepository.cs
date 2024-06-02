@@ -80,11 +80,15 @@ public class EventRepository
         return _appDbContext.Events.OrderByDescending(e => e.VisitsNumber).Take(5).ToList();
     }
 
-    public int GetParticipantNumber(int id)
+    public int? GetParticipantNumber(int id)
     {
-        var participants = _appDbContext.Participants.Where(e => e.EventId == id).Count();
+        var @event = _appDbContext.Events.FirstOrDefault(e => e.Id == id);
+        if (@event != null)
+        {
+            return _appDbContext.Participants.Count(e => e.EventId == @event.Id);
+        }
         
-        return participants;
+        return null;
     }
     
     public void AddParticipant(int userId, int eventId)
