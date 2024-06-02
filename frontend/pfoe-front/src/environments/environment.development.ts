@@ -1,3 +1,3 @@
 export const environment = {
-  baseApiUri: 'https://pfoe-dev-pl.azurewebsites.net'
+  baseApiUri: 'https://pfoe-test-pl.azurewebsites.net'
 };
