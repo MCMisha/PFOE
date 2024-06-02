@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 using WebApi.Repositories;
 
@@ -17,7 +18,22 @@ public class EventService
         return _eventRepository.GetAll();
     }
 
-    public Event? Get(int id)
+    public List<Event> GetByOrganizer(int organizerId)
+    {
+        return _eventRepository.GetByOrganizerId(organizerId);
+    }
+
+    public Event? GetEventAndIncreaseVisits(int id)
+    {
+        var @event = _eventRepository.GetById(id);
+        if (@event != null)
+        {
+            _eventRepository.IncrementVisits(id);
+        }
+        return @event;
+    }
+
+    public Event? GetEvent(int id)
     {
         return _eventRepository.GetById(id);
     }
@@ -43,5 +59,35 @@ public class EventService
         {
             _eventRepository.Delete(@event);
         }
+    }
+
+    public ActionResult<List<Event>> GetNewest()
+    {
+        return _eventRepository.GetNewest();
+    }
+
+    public ActionResult<List<Event>> GetMostPopular()
+    {
+        return _eventRepository.GetMostPopular();
+    }
+
+    public int GetParticipantNumber(int id)
+    {
+        return _eventRepository.GetParticipantNumber(id);
+    }
+
+    public List<Event> Search(string query)
+    {
+        return _eventRepository.Search(query);
+    }
+    
+    public void AddParticipant(int userId, int eventId)
+    {
+        _eventRepository.AddParticipant(userId, eventId);
+    }
+
+    public bool IsUserSignedUpForEvent(int userId, int eventId)
+    {
+       return _eventRepository.IsUserSignedUpForEvent(userId, eventId);
     }
 }

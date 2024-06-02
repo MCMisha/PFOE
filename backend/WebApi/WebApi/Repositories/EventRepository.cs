@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Contexts;
 using WebApi.Models;
@@ -17,10 +19,28 @@ public class EventRepository
     {
         return _appDbContext.Events.ToList();
     }
+    
+    public List<Event> GetNewest()
+    {
+        return _appDbContext.Events.OrderByDescending(x => x.CreationDate).Take(5).ToList();
+    }
+    
+    public List<Event> GetByOrganizerId(int organizerId)
+    {
+        return _appDbContext.Events.Where(x => x.Organizer == organizerId).ToList();
+    }
 
     public Event? GetById(int id)
     {
         return _appDbContext.Events.AsNoTracking().FirstOrDefault(e => e.Id == id);
+    }
+    
+    public void IncrementVisits(int eventId)
+    {
+        var @event = _appDbContext.Events.FirstOrDefault(x => x.Id == eventId);
+        @event.VisitsNumber++;
+        _appDbContext.Events.Update(@event);
+        _appDbContext.SaveChanges();
     }
 
     public void Add(Event @event)
@@ -41,13 +61,46 @@ public class EventRepository
         _appDbContext.SaveChanges();
     }
 
-    public int MaxId()
+    public List<Event> Search(string query)
     {
-        if (!_appDbContext.Events.Any())
+        var result = new List<Event>(0);
+
+        if (!string.IsNullOrEmpty(query))
         {
-            return 0;
+            result = _appDbContext.Events
+                .Where(e => e.Name.Contains(query) || e.Location.Contains(query) || e.Category.Contains(query))
+                .Take(15).ToList();
         }
 
-        return _appDbContext.Events.Max(e => e.Id);
+        return result;
+    }
+
+    public ActionResult<List<Event>> GetMostPopular()
+    {
+        return _appDbContext.Events.OrderByDescending(e => e.VisitsNumber).Take(5).ToList();
+    }
+
+    public int GetParticipantNumber(int id)
+    {
+        var participants = _appDbContext.Participants.Where(e => e.EventId == id).Count();
+        
+        return participants;
+    }
+    
+    public void AddParticipant(int userId, int eventId)
+    {
+        Participant newParticipant = new Participant {
+            UserId = userId, EventId = eventId
+        };
+
+        _appDbContext.Participants.Add(newParticipant);
+        _appDbContext.SaveChanges();
+    }
+
+    public bool IsUserSignedUpForEvent(int userId, int eventId)
+    {
+        var participant = _appDbContext.Participants.FirstOrDefault(p => p.UserId == userId && p.EventId == eventId);
+
+        return participant != null;
     }
 }

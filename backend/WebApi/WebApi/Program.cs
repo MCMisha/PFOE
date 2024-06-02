@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.HttpOverrides;
+using sib_api_v3_sdk.Client;
 using WebApi;
+using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var apiKey = builder.Configuration.GetSection("ApiKey").Value ?? "";
 // Add services to the container.
-
+Configuration.Default.ApiKey.TryAdd("api-key", apiKey);
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

@@ -7,39 +7,45 @@ using WebApi.Enums;
 
 namespace WebApi.Services;
 
-public class EmailService
+public static class EmailService
 {
-    private Dictionary<string, List<string>> parametersByEmailType = new ();
-    private Dictionary<string, string> subjectByEmailType = new();
-    private readonly TransactionalEmailsApi apiIstance;
-    private readonly string senderName;
-    private readonly string senderEmail;
-    public EmailService(IConfiguration configuration)
+    private static Dictionary<string, List<string>> parametersByEmailType = new ();
+    private static Dictionary<string, string> subjectByEmailType = new();
+    private static readonly TransactionalEmailsApi apiIstance;
+    private static readonly string senderName;
+    private static readonly string senderEmail;
+    static EmailService()
     {
-        string apiKey = configuration.GetSection("ApiKey").Value;
-        if (!Configuration.Default.ApiKey.ContainsKey("api-key"))
+        if (apiIstance == null)
         {
-            Configuration.Default.ApiKey.Add("api-key", apiKey);   
+            apiIstance = new TransactionalEmailsApi();    
         }
-        apiIstance = new TransactionalEmailsApi();
         senderName = "Platforma do organizacji wydarzeń";
         senderEmail = "pfoe.mfii@proton.me";
 
         InitEmailTypes();
     }
 
-    private void InitEmailTypes()
+    private static void InitEmailTypes()
     {
         TextInfo textInfo = new CultureInfo("en-GB").TextInfo;
-        var paramsForRegistration = new List<string>
+        var paramsForRegistrationAndBlocked = new List<string>
         {
             "login"
         };
-        parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), paramsForRegistration);
+        var paramsForSignForEvent = new List<string>
+        {
+            "eventTitle"
+        };
+        parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), paramsForRegistrationAndBlocked);
         subjectByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), "Rejestracja");
+        parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.BLOCKED_USER).ToLower()).Replace("_", ""), paramsForRegistrationAndBlocked);
+        subjectByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.BLOCKED_USER).ToLower()).Replace("_", ""), "Zablokowane konto");
+        parametersByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.SIGN_FOR_EVENT).ToLower()).Replace("_", ""), paramsForSignForEvent);
+        subjectByEmailType.Add(textInfo.ToTitleCase(nameof(EmailType.SIGN_FOR_EVENT).ToLower()).Replace("_", ""), "Rejestracja na wydarzenie");
     }
 
-    public void SendEmailByType(string email, string name, string emailType, params string[] paramValues)
+    public static void SendEmailByType(string email, string name, string emailType, params string[] paramValues)
     {
         SendSmtpEmailSender emailSender = new(senderName, senderEmail);
         JObject Headers = new()

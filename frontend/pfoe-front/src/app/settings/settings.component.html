@@ -1,0 +1,24 @@
+<!-- app.component.html -->
+<div class="container">
+    <div class="grey-rectangle">
+        <p class="paragraph">Zmień ustawienia</p>
+        <mat-form-field class="select-field">
+            <mat-label>Styl strony *</mat-label>
+            <mat-select [(ngModel)]="selectedStyle">
+                <mat-option value="light">Jasny</mat-option>
+                <mat-option value="dark">Ciemny</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="select-field">
+            <mat-label>Rozmiar czcionki *</mat-label>
+            <mat-select [(ngModel)]="selectedFontSize">
+                <mat-option [value]="FontSize._12PX">12</mat-option>
+                <mat-option [value]="FontSize._16PX">16</mat-option>
+                <mat-option [value]="FontSize._20PX">20</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-button class="button" (click)="onSaveChangesClick()">ZATWIERDŹ ZMIANY</button>
+    </div>
+</div>
