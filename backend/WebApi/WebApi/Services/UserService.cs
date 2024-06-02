@@ -7,7 +7,6 @@ public class UserService
 {
     private readonly UserRepository _userRepository;
     private readonly FailedLoginRepository _failedLoginRepository;
-    public Func<User?>? GetByLoginFunc { get; init; } //właściwość dodana na potrzeby testów jednostkowych
 
     public UserService(IConfiguration configuration)
     {
@@ -53,11 +52,6 @@ public class UserService
 
     public User? GetByLogin(string login)
     {
-        if (GetByLoginFunc != null)
-        {
-            return GetByLoginFunc();
-        }
-
         return _userRepository.GetByLogin(login);
     }
 

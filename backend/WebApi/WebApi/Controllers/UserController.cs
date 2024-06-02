@@ -14,8 +14,6 @@ public class UserController : Controller
     private readonly ILogger<UserController> _logger;
     private readonly UserService _userService;
     private readonly HashService _hashService;
-    public Func<bool>? UserChecker { get; init; } //właściwośc dodana na potrzeby testów jednostkowych
-
 
     public UserController(ILogger<UserController> logger, IConfiguration configuration)
     {
@@ -84,11 +82,6 @@ public class UserController : Controller
 
     private bool CheckUserFunc(string login, string password)
     {
-        if (UserChecker != null)
-        {
-            return UserChecker();
-        }
-
         return _userService.Login(login, _hashService.GetSha256Hash(password));
     }
 
