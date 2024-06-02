@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EventModel} from "../../models/eventModel";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {catchError, map, of, Subscription, Subject, BehaviorSubject} from "rxjs";
 import {EventService} from "../../services/event.service";
 import {User} from "../../models/user";
@@ -31,6 +31,7 @@ export class EventsViewComponent implements OnInit, OnDestroy {
 
   constructor(private eventService: EventService,
               private route: ActivatedRoute,
+              private router: Router,
               private userService: UserService,
               private snackBar: MatSnackBar) {
 
@@ -39,6 +40,10 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.currentEvent = this.route.snapshot.data['event'];
+    if (this.currentEvent?.id === undefined) {
+      await this.router.navigate(['/']);  // Перенаправление на главную страницу
+      return;
+    }
     this.login = localStorage.getItem('login') || '';
     try {
       this.isLoading = true;
