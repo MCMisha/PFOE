@@ -109,9 +109,14 @@ public class EventController : Controller
     }
 
     [HttpGet("getParticipantNumber/{id:int}")]
-    public int GetParticipantNumber(int id)
+    public IActionResult GetParticipantNumber(int id)
     {
-        return _eventService.GetParticipantNumber(id);
+        var participantNumber = _eventService.GetParticipantNumber(id);
+        if (participantNumber == null)
+        {
+            return NotFound(id);
+        }
+        return Ok(_eventService.GetParticipantNumber(id));
     }
 
     [HttpGet("search/{query}")]

@@ -71,7 +71,7 @@ public class EventService
         return _eventRepository.GetMostPopular();
     }
 
-    public int GetParticipantNumber(int id)
+    public int? GetParticipantNumber(int id)
     {
         return _eventRepository.GetParticipantNumber(id);
     }
