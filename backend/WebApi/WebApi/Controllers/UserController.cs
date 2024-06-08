@@ -14,16 +14,12 @@ public class UserController : Controller
     private readonly ILogger<UserController> _logger;
     private readonly UserService _userService;
     private readonly HashService _hashService;
-    private readonly EmailService _emailService;
-    public Func<bool>? UserChecker { get; init; }
-
 
     public UserController(ILogger<UserController> logger, IConfiguration configuration)
     {
         _logger = logger;
         _userService = new UserService(configuration);
         _hashService = new HashService();
-        _emailService = new EmailService(configuration);
     }
 
     [HttpPost("login")]
@@ -31,12 +27,45 @@ public class UserController : Controller
     {
         string decodedLogin = HttpUtility.UrlDecode(login);
         string decodedPassword = HttpUtility.UrlDecode(password);
-        if (CheckUserFunc(decodedLogin, decodedPassword))
+        var user = _userService.GetByLogin(decodedLogin);
+        if (user == null)
         {
-            return Ok();
+            return NotFound();
         }
 
+        var checkLoginAttempts = _userService.CheckLoginAttempts(user.Id);
+        if (checkLoginAttempts != null)
+        {
+            if (checkLoginAttempts.FailedLoginAttempts == 3)
+            {
+                TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
+                EmailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
+                    textInfo.ToTitleCase(nameof(EmailType.BLOCKED_USER).ToLower()).Replace("_", ""), user.Login);
+                return NotFound();
+            }
+        }
+
+        if (CheckUserFunc(decodedLogin, decodedPassword))
+        {
+            _userService.ResetLoginAttempts(user.Id);
+            return Ok();
+        }
+        
         return NotFound();
+    }
+
+    [HttpDelete("logout")]
+    public IActionResult Logout(string login)
+    {
+        string decodedLogin = HttpUtility.UrlDecode(login);
+        var user = _userService.GetByLogin(decodedLogin);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        _userService.DeleteLoginAttempts(user.Id);
+        return Ok();
     }
 
     [HttpGet("checkEmail")]
@@ -53,11 +82,6 @@ public class UserController : Controller
 
     private bool CheckUserFunc(string login, string password)
     {
-        if (UserChecker != null)
-        {
-            return UserChecker();
-        }
-
         return _userService.Login(login, _hashService.GetSha256Hash(password));
     }
 
@@ -69,10 +93,75 @@ public class UserController : Controller
         if (newUser != null)
         {
             TextInfo textInfo = new CultureInfo("pl-PL", false).TextInfo;
-            _emailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName), textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), user.Login);
+            EmailService.SendEmailByType(user.Email, string.Join(' ', user.FirstName, user.LastName),
+                textInfo.ToTitleCase(nameof(EmailType.REGISTRATION).ToLower()).Replace("_", ""), user.Login);
             return Ok(newUser);
         }
 
         return BadRequest();
     }
+
+    [HttpGet("isLogged")]
+    public IActionResult IsLogged(string login)
+    {
+        var user = _userService.GetByLogin(login);
+
+        if (user == null)
+        {
+            return Ok(false);
+        }
+
+        var checkLoginAttempts = _userService.CheckLoginAttempts(user.Id);
+        if (checkLoginAttempts == null)
+        {
+            return Ok(false);
+        }
+
+        if (checkLoginAttempts.FailedLoginAttempts == 3)
+        {
+            return Ok(false);
+        }
+
+        TimeSpan difference = DateTime.Now - checkLoginAttempts.LastLoginTime;
+
+        if (difference.TotalHours >= 3)
+        {
+            return Ok(false);
+        }
+
+        return Ok(true);
+    }
+
+    private IEnumerable<User> GetAllUsers()
+    {
+        return _userService.GetAllUsers();
+    }
+
+    [HttpGet("{login}")]
+    public IActionResult GetIdByLogin(string login)
+    {
+        var user = _userService.GetByLogin(login);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(user.Id);
+    }
+
+    [HttpGet("{id:int}")]
+    public IActionResult GetById(int id)
+    {
+        var user = _userService.GetById(id);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(user.FirstName + " " + user.LastName);
+    }
+    
+
 }

@@ -1,0 +1,48 @@
+using Microsoft.AspNetCore.Mvc;
+using WebApi.Services;
+using WebApi.Models;
+
+namespace WebApi.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class SettingsController : Controller
+{
+    private readonly SettingsService _settingsService;
+    private ILogger<SettingsController> _logger;
+
+
+    public SettingsController(ILogger<SettingsController> logger, IConfiguration configuration)
+    {
+        _logger = logger;
+        _settingsService = new SettingsService(configuration);
+    }
+
+    [HttpGet("{userId:int}")]
+    public IActionResult Get(int userId)
+    {
+        var settings = _settingsService.Get(userId);
+
+        if (settings == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(settings);
+    }
+
+    [HttpPut("edit")]
+    public IActionResult Update(Setting settings)
+    {
+        var existingSettings = _settingsService.Get(settings.UserId);
+
+        if (existingSettings is null)
+        {
+            return NotFound();
+        }
+
+        _settingsService.Update(settings);
+
+        return Ok();
+    }
+}
