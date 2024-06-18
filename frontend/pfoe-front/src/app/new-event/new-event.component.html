@@ -39,7 +39,7 @@
         </mat-error>
         <mat-form-field class="shape-container mt-3" appearance="outline">
           <mat-label>Ilość miejsc</mat-label>
-          <input matInput formControlName="eventMaxParticipants" type="number" onkeydown="return ![69, 188, 189, 190].includes(event.keyCode)" [min]="0" [step]="1" pattern="^[0-9]*$" />
+          <input matInput formControlName="eventMaxParticipants" type="number" onkeydown="return ![69, 188, 189, 190].includes(event.keyCode)" [min]="1" [step]="1" pattern="^[0-9]*$" />
         </mat-form-field>
         <mat-error class="ms-2"
                    *ngIf="newEventForm.get('eventMaxParticipants')?.hasError('required') && newEventForm.get('eventMaxParticipants')?.touched">
