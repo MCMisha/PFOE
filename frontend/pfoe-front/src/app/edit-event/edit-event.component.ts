@@ -46,10 +46,8 @@ export class EditEventComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.event = this.route.snapshot.data['event'];
-    console.log(this.event)
     const creation_date = new Date(this.event?.creationDate?.toString().slice(0,23)!);
-    //2024-03-30 23:59:59.999000
-    console.log(creation_date);
+
     this.editEventForm.patchValue({
       id: this.event?.id,
       name: this.event?.name,
